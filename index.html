@@ -206,6 +206,28 @@
     color: var(--accent);
   }
   
+  .btn-danger {
+    background: rgba(248, 113, 113, 0.2);
+    border: 1px solid var(--red);
+    color: var(--red);
+    width: auto;
+  }
+  
+  .btn-danger:hover {
+    background: rgba(248, 113, 113, 0.3);
+  }
+  
+  .btn-success {
+    background: rgba(34, 197, 94, 0.2);
+    border: 1px solid var(--green);
+    color: var(--green);
+    width: auto;
+  }
+  
+  .btn-success:hover {
+    background: rgba(34, 197, 94, 0.3);
+  }
+  
   .btn-sm {
     padding: 8px 16px;
     font-size: 12px;
@@ -293,6 +315,10 @@
     flex-shrink: 0;
   }
   
+  .header-icon.admin {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+  }
+  
   .header h1 {
     font-size: 26px;
     color: var(--text);
@@ -361,6 +387,16 @@
     text-transform: uppercase;
   }
   
+  .admin-badge {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid #ef4444;
+    color: #ef4444;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  
   .btn-logout {
     background: transparent;
     border: 1px solid var(--border2);
@@ -413,6 +449,11 @@
     border-bottom-color: var(--accent);
   }
   
+  .tab.admin.active {
+    color: #ef4444;
+    border-bottom-color: #ef4444;
+  }
+  
   .tab i {
     font-size: 15px;
   }
@@ -444,6 +485,10 @@
   .card-title i {
     color: var(--accent);
     font-size: 20px;
+  }
+  
+  .card-title.admin i {
+    color: #ef4444;
   }
   
   /* ===== ALERT ===== */
@@ -824,6 +869,71 @@
     color: var(--red);
   }
   
+  /* ===== ADMIN STYLES ===== */
+  .admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .admin-stat {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+  }
+  
+  .admin-stat-value {
+    font-size: 36px;
+    font-family: 'Bebas Neue';
+    font-weight: 700;
+    color: #ef4444;
+    margin: 0.5rem 0;
+  }
+  
+  .admin-stat-label {
+    font-size: 12px;
+    color: var(--text2);
+    text-transform: uppercase;
+  }
+  
+  .actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 1.5rem;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .action-btn:hover {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+  }
+  
+  .action-btn i {
+    font-size: 28px;
+    color: #ef4444;
+  }
+  
   /* ===== SCROLL ===== */
   .scroll-y {
     max-height: 600px;
@@ -952,7 +1062,7 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-left">
-      <div class="header-icon">🏆</div>
+      <div class="header-icon" id="header-icon-main">🏆</div>
       <div>
         <h1>PRODE MUNDIAL</h1>
         <p>Sistema de Pronósticos 2026</p>
@@ -966,6 +1076,7 @@
           <div class="user-role" id="header-role">Participante</div>
         </div>
       </div>
+      <div id="admin-badge-container"></div>
       <button class="btn-logout" onclick="handleLogout()">
         <i class="ti ti-logout"></i> Salir
       </button>
@@ -1073,6 +1184,8 @@ const FLAGS = {
   'Uruguay': '🇺🇾',
 };
 
+const ADMIN_USER = 'ADMIN';
+const ADMIN_PASS = 'ADMRRHH';
 const POINTS_CORRECT = 10;
 let currentUser = null;
 let appState = loadAppState();
@@ -1131,6 +1244,16 @@ function handleLogin() {
   
   if (!username || !password) {
     showAuthMessage('Completa todos los campos', 'error');
+    return;
+  }
+  
+  // Check admin login
+  if (username === ADMIN_USER && password === ADMIN_PASS) {
+    currentUser = {username: ADMIN_USER, role: 'admin'};
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    document.getElementById('auth-screen').classList.add('hidden');
+    document.getElementById('main-app').classList.remove('hidden');
+    initApp();
     return;
   }
   
@@ -1230,29 +1353,48 @@ function handleLogout() {
 
 // ===== APP INIT =====
 function initApp() {
-  const user = appState.users[currentUser.username];
-  document.getElementById('header-team-name').textContent = user.team;
-  document.getElementById('header-role').textContent = user.area;
-  
-  if (user.photo) {
-    document.getElementById('header-avatar').innerHTML = `<img src="${user.photo}" />`;
+  if (currentUser.role === 'admin') {
+    document.getElementById('header-icon-main').classList.add('admin');
+    document.getElementById('header-team-name').textContent = 'Panel de Control';
+    document.getElementById('header-role').textContent = 'Administrador';
+    document.getElementById('header-avatar').textContent = '👨‍💼';
+    document.getElementById('admin-badge-container').innerHTML = '<div class="admin-badge">ADMINISTRADOR</div>';
   } else {
-    document.getElementById('header-avatar').textContent = '⚽';
+    const user = appState.users[currentUser.username];
+    document.getElementById('header-team-name').textContent = user.team;
+    document.getElementById('header-role').textContent = user.area;
+    
+    if (user.photo) {
+      document.getElementById('header-avatar').innerHTML = `<img src="${user.photo}" />`;
+    } else {
+      document.getElementById('header-avatar').textContent = '⚽';
+    }
   }
   
   renderTabs();
-  showTab('tabla');
+  showTab(currentUser.role === 'admin' ? 'dashboard' : 'tabla');
 }
 
 function renderTabs() {
-  const tabs = [
-    {id: 'tabla', icon: 'trophy', label: 'Tabla de Posiciones'},
-    {id: 'mispronosticos', icon: 'edit', label: 'Mis Pronósticos'},
-    {id: 'perfil', icon: 'user', label: 'Mi Perfil'},
-  ];
+  let tabs = [];
+  
+  if (currentUser.role === 'admin') {
+    tabs = [
+      {id: 'dashboard', icon: 'layout-grid', label: 'Dashboard', admin: true},
+      {id: 'resultados', icon: 'ball-football', label: 'Cargar Resultados', admin: true},
+      {id: 'tabla', icon: 'trophy', label: 'Tabla General', admin: true},
+      {id: 'gestionar', icon: 'settings', label: 'Gestionar', admin: true},
+    ];
+  } else {
+    tabs = [
+      {id: 'tabla', icon: 'trophy', label: 'Tabla de Posiciones'},
+      {id: 'mispronosticos', icon: 'edit', label: 'Mis Pronósticos'},
+      {id: 'perfil', icon: 'user', label: 'Mi Perfil'},
+    ];
+  }
   
   document.getElementById('main-tabs').innerHTML = tabs.map(t =>
-    `<div class="tab" id="tab-${t.id}" onclick="showTab('${t.id}')">
+    `<div class="tab ${t.admin ? 'admin' : ''}" id="tab-${t.id}" onclick="showTab('${t.id}')">
       <i class="ti ti-${t.icon}"></i> ${t.label}
     </div>`
   ).join('');
@@ -1266,9 +1408,12 @@ function showTab(tabId) {
     'tabla': renderTabla,
     'mispronosticos': renderMisPronosticos,
     'perfil': renderPerfil,
+    'dashboard': renderAdminDashboard,
+    'resultados': renderAdminResultados,
+    'gestionar': renderAdminGestionar,
   };
   
-  renders[tabId]();
+  if (renders[tabId]) renders[tabId]();
 }
 
 // ===== CALCULATIONS =====
@@ -1610,6 +1755,326 @@ function renderPerfil() {
       ` : '<p style="color: var(--text3)">¡No hay más partidos!</p>'}
     </div>
   `;
+}
+
+// ===== ADMIN: DASHBOARD =====
+function renderAdminDashboard() {
+  const allUsers = Object.keys(appState.users).length;
+  const playedMatches = getAllMatches().filter(m => appState.results[m.id] && appState.results[m.id].local !== undefined).length;
+  const totalMatches = getAllMatches().length;
+  const sorted = getSortedTeams();
+  
+  document.getElementById('main-content').innerHTML = `
+    <div class="alert alert-info">
+      <i class="ti ti-info-circle"></i>
+      Bienvenido al panel de administración del PRODE Mundial 2026
+    </div>
+    
+    <div class="admin-grid">
+      <div class="admin-stat">
+        <i class="ti ti-users" style="font-size:28px;color:#ef4444"></i>
+        <div class="admin-stat-label">Equipos Registrados</div>
+        <div class="admin-stat-value">${allUsers}</div>
+      </div>
+      
+      <div class="admin-stat">
+        <i class="ti ti-ball-football" style="font-size:28px;color:#ef4444"></i>
+        <div class="admin-stat-label">Partidos Cargados</div>
+        <div class="admin-stat-value">${playedMatches}/${totalMatches}</div>
+      </div>
+      
+      <div class="admin-stat">
+        <i class="ti ti-trophy" style="font-size:28px;color:#ef4444"></i>
+        <div class="admin-stat-label">Equipo Líder</div>
+        <div class="admin-stat-value" style="font-size:18px;margin-top:1rem">${sorted.length > 0 ? sorted[0].team : 'N/A'}</div>
+      </div>
+    </div>
+    
+    <div class="actions-grid">
+      <div class="action-btn" onclick="showTab('resultados')">
+        <i class="ti ti-ball-football"></i>
+        Cargar Resultados
+      </div>
+      <div class="action-btn" onclick="showTab('gestionar')">
+        <i class="ti ti-settings"></i>
+        Gestionar
+      </div>
+      <div class="action-btn" onclick="showTab('tabla')">
+        <i class="ti ti-trophy"></i>
+        Ver Tabla
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title admin">
+        <i class="ti ti-trophy"></i>
+        Top 5 Equipos
+      </div>
+      
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 50px">#</th>
+            <th>Equipo</th>
+            <th style="text-align: right">Aciertos</th>
+            <th style="text-align: right">Puntos</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${sorted.slice(0, 5).map((team, i) => {
+            const aciertos = Math.round(team.points / POINTS_CORRECT);
+            
+            return `<tr>
+              <td><div class="standing-badge ${i === 0 ? 'badge-1' : i === 1 ? 'badge-2' : i === 2 ? 'badge-3' : 'badge-other'}">${i + 1}</div></td>
+              <td>
+                <div class="team-cell">
+                  <div class="team-avatar" ${team.photo ? `style="background-image:url('${team.photo}');background-size:cover"` : ''}>
+                    ${!team.photo ? '⚽' : ''}
+                  </div>
+                  <div class="team-name">${team.team}</div>
+                </div>
+              </td>
+              <td style="text-align: right; color: var(--text2)">${aciertos}</td>
+              <td style="text-align: right"><span class="points-chip">${team.points}</span></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ===== ADMIN: CARGAR RESULTADOS =====
+function renderAdminResultados() {
+  let html = `
+    <div class="alert alert-warning">
+      <i class="ti ti-alert-triangle"></i>
+      Cargá los resultados reales de los partidos. Una vez cargados, los equipos no podrán modificar sus pronósticos.
+    </div>
+  `;
+  
+  const phases = [
+    {key: 'groups', label: WORLD_CUPS.groups.label},
+    {key: 'round16', label: WORLD_CUPS.round16.label},
+    {key: 'quarters', label: WORLD_CUPS.quarters.label},
+    {key: 'semis', label: WORLD_CUPS.semis.label},
+    {key: 'final', label: WORLD_CUPS.final.label},
+  ];
+  
+  phases.forEach(phase => {
+    const matches = WORLD_CUPS[phase.key].matches;
+    if (matches.length === 0) return;
+    
+    html += `<h3 style="margin-top:2rem;margin-bottom:1rem;font-size:18px;color:#ef4444">${phase.label}</h3>`;
+    html += '<div class="match-container">';
+    
+    matches.forEach(match => {
+      const result = appState.results[match.id] || {};
+      const hasResult = result.local !== undefined;
+      
+      const localFlag = FLAGS[match.local] || '🏴';
+      const visitanteFlag = FLAGS[match.visitante] || '🏴';
+      
+      html += `
+        <div class="match-card">
+          <div class="match-header">
+            <span class="match-phase">${match.phase}</span>
+            ${hasResult ? '<span class="match-status status-played">✓ Cargado</span>' :
+              '<span class="match-status status-pending">Pendiente</span>'}
+          </div>
+          
+          <div class="match-venue">
+            <i class="ti ti-map-pin"></i>
+            ${match.stadium}
+          </div>
+          
+          <div class="match-teams">
+            <div class="match-team">
+              <div class="team-flag-name">
+                <span class="flag">${localFlag}</span>
+                <span>${match.local}</span>
+              </div>
+            </div>
+            <span class="vs-badge">VS</span>
+            <div class="match-team">
+              <div class="team-flag-name">
+                <span>${match.visitante}</span>
+                <span class="flag">${visitanteFlag}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="score-inputs">
+            <input type="number" class="score-input" min="0" max="30"
+              value="${result.local !== undefined ? result.local : ''}"
+              onchange="setAdminResult('${match.id}', 'local', this.value)"
+              placeholder="0">
+            <span class="score-separator">-</span>
+            <input type="number" class="score-input" min="0" max="30"
+              value="${result.visitante !== undefined ? result.visitante : ''}"
+              onchange="setAdminResult('${match.id}', 'visitante', this.value)"
+              placeholder="0">
+          </div>
+          
+          ${hasResult ? `
+            <button class="btn btn-danger btn-sm" onclick="deleteResult('${match.id}')" style="margin-top:8px">
+              <i class="ti ti-trash"></i> Eliminar
+            </button>
+          ` : ''}
+        </div>
+      `;
+    });
+    
+    html += '</div>';
+  });
+  
+  html += `
+    <div style="margin-top:2rem">
+      <button class="btn btn-danger" onclick="clearAllResults()">
+        <i class="ti ti-trash"></i> Limpiar Todos los Resultados
+      </button>
+    </div>
+  `;
+  
+  document.getElementById('main-content').innerHTML = html;
+}
+
+function setAdminResult(matchId, side, value) {
+  if (!appState.results[matchId]) {
+    appState.results[matchId] = {};
+  }
+  appState.results[matchId][side] = parseInt(value) || 0;
+  saveAppState();
+}
+
+function deleteResult(matchId) {
+  if (confirm('¿Eliminar este resultado?')) {
+    delete appState.results[matchId];
+    saveAppState();
+    renderAdminResultados();
+  }
+}
+
+function clearAllResults() {
+  if (confirm('⚠️ ¿Realmente quieres eliminar TODOS los resultados? Esta acción es irreversible.')) {
+    appState.results = {};
+    saveAppState();
+    renderAdminResultados();
+  }
+}
+
+// ===== ADMIN: GESTIONAR =====
+function renderAdminGestionar() {
+  const users = Object.entries(appState.users)
+    .filter(([_, user]) => user.role === 'player')
+    .map(([username, user]) => ({username, ...user}));
+  
+  document.getElementById('main-content').innerHTML = `
+    <div class="alert alert-info">
+      <i class="ti ti-info-circle"></i>
+      Gestiona los equipos participantes
+    </div>
+    
+    <div class="card">
+      <div class="card-title admin">
+        <i class="ti ti-users"></i>
+        Equipos Registrados (${users.length})
+      </div>
+      
+      <div class="scroll-y">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Equipo</th>
+              <th>Área</th>
+              <th>Usuario</th>
+              <th>Integrantes</th>
+              <th style="text-align: center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${users.map(user => `
+              <tr>
+                <td>
+                  <div class="team-cell">
+                    <div class="team-avatar" ${user.photo ? `style="background-image:url('${user.photo}');background-size:cover"` : ''}>
+                      ${!user.photo ? '⚽' : ''}
+                    </div>
+                    <div class="team-name">${user.team}</div>
+                  </div>
+                </td>
+                <td style="color: var(--text2)">${user.area}</td>
+                <td style="color: var(--text2); font-size: 12px">${user.username}</td>
+                <td style="color: var(--text2); font-size: 12px">${user.members.length} personas</td>
+                <td style="text-align: center">
+                  <button class="btn btn-secondary btn-sm" onclick="viewTeamDetails('${user.username}')">
+                    <i class="ti ti-eye"></i> Ver
+                  </button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function viewTeamDetails(username) {
+  const user = appState.users[username];
+  const points = calculatePoints(username);
+  const aciertos = Math.round(points / POINTS_CORRECT);
+  const sorted = getSortedTeams();
+  const position = sorted.findIndex(t => t.username === username) + 1;
+  
+  document.getElementById('modal-title').textContent = user.team;
+  document.getElementById('modal-body').innerHTML = `
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+      <div>
+        <div style="width: 100%; background: var(--bg3); border-radius: 12px; padding: 1rem; text-align: center;">
+          <div style="width: 100%; height: 120px; background: var(--bg4); border-radius: 8px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-size: 48px; overflow: hidden;">
+            ${user.photo ? `<img src="${user.photo}" style="width:100%;height:100%;object-fit:cover" />` : '⚽'}
+          </div>
+          <div style="font-size: 13px; color: var(--text2);">${user.area}</div>
+        </div>
+      </div>
+      
+      <div>
+        <div style="background: var(--bg3); border-radius: 12px; padding: 1rem;">
+          <div style="margin-bottom: 1rem;">
+            <div style="font-size: 11px; color: var(--text3); text-transform: uppercase;">Posición</div>
+            <div style="font-size: 28px; font-family: 'Bebas Neue'; color: #ef4444;">#${position}</div>
+          </div>
+          <div style="margin-bottom: 1rem;">
+            <div style="font-size: 11px; color: var(--text3); text-transform: uppercase;">Puntos</div>
+            <div style="font-size: 24px; font-family: 'Bebas Neue'; color: var(--green);">${points}</div>
+          </div>
+          <div>
+            <div style="font-size: 11px; color: var(--text3); text-transform: uppercase;">Aciertos</div>
+            <div style="font-size: 24px; font-family: 'Bebas Neue'; color: var(--blue);">${aciertos}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="background: var(--bg3); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+      <div style="font-size: 13px; font-weight: 600; margin-bottom: 0.5rem;">Descripción</div>
+      <div style="font-size: 12px; color: var(--text2);">${user.description || 'Sin descripción'}</div>
+    </div>
+    
+    <div>
+      <div style="font-size: 13px; font-weight: 600; margin-bottom: 1rem;">Integrantes (${user.members.length})</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0.5rem;">
+        ${user.members.map(member => `
+          <div style="background: var(--bg3); border-radius: 6px; padding: 0.75rem; text-align: center; font-size: 12px;">
+            ${member}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('main-modal').classList.add('show');
 }
 
 // ===== UTILITIES =====
