@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRODE Mundial 2026 - Sistema de Pronósticos</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tablericons/1.35.0/iconfont/tabler-icons.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap');
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #111827;
+    --bg3: #1a2235;
+    --bg4: #212d42;
+    --text: #f0f4ff;
+    --text2: #8a9bc0;
+    --text3: #4a5a78;
+    --accent: #f5a623;
+    --accent2: #e8892a;
+    --accentbg: rgba(245, 166, 35, 0.12);
+    --green: #22c55e;
+    --greenbg: rgba(34, 197, 94, 0.12);
+    --blue: #60a5fa;
+    --bluebg: rgba(96, 165, 250, 0.12);
+    --red: #f87171;
+    --redbg: rgba(248, 113, 113, 0.12);
+    --border: rgba(255, 255, 255, 0.08);
+    --border2: rgba(255, 255, 255, 0.14);
+    --radius: 10px;
+    --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  }
+  
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, .bebas {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.04em;
+  }
+  
+  /* ===== LOGIN / REGISTRO ===== */
+  .auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, #0a0e1a 0%, #1a2235 50%, #0f1728 100%);
+  }
+  
+  .auth-box {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: var(--shadow);
+  }
+  
+  .auth-logo {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    margin: 0 auto 1.5rem;
+  }
+  
+  .auth-title {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .auth-subtitle {
+    font-size: 13px;
+    color: var(--text2);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-label {
+    display: block;
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  
+  .form-input, .form-textarea, .form-select {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 12px 14px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s;
+  }
+  
+  .form-input:focus, .form-textarea:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+  }
+  
+  .form-input::placeholder, .form-textarea::placeholder {
+    color: var(--text3);
+  }
+  
+  .form-textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  .form-file-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .file-preview {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    background: var(--bg4);
+    border: 2px dashed var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    overflow: hidden;
+  }
+  
+  .file-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.18s;
+    font-family: 'DM Sans', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #000;
+  }
+  
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(245, 166, 35, 0.3);
+  }
+  
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border2);
+    color: var(--text);
+    width: auto;
+  }
+  
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  
+  .btn-sm {
+    padding: 8px 16px;
+    font-size: 12px;
+    width: auto;
+  }
+  
+  .auth-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .auth-toggle button {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid var(--border2);
+    color: var(--text2);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .auth-toggle button.active {
+    background: var(--accentbg);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  
+  .error-msg, .success-msg {
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .error-msg {
+    background: var(--redbg);
+    border: 1px solid var(--red);
+    color: var(--red);
+    display: none;
+  }
+  
+  .success-msg {
+    background: var(--greenbg);
+    border: 1px solid var(--green);
+    color: var(--green);
+    display: none;
+  }
+  
+  .hidden {
+    display: none !important;
+  }
+  
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, #0a0e1a 0%, #1a2235 60%, #0f1728 100%);
+    border-bottom: 1px solid var(--border2);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  
+  .header h1 {
+    font-size: 26px;
+    color: var(--text);
+    line-height: 1;
+  }
+  
+  .header p {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+  }
+  
+  .user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background: var(--bg4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  
+  .user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  
+  .user-role {
+    font-size: 11px;
+    color: var(--text2);
+    text-transform: uppercase;
+  }
+  
+  .btn-logout {
+    background: transparent;
+    border: 1px solid var(--border2);
+    color: var(--text2);
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .btn-logout:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 0 1rem;
+    overflow-x: auto;
+    gap: 2px;
+  }
+  
+  .tab {
+    padding: 12px 16px;
+    cursor: pointer;
+    color: var(--text2);
+    font-size: 13px;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .tab:hover {
+    color: var(--text);
+  }
+  
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  
+  .tab i {
+    font-size: 15px;
+  }
+  
+  /* ===== CONTENT ===== */
+  .content {
+    padding: 1.25rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .card-title {
+    font-size: 18px;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .card-title i {
+    color: var(--accent);
+    font-size: 20px;
+  }
+  
+  /* ===== ALERT ===== */
+  .alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .alert-success {
+    background: var(--greenbg);
+    border: 1px solid var(--green);
+    color: var(--green);
+  }
+  
+  .alert-info {
+    background: var(--bluebg);
+    border: 1px solid var(--blue);
+    color: var(--blue);
+  }
+  
+  .alert-warning {
+    background: var(--yellowbg);
+    border: 1px solid var(--yellow);
+    color: var(--yellow);
+  }
+  
+  .alert-error {
+    background: var(--redbg);
+    border: 1px solid var(--red);
+    color: var(--red);
+  }
+  
+  /* ===== TABLE ===== */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th {
+    text-align: left;
+    color: var(--text2);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    background: var(--bg3);
+  }
+  
+  .table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  
+  .table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+  
+  /* ===== STANDINGS ===== */
+  .standing-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-family: 'Bebas Neue';
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  
+  .badge-1 {
+    background: var(--accent);
+    color: #000;
+  }
+  
+  .badge-2 {
+    background: #94a3b8;
+    color: #000;
+  }
+  
+  .badge-3 {
+    background: #92400e;
+    color: #fde68a;
+  }
+  
+  .badge-other {
+    background: var(--bg3);
+    color: var(--text2);
+  }
+  
+  .team-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .team-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  
+  .team-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .team-name {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .points-chip {
+    background: var(--accentbg);
+    color: var(--accent);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-weight: 700;
+    font-size: 18px;
+    font-family: 'Bebas Neue';
+  }
+  
+  /* ===== MATCH CARD ===== */
+  .match-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .match-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: all 0.2s;
+  }
+  
+  .match-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  
+  .match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .match-phase {
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  
+  .match-status {
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .status-pending {
+    background: var(--bg4);
+    color: var(--text3);
+  }
+  
+  .status-played {
+    background: var(--greenbg);
+    color: var(--green);
+  }
+  
+  .status-predicted {
+    background: var(--accentbg);
+    color: var(--accent);
+  }
+  
+  .status-correct {
+    background: var(--greenbg);
+    color: var(--green);
+  }
+  
+  .status-incorrect {
+    background: var(--redbg);
+    color: var(--red);
+  }
+  
+  .match-teams {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .match-team {
+    flex: 1;
+  }
+  
+  .team-flag-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  
+  .flag {
+    font-size: 24px;
+  }
+  
+  .vs-badge {
+    font-size: 10px;
+    color: var(--text3);
+    background: var(--bg4);
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  
+  .score-display {
+    font-size: 28px;
+    font-family: 'Bebas Neue';
+    font-weight: 700;
+    text-align: center;
+  }
+  
+  .score-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .score-input {
+    flex: 1;
+    text-align: center;
+    background: var(--bg4);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+  }
+  
+  .score-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+  }
+  
+  .score-separator {
+    color: var(--text3);
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
+  .match-info {
+    font-size: 12px;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+  
+  .match-venue {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 12px;
+  }
+  
+  .match-result {
+    background: var(--greenbg);
+    border: 1px solid var(--green);
+    color: var(--green);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  
+  .match-points {
+    background: var(--accentbg);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 12px;
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+  }
+  
+  .modal-overlay.show {
+    display: flex;
+  }
+  
+  .modal-content {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  
+  .modal-title {
+    font-size: 24px;
+    font-family: 'Bebas Neue';
+  }
+  
+  .btn-close {
+    background: transparent;
+    border: none;
+    color: var(--text2);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn-close:hover {
+    color: var(--red);
+  }
+  
+  /* ===== SCROLL ===== */
+  .scroll-y {
+    max-height: 600px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border2) transparent;
+  }
+  
+  .scroll-y::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .scroll-y::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scroll-y::-webkit-scrollbar-thumb {
+    background: var(--border2);
+    border-radius: 3px;
+  }
+  
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .header-right {
+      width: 100%;
+      justify-content: space-between;
+    }
+    
+    .match-container {
+      grid-template-columns: 1fr;
+    }
+    
+    .auth-box {
+      max-width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN/REGISTER SCREEN -->
+<div id="auth-screen">
+  <div class="auth-container">
+    <div class="auth-box">
+      <div class="auth-logo">🏆</div>
+      <h1 class="auth-title">PRODE MUNDIAL</h1>
+      <p class="auth-subtitle">2026 - Sistema de Pronósticos</p>
+      
+      <div id="auth-message"></div>
+      
+      <div class="auth-toggle">
+        <button id="btn-login-tab" class="active" onclick="switchAuthMode('login')">
+          <i class="ti ti-login"></i> Ingresar
+        </button>
+        <button id="btn-register-tab" onclick="switchAuthMode('register')">
+          <i class="ti ti-user-plus"></i> Registrarse
+        </button>
+      </div>
+      
+      <!-- LOGIN FORM -->
+      <div id="login-form">
+        <div class="form-group">
+          <label class="form-label">Usuario</label>
+          <input type="text" id="login-username" class="form-input" placeholder="Tu usuario" autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input type="password" id="login-password" class="form-input" placeholder="Tu contraseña" autocomplete="current-password">
+        </div>
+        <button class="btn btn-primary" onclick="handleLogin()">
+          <i class="ti ti-login"></i> Ingresar
+        </button>
+      </div>
+      
+      <!-- REGISTER FORM -->
+      <div id="register-form" class="hidden">
+        <div class="form-group">
+          <label class="form-label">Usuario</label>
+          <input type="text" id="reg-username" class="form-input" placeholder="Elige un usuario único" autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contraseña</label>
+          <input type="password" id="reg-password" class="form-input" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre del Área / Club</label>
+          <input type="text" id="reg-area" class="form-input" placeholder="Ej: Área Ventas, Club Deportivo, etc">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre del Equipo</label>
+          <input type="text" id="reg-team" class="form-input" placeholder="Ej: Los Reventados FC">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Foto del Equipo</label>
+          <div class="form-file-input">
+            <input type="file" id="reg-photo" accept="image/*" onchange="previewTeamPhoto(this)">
+            <div class="file-preview" id="photo-preview">📷</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Integrantes (nombres separados por coma)</label>
+          <textarea id="reg-members" class="form-textarea" placeholder="Juan, María, Pedro, Ana..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Descripción / Lema del Equipo</label>
+          <textarea id="reg-description" class="form-textarea" placeholder="Comparte un lema o descripción de tu equipo"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="handleRegister()">
+          <i class="ti ti-user-plus"></i> Registrarse
+        </button>
+        <p style="font-size:11px;color:var(--text3);text-align:center;margin-top:1rem">
+          Al registrarte, aceptas participar en la competencia del PRODE
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="main-app" class="hidden">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-icon">🏆</div>
+      <div>
+        <h1>PRODE MUNDIAL</h1>
+        <p>Sistema de Pronósticos 2026</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="user-info">
+        <div class="user-avatar" id="header-avatar">👤</div>
+        <div class="user-details">
+          <div class="user-name" id="header-team-name">Equipo</div>
+          <div class="user-role" id="header-role">Participante</div>
+        </div>
+      </div>
+      <button class="btn-logout" onclick="handleLogout()">
+        <i class="ti ti-logout"></i> Salir
+      </button>
+    </div>
+  </div>
+  
+  <!-- TABS -->
+  <div class="tabs" id="main-tabs"></div>
+  
+  <!-- CONTENT -->
+  <div class="content" id="main-content"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="main-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-title">Modal</h2>
+      <button class="btn-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ===== CONSTANTS & DATA =====
+const WORLD_CUPS = {
+  groups: {
+    label: 'Fase de Grupos',
+    matches: [
+      // GRUPO A
+      {id: 'g1', phase: 'Grupo A', local: 'Argentina', visitante: 'Paraguay', group: 'A', stadium: 'Estadio Mineiraço, Belo Horizonte'},
+      {id: 'g2', phase: 'Grupo A', local: 'Argentina', visitante: 'Perú', group: 'A', stadium: 'Estadio Nacional, Lima'},
+      {id: 'g3', phase: 'Grupo A', local: 'Canadá', visitante: 'Paraguay', group: 'A', stadium: 'Estadio BCPlace, Vancouver'},
+      {id: 'g4', phase: 'Grupo A', local: 'Canadá', visitante: 'Chile', group: 'A', stadium: 'Estadio Tecnológico, Monterrey'},
+      {id: 'g5', phase: 'Grupo A', local: 'Argentina', visitante: 'Chile', group: 'A', stadium: 'Estadio Azteca, Ciudad de México'},
+      {id: 'g6', phase: 'Grupo A', local: 'Paraguay', visitante: 'Perú', group: 'A', stadium: 'Estadio SoFi, Los Ángeles'},
+      
+      // GRUPO B
+      {id: 'g7', phase: 'Grupo B', local: 'Brasil', visitante: 'Costa Rica', group: 'B', stadium: 'Estadio do Morumbi, São Paulo'},
+      {id: 'g8', phase: 'Grupo B', local: 'Brasil', visitante: 'Suiza', group: 'B', stadium: 'Estadio BBVA, Monterrey'},
+      {id: 'g9', phase: 'Grupo B', local: 'Japón', visitante: 'Costa Rica', group: 'B', stadium: 'Estadio NRG, Houston'},
+      {id: 'g10', phase: 'Grupo B', local: 'Japón', visitante: 'Suiza', group: 'B', stadium: 'Estadio Levi\'s, Santa Clara'},
+      {id: 'g11', phase: 'Grupo B', local: 'Brasil', visitante: 'Japón', group: 'B', stadium: 'Estadio MetLife, Nueva Jersey'},
+      {id: 'g12', phase: 'Grupo B', local: 'Costa Rica', visitante: 'Suiza', group: 'B', stadium: 'Estadio Arrowhead, Kansas City'},
+    ]
+  },
+  round16: {
+    label: '16avos de Final',
+    matches: [
+      {id: 'r16_1', phase: '16avos', local: 'Ganador Grupo A', visitante: 'Subcampeón Grupo B', stadium: 'Estadio a confirmar'},
+      {id: 'r16_2', phase: '16avos', local: 'Ganador Grupo B', visitante: 'Subcampeón Grupo A', stadium: 'Estadio a confirmar'},
+    ]
+  },
+  quarters: {
+    label: 'Cuartos de Final',
+    matches: [
+      {id: 'qf1', phase: 'Cuartos', local: 'Semifinalista 1', visitante: 'Semifinalista 2', stadium: 'Estadio a confirmar'},
+      {id: 'qf2', phase: 'Cuartos', local: 'Semifinalista 3', visitante: 'Semifinalista 4', stadium: 'Estadio a confirmar'},
+    ]
+  },
+  semis: {
+    label: 'Semifinales',
+    matches: [
+      {id: 'sf1', phase: 'Semifinal 1', local: 'Finalista 1', visitante: 'Finalista 2', stadium: 'Estadio MetLife, Nueva Jersey'},
+      {id: 'sf2', phase: 'Semifinal 2', local: 'Finalista 3', visitante: 'Finalista 4', stadium: 'Estadio SoFi, Los Ángeles'},
+    ]
+  },
+  final: {
+    label: 'Gran Final',
+    matches: [
+      {id: 'f1', phase: 'Gran Final', local: 'Finalista 1', visitante: 'Finalista 2', stadium: 'Estadio MetLife, Nueva Jersey'},
+    ]
+  }
+};
+
+// Get all matches in order
+function getAllMatches() {
+  return [
+    ...WORLD_CUPS.groups.matches,
+    ...WORLD_CUPS.round16.matches,
+    ...WORLD_CUPS.quarters.matches,
+    ...WORLD_CUPS.semis.matches,
+    ...WORLD_CUPS.final.matches,
+  ];
+}
+
+// COUNTRIES FLAGS
+const FLAGS = {
+  'Argentina': '🇦🇷',
+  'Brasil': '🇧🇷',
+  'Canadá': '🇨🇦',
+  'Paraguay': '🇵🇾',
+  'Perú': '🇵🇪',
+  'Chile': '🇨🇱',
+  'Costa Rica': '🇨🇷',
+  'Suiza': '🇨🇭',
+  'Japón': '🇯🇵',
+  'España': '🇪🇸',
+  'Francia': '🇫🇷',
+  'Inglaterra': '🇬🇧',
+  'Alemania': '🇩🇪',
+  'Italia': '🇮🇹',
+  'Países Bajos': '🇳🇱',
+  'Uruguay': '🇺🇾',
+};
+
+const POINTS_CORRECT = 10;
+let currentUser = null;
+let appState = loadAppState();
+
+// ===== LOCAL STORAGE =====
+function loadAppState() {
+  const saved = localStorage.getItem('prode2026State');
+  if (saved) return JSON.parse(saved);
+  
+  return {
+    users: {},
+    results: {},
+    predictions: {},
+    cards: {},
+  };
+}
+
+function saveAppState() {
+  localStorage.setItem('prode2026State', JSON.stringify(appState));
+}
+
+// ===== AUTH FUNCTIONS =====
+function switchAuthMode(mode) {
+  document.getElementById('login-form').classList.toggle('hidden', mode !== 'login');
+  document.getElementById('register-form').classList.toggle('hidden', mode !== 'register');
+  document.getElementById('btn-login-tab').classList.toggle('active', mode === 'login');
+  document.getElementById('btn-register-tab').classList.toggle('active', mode === 'register');
+  clearAuthMessage();
+}
+
+function showAuthMessage(text, type) {
+  const msg = document.getElementById('auth-message');
+  msg.innerHTML = `<div class="${type === 'error' ? 'error-msg' : 'success-msg'}" style="display:flex">
+    <i class="ti ${type === 'error' ? 'ti-alert-circle' : 'ti-check'}"></i>
+    <span>${text}</span>
+  </div>`;
+}
+
+function clearAuthMessage() {
+  document.getElementById('auth-message').innerHTML = '';
+}
+
+function previewTeamPhoto(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      document.getElementById('photo-preview').innerHTML = `<img src="${e.target.result}" />`;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function handleLogin() {
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+  
+  if (!username || !password) {
+    showAuthMessage('Completa todos los campos', 'error');
+    return;
+  }
+  
+  const user = appState.users[username];
+  if (!user || user.password !== password) {
+    showAuthMessage('Usuario o contraseña incorrectos', 'error');
+    return;
+  }
+  
+  currentUser = {username, ...user};
+  localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  document.getElementById('auth-screen').classList.add('hidden');
+  document.getElementById('main-app').classList.remove('hidden');
+  initApp();
+}
+
+function handleRegister() {
+  const username = document.getElementById('reg-username').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const area = document.getElementById('reg-area').value.trim();
+  const team = document.getElementById('reg-team').value.trim();
+  const members = document.getElementById('reg-members').value.trim();
+  const description = document.getElementById('reg-description').value.trim();
+  const photoFile = document.getElementById('reg-photo').files[0];
+  
+  if (!username || !password || !area || !team) {
+    showAuthMessage('Completa todos los campos obligatorios', 'error');
+    return;
+  }
+  
+  if (password.length < 6) {
+    showAuthMessage('La contraseña debe tener mínimo 6 caracteres', 'error');
+    return;
+  }
+  
+  if (appState.users[username]) {
+    showAuthMessage('Este usuario ya existe', 'error');
+    return;
+  }
+  
+  let photoData = null;
+  if (photoFile) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      photoData = e.target.result;
+      saveNewUser(username, password, area, team, members, description, photoData);
+    };
+    reader.readAsDataURL(photoFile);
+  } else {
+    saveNewUser(username, password, area, team, members, description, photoData);
+  }
+}
+
+function saveNewUser(username, password, area, team, members, description, photo) {
+  appState.users[username] = {
+    password,
+    area,
+    team,
+    members: members ? members.split(',').map(m => m.trim()) : [],
+    description,
+    photo,
+    role: 'player',
+    createdAt: new Date().toISOString(),
+  };
+  
+  appState.predictions[username] = {};
+  appState.cards[username] = {red: 1, yellow: 2, green: 1};
+  
+  saveAppState();
+  
+  showAuthMessage('¡Registro exitoso! Inicia sesión para comenzar', 'success');
+  setTimeout(() => {
+    document.getElementById('reg-username').value = '';
+    document.getElementById('reg-password').value = '';
+    document.getElementById('reg-area').value = '';
+    document.getElementById('reg-team').value = '';
+    document.getElementById('reg-members').value = '';
+    document.getElementById('reg-description').value = '';
+    document.getElementById('reg-photo').value = '';
+    document.getElementById('photo-preview').innerHTML = '📷';
+    switchAuthMode('login');
+  }, 2000);
+}
+
+function handleLogout() {
+  if (confirm('¿Confirmas que quieres cerrar sesión?')) {
+    currentUser = null;
+    localStorage.removeItem('currentUser');
+    document.getElementById('main-app').classList.add('hidden');
+    document.getElementById('auth-screen').classList.remove('hidden');
+    
+    document.getElementById('login-username').value = '';
+    document.getElementById('login-password').value = '';
+    document.getElementById('auth-message').innerHTML = '';
+  }
+}
+
+// ===== APP INIT =====
+function initApp() {
+  const user = appState.users[currentUser.username];
+  document.getElementById('header-team-name').textContent = user.team;
+  document.getElementById('header-role').textContent = user.area;
+  
+  if (user.photo) {
+    document.getElementById('header-avatar').innerHTML = `<img src="${user.photo}" />`;
+  } else {
+    document.getElementById('header-avatar').textContent = '⚽';
+  }
+  
+  renderTabs();
+  showTab('tabla');
+}
+
+function renderTabs() {
+  const tabs = [
+    {id: 'tabla', icon: 'trophy', label: 'Tabla de Posiciones'},
+    {id: 'mispronosticos', icon: 'edit', label: 'Mis Pronósticos'},
+    {id: 'perfil', icon: 'user', label: 'Mi Perfil'},
+  ];
+  
+  document.getElementById('main-tabs').innerHTML = tabs.map(t =>
+    `<div class="tab" id="tab-${t.id}" onclick="showTab('${t.id}')">
+      <i class="ti ti-${t.icon}"></i> ${t.label}
+    </div>`
+  ).join('');
+}
+
+function showTab(tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${tabId}`).classList.add('active');
+  
+  const renders = {
+    'tabla': renderTabla,
+    'mispronosticos': renderMisPronosticos,
+    'perfil': renderPerfil,
+  };
+  
+  renders[tabId]();
+}
+
+// ===== CALCULATIONS =====
+function calculatePoints(username) {
+  let correctPredictions = 0;
+  
+  getAllMatches().forEach(match => {
+    const result = appState.results[match.id];
+    const prediction = (appState.predictions[username] || {})[match.id];
+    
+    if (!result || !prediction || result.local === undefined) return;
+    
+    const resultWinner = result.local > result.visitante ? 'local' : 
+                        result.local < result.visitante ? 'visitante' : 'empate';
+    const predictionWinner = prediction.local > prediction.visitante ? 'local' :
+                             prediction.local < prediction.visitante ? 'visitante' : 'empate';
+    
+    if (resultWinner === predictionWinner) {
+      correctPredictions++;
+    }
+  });
+  
+  return correctPredictions * POINTS_CORRECT;
+}
+
+function getSortedTeams() {
+  const teams = Object.entries(appState.users)
+    .filter(([_, user]) => user.role === 'player')
+    .map(([username, user]) => ({
+      username,
+      team: user.team,
+      area: user.area,
+      photo: user.photo,
+      points: calculatePoints(username),
+    }))
+    .sort((a, b) => b.points - a.points);
+  
+  return teams;
+}
+
+// ===== RENDER: TABLA =====
+function renderTabla() {
+  const sorted = getSortedTeams();
+  const playedMatches = getAllMatches().filter(m => appState.results[m.id] && appState.results[m.id].local !== undefined).length;
+  
+  document.getElementById('main-content').innerHTML = `
+    <div class="alert alert-info">
+      <i class="ti ti-info-circle"></i>
+      <strong>${playedMatches} de ${getAllMatches().length}</strong> partidos con resultado cargado
+    </div>
+    
+    <div class="card">
+      <div class="card-title">
+        <i class="ti ti-trophy"></i>
+        Tabla de Posiciones General
+      </div>
+      
+      <div class="scroll-y">
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width: 50px">#</th>
+              <th>Equipo</th>
+              <th>Área</th>
+              <th style="text-align: right">Aciertos</th>
+              <th style="text-align: right">Puntos</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sorted.map((team, i) => {
+              const aciertos = Math.round(team.points / POINTS_CORRECT);
+              const badgeClass = i === 0 ? 'badge-1' : i === 1 ? 'badge-2' : i === 2 ? 'badge-3' : 'badge-other';
+              
+              return `<tr>
+                <td><div class="standing-badge ${badgeClass}">${i + 1}</div></td>
+                <td>
+                  <div class="team-cell">
+                    <div class="team-avatar" ${team.photo ? `style="background-image:url('${team.photo}');background-size:cover"` : ''}>
+                      ${!team.photo ? '⚽' : ''}
+                    </div>
+                    <div class="team-name">${team.team}</div>
+                  </div>
+                </td>
+                <td style="color: var(--text2); font-size: 13px">${team.area}</td>
+                <td style="text-align: right; color: var(--text2)">${aciertos}</td>
+                <td style="text-align: right"><span class="points-chip">${team.points}</span></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+// ===== RENDER: MIS PRONOSTICOS =====
+function renderMisPronosticos() {
+  const user = appState.users[currentUser.username];
+  
+  let html = `
+    <div class="alert alert-warning">
+      <i class="ti ti-alert-triangle"></i>
+      <strong>Solo se suman puntos (10 pts) si aciertas el ganador o si es empate.</strong> El marcador exacto no suma puntos adicionales.
+    </div>
+  `;
+  
+  // Group matches by phase
+  const phases = [
+    {key: 'groups', label: WORLD_CUPS.groups.label},
+    {key: 'round16', label: WORLD_CUPS.round16.label},
+    {key: 'quarters', label: WORLD_CUPS.quarters.label},
+    {key: 'semis', label: WORLD_CUPS.semis.label},
+    {key: 'final', label: WORLD_CUPS.final.label},
+  ];
+  
+  phases.forEach(phase => {
+    const matches = WORLD_CUPS[phase.key].matches;
+    if (matches.length === 0) return;
+    
+    html += `<h3 style="margin-top:2rem;margin-bottom:1rem;font-size:18px;color:var(--accent)">${phase.label}</h3>`;
+    html += '<div class="match-container">';
+    
+    matches.forEach(match => {
+      const result = appState.results[match.id];
+      const prediction = (appState.predictions[currentUser.username] || {})[match.id] || {};
+      const hasResult = result && result.local !== undefined;
+      
+      let statusClass = 'status-pending';
+      let statusText = 'Pendiente';
+      let statusIcon = '⏳';
+      
+      if (hasResult) {
+        if (prediction.local !== undefined) {
+          const resultWinner = result.local > result.visitante ? 'local' : 
+                              result.local < result.visitante ? 'visitante' : 'empate';
+          const predictionWinner = prediction.local > prediction.visitante ? 'local' :
+                                   prediction.local < prediction.visitante ? 'visitante' : 'empate';
+          
+          if (resultWinner === predictionWinner) {
+            statusClass = 'status-correct';
+            statusText = '✓ ¡Correcto! +10 pts';
+            statusIcon = '✓';
+          } else {
+            statusClass = 'status-incorrect';
+            statusText = '✗ Fallaste';
+            statusIcon = '✗';
+          }
+        } else {
+          statusClass = 'status-incorrect';
+          statusText = '✗ No predijiste';
+          statusIcon = '✗';
+        }
+      } else if (prediction.local !== undefined) {
+        statusClass = 'status-predicted';
+        statusText = 'Pronóstico guardado';
+        statusIcon = '💾';
+      }
+      
+      const localFlag = FLAGS[match.local] || '🏴';
+      const visitanteFlag = FLAGS[match.visitante] || '🏴';
+      
+      html += `
+        <div class="match-card">
+          <div class="match-header">
+            <span class="match-phase">${match.phase}</span>
+            <span class="match-status ${statusClass}">${statusIcon} ${statusText}</span>
+          </div>
+          
+          <div class="match-venue">
+            <i class="ti ti-map-pin"></i>
+            ${match.stadium}
+          </div>
+          
+          <div class="match-teams">
+            <div class="match-team">
+              <div class="team-flag-name">
+                <span class="flag">${localFlag}</span>
+                <span>${match.local}</span>
+              </div>
+            </div>
+            <span class="vs-badge">VS</span>
+            <div class="match-team">
+              <div class="team-flag-name">
+                <span>${match.visitante}</span>
+                <span class="flag">${visitanteFlag}</span>
+              </div>
+            </div>
+          </div>
+          
+          ${hasResult ? `
+            <div class="match-result">
+              Resultado: <strong>${result.local} - ${result.visitante}</strong>
+            </div>
+          ` : ''}
+          
+          <div class="score-inputs">
+            <input type="number" class="score-input" min="0" max="30"
+              value="${prediction.local !== undefined ? prediction.local : ''}"
+              onchange="savePrediction('${match.id}', 'local', this.value)"
+              ${hasResult ? 'disabled' : ''}
+              placeholder="0">
+            <span class="score-separator">-</span>
+            <input type="number" class="score-input" min="0" max="30"
+              value="${prediction.visitante !== undefined ? prediction.visitante : ''}"
+              onchange="savePrediction('${match.id}', 'visitante', this.value)"
+              ${hasResult ? 'disabled' : ''}
+              placeholder="0">
+          </div>
+        </div>
+      `;
+    });
+    
+    html += '</div>';
+  });
+  
+  document.getElementById('main-content').innerHTML = html;
+}
+
+function savePrediction(matchId, side, value) {
+  if (!appState.predictions[currentUser.username]) {
+    appState.predictions[currentUser.username] = {};
+  }
+  if (!appState.predictions[currentUser.username][matchId]) {
+    appState.predictions[currentUser.username][matchId] = {};
+  }
+  
+  appState.predictions[currentUser.username][matchId][side] = parseInt(value) || 0;
+  saveAppState();
+  renderMisPronosticos();
+}
+
+// ===== RENDER: PERFIL =====
+function renderPerfil() {
+  const user = appState.users[currentUser.username];
+  const userPoints = calculatePoints(currentUser.username);
+  const sorted = getSortedTeams();
+  const position = sorted.findIndex(t => t.username === currentUser.username) + 1;
+  
+  const nextMatches = getAllMatches()
+    .filter(m => !appState.results[m.id] || appState.results[m.id].local === undefined)
+    .slice(0, 5);
+  
+  document.getElementById('main-content').innerHTML = `
+    <div class="card">
+      <div class="card-title">
+        <i class="ti ti-user"></i>
+        Mi Perfil
+      </div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+        <div>
+          <div style="background: var(--bg3); border-radius: 12px; padding: 1.5rem; text-align: center;">
+            <div style="width: 100px; height: 100px; background: var(--bg4); border-radius: 12px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 48px; overflow: hidden;">
+              ${user.photo ? `<img src="${user.photo}" style="width:100%;height:100%;object-fit:cover" />` : '⚽'}
+            </div>
+            <h3 style="font-size: 24px; margin-bottom: 0.5rem;">${user.team}</h3>
+            <p style="color: var(--text2); margin-bottom: 1rem;">${user.area}</p>
+            <p style="font-size: 12px; color: var(--text3); line-height: 1.6;">${user.description || 'Sin descripción'}</p>
+          </div>
+        </div>
+        
+        <div>
+          <div style="background: var(--bg3); border-radius: 12px; padding: 1.5rem;">
+            <h4 style="font-size: 14px; color: var(--text2); text-transform: uppercase; margin-bottom: 1rem;">Estadísticas</h4>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <div style="font-size: 12px; color: var(--text3); margin-bottom: 4px;">Posición en Tabla</div>
+              <div style="font-size: 32px; font-family: 'Bebas Neue'; font-weight: 700; color: var(--accent);">#${position}</div>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <div style="font-size: 12px; color: var(--text3); margin-bottom: 4px;">Puntos Totales</div>
+              <div style="font-size: 28px; font-family: 'Bebas Neue'; font-weight: 700; color: var(--green);">${userPoints} pts</div>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <div style="font-size: 12px; color: var(--text3); margin-bottom: 4px;">Aciertos</div>
+              <div style="font-size: 24px; font-family: 'Bebas Neue'; font-weight: 700; color: var(--blue);">${Math.round(userPoints / POINTS_CORRECT)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">
+        <i class="ti ti-users"></i>
+        Integrantes del Equipo (${user.members.length})
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem;">
+        ${user.members.length > 0 ? user.members.map(member => `
+          <div style="background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; text-align: center;">
+            <div style="font-size: 32px; margin-bottom: 8px;">👤</div>
+            <div style="font-size: 13px; font-weight: 600; word-break: break-word;">${member}</div>
+          </div>
+        `).join('') : '<p style="color: var(--text3)">No hay integrantes registrados</p>'}
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-title">
+        <i class="ti ti-calendar"></i>
+        Próximos Partidos
+      </div>
+      
+      ${nextMatches.length > 0 ? `
+        <div class="match-container">
+          ${nextMatches.map(match => {
+            const localFlag = FLAGS[match.local] || '🏴';
+            const visitanteFlag = FLAGS[match.visitante] || '🏴';
+            
+            return `
+              <div class="match-card">
+                <div class="match-phase">${match.phase}</div>
+                <div class="match-venue">
+                  <i class="ti ti-map-pin"></i>
+                  ${match.stadium}
+                </div>
+                <div class="match-teams" style="margin-top: 1rem;">
+                  <div class="match-team">
+                    <div class="team-flag-name">
+                      <span class="flag">${localFlag}</span>
+                      <span>${match.local}</span>
+                    </div>
+                  </div>
+                  <span class="vs-badge">VS</span>
+                  <div class="match-team">
+                    <div class="team-flag-name">
+                      <span>${match.visitante}</span>
+                      <span class="flag">${visitanteFlag}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      ` : '<p style="color: var(--text3)">¡No hay más partidos!</p>'}
+    </div>
+  `;
+}
+
+// ===== UTILITIES =====
+function closeModal() {
+  document.getElementById('main-modal').classList.remove('show');
+}
+
+document.getElementById('main-modal').addEventListener('click', e => {
+  if (e.target.id === 'main-modal') closeModal();
+});
+
+// Check if user is already logged in
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('currentUser');
+  if (saved) {
+    currentUser = JSON.parse(saved);
+    document.getElementById('auth-screen').classList.add('hidden');
+    document.getElementById('main-app').classList.remove('hidden');
+    initApp();
+  }
+});
+
+// Enter key for login
+document.addEventListener('keypress', e => {
+  if (e.key === 'Enter' && !document.getElementById('auth-screen').classList.contains('hidden')) {
+    if (!document.getElementById('login-form').classList.contains('hidden')) {
+      handleLogin();
+    }
+  }
+});
+</script>
+</body>
+</html>
