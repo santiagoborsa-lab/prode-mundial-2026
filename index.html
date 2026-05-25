@@ -6,7 +6,7 @@
 <title>PRODE Mundial 2026 - Sistema de Pronósticos</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tablericons/1.35.0/iconfont/tabler-icons.min.css">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
   
   * {
     box-sizing: border-box;
@@ -15,32 +15,28 @@
   }
   
   :root {
-    --bg: #0a0e1a;
-    --bg2: #111827;
-    --bg3: #1a2235;
-    --bg4: #212d42;
-    --text: #f0f4ff;
-    --text2: #8a9bc0;
-    --text3: #4a5a78;
-    --accent: #f5a623;
-    --accent2: #e8892a;
-    --accentbg: rgba(245, 166, 35, 0.12);
-    --green: #22c55e;
-    --greenbg: rgba(34, 197, 94, 0.12);
-    --blue: #60a5fa;
-    --bluebg: rgba(96, 165, 250, 0.12);
-    --red: #f87171;
-    --redbg: rgba(248, 113, 113, 0.12);
-    --border: rgba(255, 255, 255, 0.08);
-    --border2: rgba(255, 255, 255, 0.14);
-    --radius: 10px;
-    --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #ec4899;
+    --accent: #f59e0b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --dark-secondary: #1e293b;
+    --dark-tertiary: #334155;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --border: #475569;
+    --border-light: #334155;
+    --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 40px 80px rgba(0, 0, 0, 0.6);
   }
   
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 50%, #16213e 100%);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
     font-size: 14px;
     min-height: 100vh;
     overflow-x: hidden;
@@ -48,7 +44,8 @@
   
   h1, h2, h3, .bebas {
     font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
+    font-weight: 700;
   }
   
   /* ===== LOGIN / REGISTRO ===== */
@@ -58,42 +55,77 @@
     align-items: center;
     justify-content: center;
     padding: 1rem;
-    background: linear-gradient(135deg, #0a0e1a 0%, #1a2235 50%, #0f1728 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e3c72 50%, #2a5298 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .auth-container::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 50%;
+    top: -100px;
+    right: -100px;
+    z-index: 0;
+  }
+  
+  .auth-container::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(236, 72, 153, 0.1);
+    border-radius: 50%;
+    bottom: -50px;
+    left: -50px;
+    z-index: 0;
   }
   
   .auth-box {
-    background: var(--bg2);
-    border: 1px solid var(--border2);
-    border-radius: 16px;
-    padding: 2rem;
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: 24px;
+    padding: 2.5rem;
     width: 100%;
     max-width: 450px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    z-index: 1;
   }
   
   .auth-logo {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 48px;
     margin: 0 auto 1.5rem;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
   }
   
   .auth-title {
     font-size: 32px;
     text-align: center;
     margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .auth-subtitle {
     font-size: 13px;
-    color: var(--text2);
+    color: var(--text-secondary);
     text-align: center;
     margin-bottom: 2rem;
+    font-weight: 500;
   }
   
   .form-group {
@@ -103,74 +135,45 @@
   .form-label {
     display: block;
     font-size: 12px;
-    color: var(--text2);
-    margin-bottom: 6px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-weight: 500;
+    letter-spacing: 0.1em;
+    font-weight: 600;
   }
   
   .form-input, .form-textarea, .form-select {
     width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: 8px;
-    color: var(--text);
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    color: var(--text-primary);
     padding: 12px 14px;
     font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
-    transition: border-color 0.2s;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s;
   }
   
   .form-input:focus, .form-textarea:focus, .form-select:focus {
     outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
   }
   
-  .form-input::placeholder, .form-textarea::placeholder {
-    color: var(--text3);
-  }
-  
-  .form-textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-  
-  .form-file-input {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .file-preview {
-    width: 60px;
-    height: 60px;
-    border-radius: 8px;
-    background: var(--bg4);
-    border: 2px dashed var(--border2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    overflow: hidden;
-  }
-  
-  .file-preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .form-input::placeholder {
+    color: var(--text-muted);
   }
   
   .btn {
     padding: 12px 24px;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     border: none;
-    transition: all 0.18s;
-    font-family: 'DM Sans', sans-serif;
+    transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -179,59 +182,26 @@
   }
   
   .btn-primary {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: #000;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
   }
   
   .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(245, 166, 35, 0.3);
-  }
-  
-  .btn-primary:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
   }
   
   .btn-secondary {
     background: transparent;
-    border: 1px solid var(--border2);
-    color: var(--text);
+    border: 1.5px solid var(--border);
+    color: var(--text-primary);
     width: auto;
   }
   
   .btn-secondary:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-  
-  .btn-danger {
-    background: rgba(248, 113, 113, 0.2);
-    border: 1px solid var(--red);
-    color: var(--red);
-    width: auto;
-  }
-  
-  .btn-danger:hover {
-    background: rgba(248, 113, 113, 0.3);
-  }
-  
-  .btn-success {
-    background: rgba(34, 197, 94, 0.2);
-    border: 1px solid var(--green);
-    color: var(--green);
-    width: auto;
-  }
-  
-  .btn-success:hover {
-    background: rgba(34, 197, 94, 0.3);
-  }
-  
-  .btn-sm {
-    padding: 8px 16px;
-    font-size: 12px;
-    width: auto;
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.1);
   }
   
   .auth-toggle {
@@ -244,99 +214,70 @@
     flex: 1;
     padding: 10px;
     background: transparent;
-    border: 1px solid var(--border2);
-    color: var(--text2);
-    border-radius: 6px;
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
+    font-weight: 600;
   }
   
   .auth-toggle button.active {
-    background: var(--accentbg);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-  
-  .error-msg, .success-msg {
-    padding: 12px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .error-msg {
-    background: var(--redbg);
-    border: 1px solid var(--red);
-    color: var(--red);
-    display: none;
-  }
-  
-  .success-msg {
-    background: var(--greenbg);
-    border: 1px solid var(--green);
-    color: var(--green);
-    display: none;
-  }
-  
-  .hidden {
-    display: none !important;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+    border-color: var(--primary);
+    color: var(--primary);
   }
   
   /* ===== HEADER ===== */
   .header {
-    background: linear-gradient(135deg, #0a0e1a 0%, #1a2235 60%, #0f1728 100%);
-    border-bottom: 1px solid var(--border2);
-    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(51, 65, 85, 0.4));
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-light);
+    padding: 1.5rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
   
   .header-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
   }
   
   .header-icon {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border-radius: 8px;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 28px;
     flex-shrink: 0;
-  }
-  
-  .header-icon.admin {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
   }
   
   .header h1 {
-    font-size: 26px;
-    color: var(--text);
-    line-height: 1;
+    font-size: 24px;
+    color: var(--text-primary);
   }
   
   .header p {
-    font-size: 11px;
-    color: var(--text2);
-    margin-top: 2px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
   }
   
   .header-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
     flex-wrap: wrap;
   }
   
@@ -344,315 +285,202 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 12px;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 10px 14px;
   }
   
   .user-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
-    background: var(--bg4);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 20px;
     flex-shrink: 0;
-    overflow: hidden;
-  }
-  
-  .user-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .user-details {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
   }
   
   .user-name {
     font-size: 13px;
     font-weight: 600;
-    color: var(--text);
+    color: var(--text-primary);
   }
   
   .user-role {
     font-size: 11px;
-    color: var(--text2);
+    color: var(--text-muted);
     text-transform: uppercase;
   }
   
   .admin-badge {
-    background: rgba(239, 68, 68, 0.2);
-    border: 1px solid #ef4444;
-    color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(249, 115, 22, 0.2));
+    border: 1px solid var(--danger);
+    color: #fca5a5;
     padding: 4px 12px;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 700;
   }
   
   .btn-logout {
     background: transparent;
-    border: 1px solid var(--border2);
-    color: var(--text2);
-    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 8px 14px;
     font-size: 12px;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s;
     display: flex;
     align-items: center;
     gap: 6px;
   }
   
   .btn-logout:hover {
-    border-color: var(--red);
-    color: var(--red);
+    border-color: var(--danger);
+    color: var(--danger);
   }
   
   /* ===== TABS ===== */
   .tabs {
     display: flex;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg2);
-    padding: 0 1rem;
+    border-bottom: 1px solid var(--border-light);
+    background: rgba(30, 41, 59, 0.5);
+    padding: 0 2rem;
     overflow-x: auto;
-    gap: 2px;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
   }
   
   .tab {
-    padding: 12px 16px;
+    padding: 16px 20px;
     cursor: pointer;
-    color: var(--text2);
+    color: var(--text-secondary);
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     border-bottom: 2px solid transparent;
-    transition: all 0.2s;
+    transition: all 0.3s;
     white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    position: relative;
   }
   
   .tab:hover {
-    color: var(--text);
+    color: var(--text-primary);
   }
   
   .tab.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-  }
-  
-  .tab.admin.active {
-    color: #ef4444;
-    border-bottom-color: #ef4444;
+    color: var(--primary);
+    border-bottom-color: var(--primary);
   }
   
   .tab i {
-    font-size: 15px;
+    font-size: 16px;
   }
   
   /* ===== CONTENT ===== */
   .content {
-    padding: 1.25rem;
-    max-width: 1400px;
+    padding: 2rem;
+    max-width: 1600px;
     margin: 0 auto;
   }
   
+  .tab-content {
+    animation: fadeIn 0.3s ease-in;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
   .card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(51, 65, 85, 0.3));
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
   }
   
   .card-title {
-    font-size: 18px;
-    color: var(--text);
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .card-title i {
-    color: var(--accent);
-    font-size: 20px;
-  }
-  
-  .card-title.admin i {
-    color: #ef4444;
-  }
-  
-  /* ===== ALERT ===== */
-  .alert {
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .alert-success {
-    background: var(--greenbg);
-    border: 1px solid var(--green);
-    color: var(--green);
-  }
-  
-  .alert-info {
-    background: var(--bluebg);
-    border: 1px solid var(--blue);
-    color: var(--blue);
-  }
-  
-  .alert-warning {
-    background: var(--yellowbg);
-    border: 1px solid var(--yellow);
-    color: var(--yellow);
-  }
-  
-  .alert-error {
-    background: var(--redbg);
-    border: 1px solid var(--red);
-    color: var(--red);
-  }
-  
-  .alert-locked {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid #ef4444;
-    color: #ef4444;
-  }
-  
-  /* ===== TABLE ===== */
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .table th {
-    text-align: left;
-    color: var(--text2);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 12px;
-    border-bottom: 1px solid var(--border);
-    font-weight: 600;
-    background: var(--bg3);
-  }
-  
-  .table td {
-    padding: 14px 12px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: middle;
-  }
-  
-  .table tr:last-child td {
-    border-bottom: none;
-  }
-  
-  .table tr:hover td {
-    background: rgba(255, 255, 255, 0.02);
-  }
-  
-  /* ===== STANDINGS ===== */
-  .standing-badge {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-family: 'Bebas Neue';
-    font-size: 16px;
-    flex-shrink: 0;
-  }
-  
-  .badge-1 {
-    background: var(--accent);
-    color: #000;
-  }
-  
-  .badge-2 {
-    background: #94a3b8;
-    color: #000;
-  }
-  
-  .badge-3 {
-    background: #92400e;
-    color: #fde68a;
-  }
-  
-  .badge-other {
-    background: var(--bg3);
-    color: var(--text2);
-  }
-  
-  .team-cell {
+    font-size: 22px;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     gap: 12px;
   }
   
-  .team-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
-    background: var(--bg3);
+  .card-title i {
+    font-size: 28px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* ===== ALERT ===== */
+  .alert {
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    overflow: hidden;
+    gap: 10px;
+    backdrop-filter: blur(10px);
   }
   
-  .team-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .team-name {
-    font-weight: 600;
-    font-size: 14px;
-  }
-  
-  .points-chip {
-    background: var(--accentbg);
-    color: var(--accent);
-    border-radius: 6px;
-    padding: 6px 14px;
-    font-weight: 700;
-    font-size: 18px;
-    font-family: 'Bebas Neue';
+  .alert-locked {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(249, 115, 22, 0.1));
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
   }
   
   /* ===== MATCH CARD ===== */
   .match-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1.5rem;
     margin-bottom: 2rem;
   }
   
   .match-card {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(51, 65, 85, 0.5), rgba(30, 41, 59, 0.5));
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
     padding: 1.5rem;
-    transition: all 0.2s;
+    transition: all 0.3s;
     position: relative;
+    overflow: hidden;
+  }
+  
+  .match-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .match-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  .match-card:hover::before {
+    opacity: 1;
   }
   
   .match-card.locked {
@@ -660,128 +488,95 @@
     pointer-events: none;
   }
   
-  .match-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 1px var(--accent);
-  }
-  
   .match-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
   
   .match-phase {
     font-size: 11px;
-    color: var(--text3);
+    color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 600;
+    letter-spacing: 0.1em;
+    font-weight: 700;
   }
   
   .match-status {
     font-size: 11px;
-    padding: 4px 12px;
+    padding: 6px 12px;
     border-radius: 6px;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
+    font-weight: 600;
   }
   
   .status-pending {
-    background: var(--bg4);
-    color: var(--text3);
-  }
-  
-  .status-played {
-    background: var(--greenbg);
-    color: var(--green);
+    background: rgba(99, 102, 241, 0.2);
+    color: #a5b4fc;
   }
   
   .status-predicted {
-    background: var(--accentbg);
-    color: var(--accent);
-  }
-  
-  .status-correct {
-    background: var(--greenbg);
-    color: var(--green);
-  }
-  
-  .status-incorrect {
-    background: var(--redbg);
-    color: var(--red);
+    background: rgba(16, 185, 129, 0.2);
+    color: #6ee7b7;
   }
   
   .status-locked {
     background: rgba(239, 68, 68, 0.2);
-    color: #ef4444;
+    color: #fca5a5;
   }
   
   .match-teams {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
   
   .match-team {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  .team-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     flex: 1;
   }
   
-  .team-flag-name {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-  
-  .flag {
-    font-size: 24px;
-  }
-  
-  .vs-badge {
-    font-size: 10px;
-    color: var(--text3);
-    background: var(--bg4);
-    padding: 4px 10px;
-    border-radius: 4px;
-    text-transform: uppercase;
-  }
-  
-  .score-display {
+  .team-flag {
     font-size: 28px;
-    font-family: 'Bebas Neue';
-    font-weight: 700;
-    text-align: center;
+    flex-shrink: 0;
   }
   
-  .score-inputs {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 12px;
+  .team-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
   }
   
   .score-input {
-    flex: 1;
+    width: 50px;
     text-align: center;
-    background: var(--bg4);
-    border: 1px solid var(--border2);
-    border-radius: 6px;
-    padding: 12px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.1));
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px;
     font-size: 18px;
     font-weight: 700;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
   }
   
   .score-input:focus {
     outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
   }
   
   .score-input:disabled {
@@ -789,16 +584,13 @@
     cursor: not-allowed;
   }
   
-  .score-separator {
-    color: var(--text3);
-    font-size: 20px;
-    font-weight: 700;
-  }
-  
   .match-info {
     font-size: 12px;
-    color: var(--text3);
-    margin-bottom: 8px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
   }
   
   .match-venue {
@@ -806,119 +598,120 @@
     align-items: center;
     gap: 6px;
     font-size: 12px;
-    color: var(--text2);
-    margin-bottom: 12px;
+    color: var(--text-muted);
   }
   
-  .match-result {
-    background: var(--greenbg);
-    border: 1px solid var(--green);
-    color: var(--green);
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    margin-bottom: 12px;
-    text-align: center;
+  /* ===== BRACKET STYLES ===== */
+  .bracket-container {
+    overflow-x: auto;
+    padding: 2rem 0;
   }
   
-  .match-points {
-    background: var(--accentbg);
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    margin-bottom: 12px;
-    text-align: center;
-    font-weight: 600;
-  }
-  
-  /* ===== MODAL ===== */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 1rem;
-  }
-  
-  .modal-overlay.show {
+  .bracket {
     display: flex;
-  }
-  
-  .modal-content {
-    background: var(--bg2);
-    border: 1px solid var(--border2);
-    border-radius: 12px;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 2rem;
+    min-width: 1400px;
     padding: 2rem;
-    max-width: 600px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
+    background: linear-gradient(135deg, rgba(51, 65, 85, 0.3), rgba(30, 41, 59, 0.3));
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
   }
   
-  .modal-header {
+  .bracket-round {
+    flex: 0 0 auto;
+    min-width: 300px;
+  }
+  
+  .bracket-round-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .bracket-match {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    min-width: 280px;
+    transition: all 0.3s;
+  }
+  
+  .bracket-match:hover {
+    border-color: var(--primary);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+  }
+  
+  .bracket-team {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1.5rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-light);
   }
   
-  .modal-title {
-    font-size: 24px;
-    font-family: 'Bebas Neue';
+  .bracket-team:last-child {
+    border-bottom: none;
   }
   
-  .btn-close {
-    background: transparent;
-    border: none;
-    color: var(--text2);
-    font-size: 24px;
-    cursor: pointer;
-    padding: 0;
+  .bracket-team-info {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 10px;
+    flex: 1;
   }
   
-  .btn-close:hover {
-    color: var(--red);
+  .bracket-team-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  
+  .bracket-team-score {
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 30px;
+    text-align: center;
   }
   
   /* ===== ADMIN STYLES ===== */
   .admin-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
   }
   
   .admin-stat {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.1));
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
     padding: 1.5rem;
     text-align: center;
   }
   
   .admin-stat-value {
-    font-size: 36px;
-    font-family: 'Bebas Neue';
-    font-weight: 700;
-    color: #ef4444;
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     margin: 0.5rem 0;
   }
   
   .admin-stat-label {
     font-size: 12px;
-    color: var(--text2);
+    color: var(--text-muted);
     text-transform: uppercase;
+    font-weight: 600;
   }
   
   .actions-grid {
@@ -932,14 +725,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     padding: 1.5rem;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s;
-    color: var(--text);
+    transition: all 0.3s;
+    color: var(--text-primary);
     text-decoration: none;
     font-size: 12px;
     font-weight: 600;
@@ -947,36 +740,40 @@
   }
   
   .action-btn:hover {
-    border-color: #ef4444;
-    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.1));
+    transform: translateY(-2px);
   }
   
   .action-btn i {
-    font-size: 28px;
-    color: #ef4444;
-  }
-  
-  .action-btn.active {
-    background: rgba(34, 197, 94, 0.15);
-    border-color: #22c55e;
-  }
-  
-  .action-btn.active i {
-    color: #22c55e;
+    font-size: 24px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   /* ===== TOGGLE SWITCH ===== */
+  .control-panel {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
   .toggle-switch {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
+    margin-top: 1rem;
   }
   
   .switch {
     position: relative;
     display: inline-block;
     width: 50px;
-    height: 24px;
+    height: 28px;
   }
   
   .switch input {
@@ -992,16 +789,16 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: var(--border);
     transition: .4s;
-    border-radius: 24px;
+    border-radius: 28px;
   }
   
   .slider:before {
     position: absolute;
     content: "";
-    height: 18px;
-    width: 18px;
+    height: 22px;
+    width: 22px;
     left: 3px;
     bottom: 3px;
     background-color: white;
@@ -1010,32 +807,36 @@
   }
   
   input:checked + .slider {
-    background-color: #22c55e;
+    background: linear-gradient(135deg, var(--success), var(--success));
   }
   
   input:checked + .slider:before {
-    transform: translateX(26px);
+    transform: translateX(22px);
+  }
+  
+  .lock-status-text {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 14px;
   }
   
   /* ===== SCROLL ===== */
-  .scroll-y {
-    max-height: 600px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border2) transparent;
+  ::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
   }
   
-  .scroll-y::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .scroll-y::-webkit-scrollbar-track {
+  ::-webkit-scrollbar-track {
     background: transparent;
   }
   
-  .scroll-y::-webkit-scrollbar-thumb {
-    background: var(--border2);
-    border-radius: 3px;
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--border-light);
   }
   
   /* ===== RESPONSIVE ===== */
@@ -1043,6 +844,7 @@
     .header {
       flex-direction: column;
       align-items: flex-start;
+      padding: 1rem;
     }
     
     .header-right {
@@ -1050,13 +852,30 @@
       justify-content: space-between;
     }
     
+    .content {
+      padding: 1rem;
+    }
+    
+    .card {
+      padding: 1.5rem;
+    }
+    
     .match-container {
       grid-template-columns: 1fr;
     }
     
-    .auth-box {
-      max-width: 100%;
+    .tabs {
+      padding: 0 1rem;
     }
+    
+    .tab {
+      padding: 12px 16px;
+      font-size: 12px;
+    }
+  }
+  
+  .hidden {
+    display: none !important;
   }
 </style>
 </head>
@@ -1069,8 +888,6 @@
       <div class="auth-logo">🏆</div>
       <h1 class="auth-title">PRODE MUNDIAL</h1>
       <p class="auth-subtitle">2026 - Sistema de Pronósticos</p>
-      
-      <div id="auth-message"></div>
       
       <div class="auth-toggle">
         <button id="btn-login-tab" class="active" onclick="switchAuthMode('login')">
@@ -1129,17 +946,17 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-left">
-      <div class="header-icon" id="header-icon">⚽</div>
+      <div class="header-icon">⚽</div>
       <div>
         <h1>PRODE MUNDIAL 2026</h1>
-        <p>Sistema de Pronósticos</p>
+        <p>Sistema de Pronósticos en Vivo</p>
       </div>
     </div>
     
     <div class="header-right">
       <div class="user-info">
         <div class="user-avatar" id="user-avatar">👤</div>
-        <div class="user-details">
+        <div>
           <div class="user-name" id="user-name">Usuario</div>
           <div class="user-role" id="user-role">Jugador</div>
         </div>
@@ -1153,11 +970,14 @@
   
   <!-- TABS -->
   <div class="tabs">
-    <div class="tab active" onclick="switchTab('predicciones')">
+    <div class="tab active" onclick="switchTab('pronósticos')">
       <i class="ti ti-ballpen"></i> Pronósticos
     </div>
+    <div class="tab" onclick="switchTab('llaves')">
+      <i class="ti ti-trophy"></i> Llaves
+    </div>
     <div class="tab" onclick="switchTab('clasificacion')">
-      <i class="ti ti-trophy"></i> Clasificaciones
+      <i class="ti ti-chart-bar"></i> Clasificaciones
     </div>
     <div class="tab" onclick="switchTab('mis-puntos')">
       <i class="ti ti-star"></i> Mis Puntos
@@ -1175,11 +995,11 @@
       <span>Los pronósticos están bloqueados. No se pueden cargar nuevos resultados.</span>
     </div>
     
-    <!-- PREDICCIONES TAB -->
-    <div id="tab-predicciones" class="tab-content">
+    <!-- PRONÓSTICOS TAB -->
+    <div id="tab-pronósticos" class="tab-content">
       <div class="card">
         <div class="card-title">
-          <i class="ti ti-ballpen"></i> Pronósticos - Fase de Grupos
+          <i class="ti ti-ballpen"></i> Mis Pronósticos - Fase de Grupos
         </div>
         
         <div id="matches-container" class="match-container"></div>
@@ -1190,9 +1010,47 @@
         <div class="card-title">
           <i class="ti ti-tournament"></i> Fases Posteriores
         </div>
-        <div style="padding: 2rem; text-align: center; color: var(--text2);">
-          <p>📅 Los cruces de 16avos de final y posteriores se abrirán proximamente.</p>
-          <p style="font-size: 12px; margin-top: 1rem;">Consulta regularmente para las actualizaciones.</p>
+        <div style="padding: 2rem; text-align: center; color: var(--text-muted);">
+          <div style="font-size: 48px; margin-bottom: 1rem;">📅</div>
+          <p style="font-size: 14px; margin-bottom: 0.5rem;">Los cruces de 16avos de final y posteriores se abrirán proximamente.</p>
+          <p style="font-size: 12px;">Consulta regularmente para las actualizaciones.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- LLAVES TAB -->
+    <div id="tab-llaves" class="tab-content hidden">
+      <div class="card">
+        <div class="card-title">
+          <i class="ti ti-trophy"></i> Árbol de Llaves - Camino al Campeonato
+        </div>
+        
+        <div class="bracket-container">
+          <div class="bracket">
+            <!-- OCTAVOS -->
+            <div class="bracket-round">
+              <div class="bracket-round-title">Octavos de Final</div>
+              <div id="bracket-octavos"></div>
+            </div>
+            
+            <!-- CUARTOS -->
+            <div class="bracket-round">
+              <div class="bracket-round-title">Cuartos de Final</div>
+              <div id="bracket-cuartos"></div>
+            </div>
+            
+            <!-- SEMIS -->
+            <div class="bracket-round">
+              <div class="bracket-round-title">Semifinales</div>
+              <div id="bracket-semis"></div>
+            </div>
+            
+            <!-- FINAL -->
+            <div class="bracket-round">
+              <div class="bracket-round-title">Final</div>
+              <div id="bracket-final"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1201,10 +1059,10 @@
     <div id="tab-clasificacion" class="tab-content hidden">
       <div class="card">
         <div class="card-title">
-          <i class="ti ti-trophy"></i> Clasificaciones por Grupo
+          <i class="ti ti-chart-bar"></i> Clasificaciones por Grupo
         </div>
-        <div id="standings-container" style="padding: 2rem; text-align: center; color: var(--text2);">
-          Cargando clasificaciones...
+        <div id="standings-container" style="padding: 2rem; text-align: center; color: var(--text-muted);">
+          <p>📊 Las clasificaciones se actualizarán durante los partidos.</p>
         </div>
       </div>
     </div>
@@ -1213,10 +1071,10 @@
     <div id="tab-mis-puntos" class="tab-content hidden">
       <div class="card">
         <div class="card-title">
-          <i class="ti ti-star"></i> Mis Puntos
+          <i class="ti ti-star"></i> Mi Desempeño
         </div>
-        <div id="points-container" style="padding: 2rem; text-align: center; color: var(--text2);">
-          Cargando puntos...
+        <div id="points-container" style="padding: 2rem; text-align: center; color: var(--text-muted);">
+          <p>⭐ Tus puntos se calcularán según tus pronósticos acertados.</p>
         </div>
       </div>
     </div>
@@ -1224,31 +1082,31 @@
     <!-- ADMIN TAB -->
     <div id="tab-admin" class="tab-content hidden">
       <div class="card">
-        <div class="card-title admin">
+        <div class="card-title">
           <i class="ti ti-shield-alert"></i> Panel de Administración
         </div>
         
         <div class="admin-grid">
           <div class="admin-stat">
-            <div class="admin-stat-label">Usuarios Registrados</div>
+            <div class="admin-stat-label">👥 Usuarios</div>
             <div class="admin-stat-value" id="admin-users">0</div>
           </div>
           <div class="admin-stat">
-            <div class="admin-stat-label">Pronósticos Realizados</div>
+            <div class="admin-stat-label">📝 Pronósticos</div>
             <div class="admin-stat-value" id="admin-predictions">0</div>
           </div>
           <div class="admin-stat">
-            <div class="admin-stat-label">Estado de Bloqueo</div>
-            <div class="admin-stat-value" id="admin-lock-status">ABIERTO</div>
+            <div class="admin-stat-label">🔒 Estado</div>
+            <div class="admin-stat-value" id="admin-lock-status" style="font-size: 18px;">ABIERTO</div>
           </div>
         </div>
         
-        <div style="background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 2rem;">
+        <div class="control-panel">
           <h3 style="font-size: 16px; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;">
-            <i class="ti ti-lock-open" style="color: var(--accent);"></i> Control de Pronósticos
+            <i class="ti ti-lock-open" style="color: var(--primary);"></i> Control de Pronósticos
           </h3>
           
-          <p style="font-size: 13px; color: var(--text2); margin-bottom: 1rem;">
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">
             Activa el bloqueo para impedir que los usuarios carguen nuevos pronósticos.
           </p>
           
@@ -1257,7 +1115,7 @@
               <input type="checkbox" id="lock-toggle" onchange="toggleLock()">
               <span class="slider"></span>
             </label>
-            <span id="lock-status-text" style="color: var(--text); font-weight: 600;">Pronósticos Abiertos</span>
+            <span class="lock-status-text" id="lock-status-text">Pronósticos Abiertos</span>
           </div>
         </div>
         
@@ -1285,7 +1143,7 @@
   const matchesByPhase = {
     'groups': [
       // GRUPO A
-      { id: 'A1', phase: 'Grupos', group: 'A', team1: 'México', team1Flag: '🇲🇽', team2: 'Sudáfrica', team2Flag: '🇿🇦', date: '11/06/2026', venue: 'Estadio Azteca, CDMX' },
+      { id: 'A1', phase: 'Grupos', group: 'A', team1: 'México', team1Flag: '🇲🇽', team2: 'Sudáfrica', team2Flag: '🇿🇦', date: '11/06/2026', venue: 'Estadio Azteca' },
       { id: 'A2', phase: 'Grupos', group: 'A', team1: 'Corea del Sur', team1Flag: '🇰🇷', team2: 'República Checa', team2Flag: '🇨🇿', date: '11/06/2026', venue: 'Guadalajara' },
       { id: 'A3', phase: 'Grupos', group: 'A', team1: 'México', team1Flag: '🇲🇽', team2: 'Corea del Sur', team2Flag: '🇰🇷', date: '18/06/2026', venue: 'Guadalajara' },
       { id: 'A4', phase: 'Grupos', group: 'A', team1: 'Sudáfrica', team1Flag: '🇿🇦', team2: 'República Checa', team2Flag: '🇨🇿', date: '18/06/2026', venue: 'Johannesburgo' },
@@ -1336,7 +1194,7 @@
       { id: 'G1', phase: 'Grupos', group: 'G', team1: 'Bélgica', team1Flag: '🇧🇪', team2: 'Egipto', team2Flag: '🇪🇬', date: '13/06/2026', venue: 'Bruselas' },
       { id: 'G2', phase: 'Grupos', group: 'G', team1: 'Irán', team1Flag: '🇮🇷', team2: 'Nueva Zelanda', team2Flag: '🇳🇿', date: '13/06/2026', venue: 'Teherán' },
       { id: 'G3', phase: 'Grupos', group: 'G', team1: 'Bélgica', team1Flag: '🇧🇪', team2: 'Irán', team2Flag: '🇮🇷', date: '19/06/2026', venue: 'Bruselas' },
-      { id: 'G4', phase: 'Grupos', group: 'G', team1: 'Egipto', team2Flag: '🇪🇬', team2: 'Nueva Zelanda', team2Flag: '🇳🇿', date: '19/06/2026', venue: 'Cairo' },
+      { id: 'G4', phase: 'Grupos', group: 'G', team1: 'Egipto', team1Flag: '🇪🇬', team2: 'Nueva Zelanda', team2Flag: '🇳🇿', date: '19/06/2026', venue: 'Cairo' },
       { id: 'G5', phase: 'Grupos', group: 'G', team1: 'Nueva Zelanda', team1Flag: '🇳🇿', team2: 'Bélgica', team2Flag: '🇧🇪', date: '27/06/2026', venue: 'Auckland' },
       { id: 'G6', phase: 'Grupos', group: 'G', team1: 'Egipto', team1Flag: '🇪🇬', team2: 'Irán', team2Flag: '🇮🇷', date: '27/06/2026', venue: 'Cairo' },
       
@@ -1379,11 +1237,33 @@
       { id: 'L4', phase: 'Grupos', group: 'L', team1: 'Croacia', team1Flag: '🇭🇷', team2: 'Panamá', team2Flag: '🇵🇦', date: '22/06/2026', venue: 'Zagreb' },
       { id: 'L5', phase: 'Grupos', group: 'L', team1: 'Panamá', team1Flag: '🇵🇦', team2: 'Inglaterra', team2Flag: '🏴󐁧󐁢󐁥󐁮󐁧󐁿', date: '30/06/2026', venue: 'Panamá' },
       { id: 'L6', phase: 'Grupos', group: 'L', team1: 'Croacia', team1Flag: '🇭🇷', team2: 'Ghana', team2Flag: '🇬🇭', date: '30/06/2026', venue: 'Zagreb' },
+    ]
+  };
+  
+  const bracketData = {
+    octavos: [
+      { id: '1', team1: '🥇 A', team2: '🥈 B' },
+      { id: '2', team1: '🥇 C', team2: '🥈 D' },
+      { id: '3', team1: '🥇 E', team2: '🥈 F' },
+      { id: '4', team1: '🥇 G', team2: '🥈 H' },
+      { id: '5', team1: '🥇 I', team2: '🥈 J' },
+      { id: '6', team1: '🥇 K', team2: '🥈 L' },
+      { id: '7', team1: '🥈 A', team2: '🥇 B' },
+      { id: '8', team1: '🥈 C', team2: '🥇 D' },
     ],
-    'round16': [],
-    'quarterfinals': [],
-    'semifinals': [],
-    'final': []
+    cuartos: [
+      { id: '1', team1: 'Ganador 1', team2: 'Ganador 2' },
+      { id: '2', team1: 'Ganador 3', team2: 'Ganador 4' },
+      { id: '3', team1: 'Ganador 5', team2: 'Ganador 6' },
+      { id: '4', team1: 'Ganador 7', team2: 'Ganador 8' },
+    ],
+    semis: [
+      { id: '1', team1: 'Ganador SF1', team2: 'Ganador SF2' },
+      { id: '2', team1: 'Ganador SF3', team2: 'Ganador SF4' },
+    ],
+    final: [
+      { id: '1', team1: 'Finalista 1', team2: 'Finalista 2' },
+    ]
   };
   
   // ===== APP STATE =====
@@ -1427,7 +1307,6 @@
   function checkIfAdmin() {
     isAdmin = currentUser && currentUser.email === ADMIN_EMAIL;
     if (isAdmin) {
-      document.getElementById('header-icon').classList.add('admin');
       document.getElementById('admin-badge-container').innerHTML = '<span class="admin-badge">⚡ ADMIN</span>';
       document.getElementById('tab-admin').classList.remove('hidden');
     }
@@ -1445,7 +1324,6 @@
       if (lockToggle) lockToggle.checked = true;
       document.getElementById('lock-status-text').textContent = 'Pronósticos Bloqueados';
       document.getElementById('admin-lock-status').textContent = 'BLOQUEADO';
-      document.getElementById('admin-lock-status').style.color = '#ef4444';
     } else {
       lockAlert.style.display = 'none';
       matchCards.forEach(card => card.classList.remove('locked'));
@@ -1453,7 +1331,6 @@
       if (lockToggle) lockToggle.checked = false;
       document.getElementById('lock-status-text').textContent = 'Pronósticos Abiertos';
       document.getElementById('admin-lock-status').textContent = 'ABIERTO';
-      document.getElementById('admin-lock-status').style.color = '#22c55e';
     }
   }
   
@@ -1550,22 +1427,16 @@
       document.getElementById('user-name').textContent = currentUser.name;
       document.getElementById('user-role').textContent = isAdmin ? 'Administrador' : 'Jugador';
       renderMatches();
+      renderBracket();
       if (isAdmin) updateAdminPanel();
     }
   }
   
   function switchTab(tabName) {
-    // Hide all tabs
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
     document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
     
-    // Show selected tab
-    const tabElement = document.getElementById(`tab-${tabName}`);
-    if (tabElement) {
-      tabElement.classList.remove('hidden');
-    }
-    
-    // Highlight active tab
+    document.getElementById(`tab-${tabName}`).classList.remove('hidden');
     event.target.closest('.tab').classList.add('active');
   }
   
@@ -1584,12 +1455,12 @@
     
     Object.keys(groupedMatches).sort().forEach(group => {
       const groupTitle = document.createElement('h3');
-      groupTitle.style.cssText = 'font-size: 16px; margin: 1.5rem 0 1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em;';
+      groupTitle.style.cssText = 'font-size: 16px; margin: 1.5rem 0 1rem; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;';
       groupTitle.textContent = `GRUPO ${group}`;
       container.appendChild(groupTitle);
       
       const groupContainer = document.createElement('div');
-      groupContainer.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1rem;';
+      groupContainer.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem;';
       
       groupedMatches[group].forEach(match => {
         const card = createMatchCard(match);
@@ -1613,25 +1484,25 @@
       <div class="match-header">
         <span class="match-phase">GRUPO ${match.group}</span>
         <span class="match-status ${statusClass}">
-          ${pronósticossBloqueados ? '🔒 ' : ''}${status}
+          ${status}
         </span>
       </div>
       
       <div class="match-teams">
         <div class="match-team">
-          <div class="team-flag-name">
-            <span class="flag">${match.team1Flag}</span>
-            <span>${match.team1}</span>
+          <div class="team-info">
+            <span class="team-flag">${match.team1Flag}</span>
+            <span class="team-name">${match.team1}</span>
           </div>
           <input type="number" class="score-input" placeholder="0" value="${prediction.team1 || ''}" 
             onchange="savePrediction('${match.id}', this.value, '${match.id}-team2')"
             ${pronósticossBloqueados ? 'disabled' : ''}>
         </div>
-        <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text3); font-weight: 700; font-size: 20px;">VS</div>
+        
         <div class="match-team">
-          <div class="team-flag-name">
-            <span class="flag">${match.team2Flag}</span>
-            <span>${match.team2}</span>
+          <div class="team-info">
+            <span class="team-flag">${match.team2Flag}</span>
+            <span class="team-name">${match.team2}</span>
           </div>
           <input type="number" class="score-input" id="${match.id}-team2" placeholder="0" value="${prediction.team2 || ''}"
             onchange="savePrediction('${match.id}', '${match.id}-team1', this.value)"
@@ -1665,6 +1536,39 @@
   function loadPredictions() {
     const stored = localStorage.getItem(PREDICTIONS_KEY + '_' + currentUser.id);
     predictions = stored ? JSON.parse(stored) : {};
+  }
+  
+  // ===== BRACKET FUNCTIONS =====
+  function renderBracket() {
+    renderBracketRound('octavos', bracketData.octavos);
+    renderBracketRound('cuartos', bracketData.cuartos);
+    renderBracketRound('semis', bracketData.semis);
+    renderBracketRound('final', bracketData.final);
+  }
+  
+  function renderBracketRound(roundId, matches) {
+    const container = document.getElementById(`bracket-${roundId}`);
+    container.innerHTML = '';
+    
+    matches.forEach(match => {
+      const matchDiv = document.createElement('div');
+      matchDiv.className = 'bracket-match';
+      matchDiv.innerHTML = `
+        <div class="bracket-team">
+          <div class="bracket-team-info">
+            <span class="bracket-team-name">${match.team1}</span>
+          </div>
+          <div class="bracket-team-score">-</div>
+        </div>
+        <div class="bracket-team">
+          <div class="bracket-team-info">
+            <span class="bracket-team-name">${match.team2}</span>
+          </div>
+          <div class="bracket-team-score">-</div>
+        </div>
+      `;
+      container.appendChild(matchDiv);
+    });
   }
   
   // ===== ADMIN FUNCTIONS =====
