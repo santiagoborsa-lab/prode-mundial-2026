@@ -526,6 +526,12 @@
     color: var(--red);
   }
   
+  .alert-locked {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid #ef4444;
+    color: #ef4444;
+  }
+  
   /* ===== TABLE ===== */
   .table {
     width: 100%;
@@ -646,6 +652,12 @@
     border-radius: var(--radius);
     padding: 1.5rem;
     transition: all 0.2s;
+    position: relative;
+  }
+  
+  .match-card.locked {
+    opacity: 0.6;
+    pointer-events: none;
   }
   
   .match-card:hover {
@@ -700,6 +712,11 @@
   .status-incorrect {
     background: var(--redbg);
     color: var(--red);
+  }
+  
+  .status-locked {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
   }
   
   .match-teams {
@@ -765,6 +782,11 @@
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+  }
+  
+  .score-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
   
   .score-separator {
@@ -934,6 +956,67 @@
     color: #ef4444;
   }
   
+  .action-btn.active {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: #22c55e;
+  }
+  
+  .action-btn.active i {
+    color: #22c55e;
+  }
+  
+  /* ===== TOGGLE SWITCH ===== */
+  .toggle-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #22c55e;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
   /* ===== SCROLL ===== */
   .scroll-y {
     max-height: 600px;
@@ -999,84 +1082,69 @@
       </div>
       
       <!-- LOGIN FORM -->
-      <div id="login-form">
+      <form id="login-form" onsubmit="handleLogin(event)">
         <div class="form-group">
-          <label class="form-label">Usuario</label>
-          <input type="text" id="login-username" class="form-input" placeholder="Tu usuario" autocomplete="username">
+          <label class="form-label">Email</label>
+          <input type="email" id="login-email" class="form-input" placeholder="tu@email.com" required>
         </div>
+        
         <div class="form-group">
           <label class="form-label">Contraseña</label>
-          <input type="password" id="login-password" class="form-input" placeholder="Tu contraseña" autocomplete="current-password">
+          <input type="password" id="login-password" class="form-input" placeholder="••••••••" required>
         </div>
-        <button class="btn btn-primary" onclick="handleLogin()">
-          <i class="ti ti-login"></i> Ingresar
-        </button>
-      </div>
+        
+        <button type="submit" class="btn btn-primary">Ingresar</button>
+      </form>
       
       <!-- REGISTER FORM -->
-      <div id="register-form" class="hidden">
+      <form id="register-form" class="hidden" onsubmit="handleRegister(event)">
         <div class="form-group">
-          <label class="form-label">Usuario</label>
-          <input type="text" id="reg-username" class="form-input" placeholder="Elige un usuario único" autocomplete="username">
+          <label class="form-label">Nombre</label>
+          <input type="text" id="register-name" class="form-input" placeholder="Tu nombre" required>
         </div>
+        
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" id="register-email" class="form-input" placeholder="tu@email.com" required>
+        </div>
+        
         <div class="form-group">
           <label class="form-label">Contraseña</label>
-          <input type="password" id="reg-password" class="form-input" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+          <input type="password" id="register-password" class="form-input" placeholder="••••••••" required>
         </div>
+        
         <div class="form-group">
-          <label class="form-label">Nombre del Área / Club</label>
-          <input type="text" id="reg-area" class="form-input" placeholder="Ej: Área Ventas, Club Deportivo, etc">
+          <label class="form-label">Confirmar Contraseña</label>
+          <input type="password" id="register-confirm" class="form-input" placeholder="••••••••" required>
         </div>
-        <div class="form-group">
-          <label class="form-label">Nombre del Equipo</label>
-          <input type="text" id="reg-team" class="form-input" placeholder="Ej: Los Reventados FC">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Foto del Equipo</label>
-          <div class="form-file-input">
-            <input type="file" id="reg-photo" accept="image/*" onchange="previewTeamPhoto(this)">
-            <div class="file-preview" id="photo-preview">📷</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Integrantes (nombres separados por coma)</label>
-          <textarea id="reg-members" class="form-textarea" placeholder="Juan, María, Pedro, Ana..."></textarea>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Descripción / Lema del Equipo</label>
-          <textarea id="reg-description" class="form-textarea" placeholder="Comparte un lema o descripción de tu equipo"></textarea>
-        </div>
-        <button class="btn btn-primary" onclick="handleRegister()">
-          <i class="ti ti-user-plus"></i> Registrarse
-        </button>
-        <p style="font-size:11px;color:var(--text3);text-align:center;margin-top:1rem">
-          Al registrarte, aceptas participar en la competencia del PRODE
-        </p>
-      </div>
+        
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+      </form>
     </div>
   </div>
 </div>
 
 <!-- MAIN APP -->
-<div id="main-app" class="hidden">
+<div id="app-screen" class="hidden">
   <!-- HEADER -->
   <div class="header">
     <div class="header-left">
-      <div class="header-icon" id="header-icon-main">🏆</div>
+      <div class="header-icon" id="header-icon">⚽</div>
       <div>
-        <h1>PRODE MUNDIAL</h1>
-        <p>Sistema de Pronósticos 2026</p>
+        <h1>PRODE MUNDIAL 2026</h1>
+        <p>Sistema de Pronósticos</p>
       </div>
     </div>
+    
     <div class="header-right">
       <div class="user-info">
-        <div class="user-avatar" id="header-avatar">👤</div>
+        <div class="user-avatar" id="user-avatar">👤</div>
         <div class="user-details">
-          <div class="user-name" id="header-team-name">Equipo</div>
-          <div class="user-role" id="header-role">Participante</div>
+          <div class="user-name" id="user-name">Usuario</div>
+          <div class="user-role" id="user-role">Jugador</div>
         </div>
+        <div id="admin-badge-container"></div>
       </div>
-      <div id="admin-badge-container"></div>
       <button class="btn-logout" onclick="handleLogout()">
         <i class="ti ti-logout"></i> Salir
       </button>
@@ -1084,1027 +1152,596 @@
   </div>
   
   <!-- TABS -->
-  <div class="tabs" id="main-tabs"></div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('predicciones')">
+      <i class="ti ti-ballpen"></i> Pronósticos
+    </div>
+    <div class="tab" onclick="switchTab('clasificacion')">
+      <i class="ti ti-trophy"></i> Clasificaciones
+    </div>
+    <div class="tab" onclick="switchTab('mis-puntos')">
+      <i class="ti ti-star"></i> Mis Puntos
+    </div>
+    <div class="tab admin hidden" id="tab-admin" onclick="switchTab('admin')">
+      <i class="ti ti-shield-alert"></i> Admin
+    </div>
+  </div>
   
   <!-- CONTENT -->
-  <div class="content" id="main-content"></div>
-</div>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="main-modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 class="modal-title" id="modal-title">Modal</h2>
-      <button class="btn-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+  <div class="content">
+    <!-- LOCKED NOTIFICATION -->
+    <div id="lock-alert" class="alert alert-locked" style="display: none;">
+      <i class="ti ti-lock"></i>
+      <span>Los pronósticos están bloqueados. No se pueden cargar nuevos resultados.</span>
     </div>
-    <div id="modal-body"></div>
+    
+    <!-- PREDICCIONES TAB -->
+    <div id="tab-predicciones" class="tab-content">
+      <div class="card">
+        <div class="card-title">
+          <i class="ti ti-ballpen"></i> Pronósticos - Fase de Grupos
+        </div>
+        
+        <div id="matches-container" class="match-container"></div>
+      </div>
+      
+      <!-- FUTURE PHASES PLACEHOLDER -->
+      <div class="card">
+        <div class="card-title">
+          <i class="ti ti-tournament"></i> Fases Posteriores
+        </div>
+        <div style="padding: 2rem; text-align: center; color: var(--text2);">
+          <p>📅 Los cruces de 16avos de final y posteriores se abrirán proximamente.</p>
+          <p style="font-size: 12px; margin-top: 1rem;">Consulta regularmente para las actualizaciones.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- CLASIFICACION TAB -->
+    <div id="tab-clasificacion" class="tab-content hidden">
+      <div class="card">
+        <div class="card-title">
+          <i class="ti ti-trophy"></i> Clasificaciones por Grupo
+        </div>
+        <div id="standings-container" style="padding: 2rem; text-align: center; color: var(--text2);">
+          Cargando clasificaciones...
+        </div>
+      </div>
+    </div>
+    
+    <!-- MIS PUNTOS TAB -->
+    <div id="tab-mis-puntos" class="tab-content hidden">
+      <div class="card">
+        <div class="card-title">
+          <i class="ti ti-star"></i> Mis Puntos
+        </div>
+        <div id="points-container" style="padding: 2rem; text-align: center; color: var(--text2);">
+          Cargando puntos...
+        </div>
+      </div>
+    </div>
+    
+    <!-- ADMIN TAB -->
+    <div id="tab-admin" class="tab-content hidden">
+      <div class="card">
+        <div class="card-title admin">
+          <i class="ti ti-shield-alert"></i> Panel de Administración
+        </div>
+        
+        <div class="admin-grid">
+          <div class="admin-stat">
+            <div class="admin-stat-label">Usuarios Registrados</div>
+            <div class="admin-stat-value" id="admin-users">0</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-label">Pronósticos Realizados</div>
+            <div class="admin-stat-value" id="admin-predictions">0</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-label">Estado de Bloqueo</div>
+            <div class="admin-stat-value" id="admin-lock-status">ABIERTO</div>
+          </div>
+        </div>
+        
+        <div style="background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 2rem;">
+          <h3 style="font-size: 16px; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;">
+            <i class="ti ti-lock-open" style="color: var(--accent);"></i> Control de Pronósticos
+          </h3>
+          
+          <p style="font-size: 13px; color: var(--text2); margin-bottom: 1rem;">
+            Activa el bloqueo para impedir que los usuarios carguen nuevos pronósticos.
+          </p>
+          
+          <div class="toggle-switch">
+            <label class="switch">
+              <input type="checkbox" id="lock-toggle" onchange="toggleLock()">
+              <span class="slider"></span>
+            </label>
+            <span id="lock-status-text" style="color: var(--text); font-weight: 600;">Pronósticos Abiertos</span>
+          </div>
+        </div>
+        
+        <div class="actions-grid">
+          <button class="action-btn" onclick="resetAllPredictions()" title="Eliminar todos los pronósticos">
+            <i class="ti ti-trash"></i>
+            Limpiar Pronósticos
+          </button>
+          <button class="action-btn" onclick="exportData()" title="Descargar datos">
+            <i class="ti ti-download"></i>
+            Exportar Datos
+          </button>
+          <button class="action-btn" onclick="resetSystem()" title="Reiniciar sistema completo">
+            <i class="ti ti-refresh"></i>
+            Reiniciar Sistema
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-// ===== CONSTANTS & DATA =====
-const WORLD_CUPS = {
-  groups: {
-    label: 'Fase de Grupos',
-    matches: [
+  // ===== DATA STRUCTURE =====
+  const matchesByPhase = {
+    'groups': [
       // GRUPO A
-      {id: 'g1', phase: 'Grupo A', local: 'Argentina', visitante: 'Paraguay', group: 'A', stadium: 'Estadio Mineiraço, Belo Horizonte'},
-      {id: 'g2', phase: 'Grupo A', local: 'Argentina', visitante: 'Perú', group: 'A', stadium: 'Estadio Nacional, Lima'},
-      {id: 'g3', phase: 'Grupo A', local: 'Canadá', visitante: 'Paraguay', group: 'A', stadium: 'Estadio BCPlace, Vancouver'},
-      {id: 'g4', phase: 'Grupo A', local: 'Canadá', visitante: 'Chile', group: 'A', stadium: 'Estadio Tecnológico, Monterrey'},
-      {id: 'g5', phase: 'Grupo A', local: 'Argentina', visitante: 'Chile', group: 'A', stadium: 'Estadio Azteca, Ciudad de México'},
-      {id: 'g6', phase: 'Grupo A', local: 'Paraguay', visitante: 'Perú', group: 'A', stadium: 'Estadio SoFi, Los Ángeles'},
+      { id: 'A1', phase: 'Grupos', group: 'A', team1: 'México', team1Flag: '🇲🇽', team2: 'Sudáfrica', team2Flag: '🇿🇦', date: '11/06/2026', venue: 'Estadio Azteca, CDMX' },
+      { id: 'A2', phase: 'Grupos', group: 'A', team1: 'Corea del Sur', team1Flag: '🇰🇷', team2: 'República Checa', team2Flag: '🇨🇿', date: '11/06/2026', venue: 'Guadalajara' },
+      { id: 'A3', phase: 'Grupos', group: 'A', team1: 'México', team1Flag: '🇲🇽', team2: 'Corea del Sur', team2Flag: '🇰🇷', date: '18/06/2026', venue: 'Guadalajara' },
+      { id: 'A4', phase: 'Grupos', group: 'A', team1: 'Sudáfrica', team1Flag: '🇿🇦', team2: 'República Checa', team2Flag: '🇨🇿', date: '18/06/2026', venue: 'Johannesburgo' },
+      { id: 'A5', phase: 'Grupos', group: 'A', team1: 'República Checa', team1Flag: '🇨🇿', team2: 'México', team2Flag: '🇲🇽', date: '26/06/2026', venue: 'Praga' },
+      { id: 'A6', phase: 'Grupos', group: 'A', team1: 'Sudáfrica', team1Flag: '🇿🇦', team2: 'Corea del Sur', team2Flag: '🇰🇷', date: '26/06/2026', venue: 'Johannesburgo' },
       
       // GRUPO B
-      {id: 'g7', phase: 'Grupo B', local: 'Brasil', visitante: 'Costa Rica', group: 'B', stadium: 'Estadio do Morumbi, São Paulo'},
-      {id: 'g8', phase: 'Grupo B', local: 'Brasil', visitante: 'Suiza', group: 'B', stadium: 'Estadio BBVA, Monterrey'},
-      {id: 'g9', phase: 'Grupo B', local: 'Japón', visitante: 'Costa Rica', group: 'B', stadium: 'Estadio NRG, Houston'},
-      {id: 'g10', phase: 'Grupo B', local: 'Japón', visitante: 'Suiza', group: 'B', stadium: 'Estadio Levi\'s, Santa Clara'},
-      {id: 'g11', phase: 'Grupo B', local: 'Brasil', visitante: 'Japón', group: 'B', stadium: 'Estadio MetLife, Nueva Jersey'},
-      {id: 'g12', phase: 'Grupo B', local: 'Costa Rica', visitante: 'Suiza', group: 'B', stadium: 'Estadio Arrowhead, Kansas City'},
-    ]
-  },
-  round16: {
-    label: '16avos de Final',
-    matches: [
-      {id: 'r16_1', phase: '16avos', local: 'Ganador Grupo A', visitante: 'Subcampeón Grupo B', stadium: 'Estadio a confirmar'},
-      {id: 'r16_2', phase: '16avos', local: 'Ganador Grupo B', visitante: 'Subcampeón Grupo A', stadium: 'Estadio a confirmar'},
-    ]
-  },
-  quarters: {
-    label: 'Cuartos de Final',
-    matches: [
-      {id: 'qf1', phase: 'Cuartos', local: 'Semifinalista 1', visitante: 'Semifinalista 2', stadium: 'Estadio a confirmar'},
-      {id: 'qf2', phase: 'Cuartos', local: 'Semifinalista 3', visitante: 'Semifinalista 4', stadium: 'Estadio a confirmar'},
-    ]
-  },
-  semis: {
-    label: 'Semifinales',
-    matches: [
-      {id: 'sf1', phase: 'Semifinal 1', local: 'Finalista 1', visitante: 'Finalista 2', stadium: 'Estadio MetLife, Nueva Jersey'},
-      {id: 'sf2', phase: 'Semifinal 2', local: 'Finalista 3', visitante: 'Finalista 4', stadium: 'Estadio SoFi, Los Ángeles'},
-    ]
-  },
-  final: {
-    label: 'Gran Final',
-    matches: [
-      {id: 'f1', phase: 'Gran Final', local: 'Finalista 1', visitante: 'Finalista 2', stadium: 'Estadio MetLife, Nueva Jersey'},
-    ]
-  }
-};
-
-// Get all matches in order
-function getAllMatches() {
-  return [
-    ...WORLD_CUPS.groups.matches,
-    ...WORLD_CUPS.round16.matches,
-    ...WORLD_CUPS.quarters.matches,
-    ...WORLD_CUPS.semis.matches,
-    ...WORLD_CUPS.final.matches,
-  ];
-}
-
-// COUNTRIES FLAGS
-const FLAGS = {
-  'Argentina': '🇦🇷',
-  'Brasil': '🇧🇷',
-  'Canadá': '🇨🇦',
-  'Paraguay': '🇵🇾',
-  'Perú': '🇵🇪',
-  'Chile': '🇨🇱',
-  'Costa Rica': '🇨🇷',
-  'Suiza': '🇨🇭',
-  'Japón': '🇯🇵',
-  'España': '🇪🇸',
-  'Francia': '🇫🇷',
-  'Inglaterra': '🇬🇧',
-  'Alemania': '🇩🇪',
-  'Italia': '🇮🇹',
-  'Países Bajos': '🇳🇱',
-  'Uruguay': '🇺🇾',
-};
-
-const ADMIN_USER = 'ADMIN';
-const ADMIN_PASS = 'ADMRRHH';
-const POINTS_CORRECT = 10;
-let currentUser = null;
-let appState = loadAppState();
-
-// ===== LOCAL STORAGE =====
-function loadAppState() {
-  const saved = localStorage.getItem('prode2026State');
-  if (saved) return JSON.parse(saved);
-  
-  return {
-    users: {},
-    results: {},
-    predictions: {},
-    cards: {},
-  };
-}
-
-function saveAppState() {
-  localStorage.setItem('prode2026State', JSON.stringify(appState));
-}
-
-// ===== AUTH FUNCTIONS =====
-function switchAuthMode(mode) {
-  document.getElementById('login-form').classList.toggle('hidden', mode !== 'login');
-  document.getElementById('register-form').classList.toggle('hidden', mode !== 'register');
-  document.getElementById('btn-login-tab').classList.toggle('active', mode === 'login');
-  document.getElementById('btn-register-tab').classList.toggle('active', mode === 'register');
-  clearAuthMessage();
-}
-
-function showAuthMessage(text, type) {
-  const msg = document.getElementById('auth-message');
-  msg.innerHTML = `<div class="${type === 'error' ? 'error-msg' : 'success-msg'}" style="display:flex">
-    <i class="ti ${type === 'error' ? 'ti-alert-circle' : 'ti-check'}"></i>
-    <span>${text}</span>
-  </div>`;
-}
-
-function clearAuthMessage() {
-  document.getElementById('auth-message').innerHTML = '';
-}
-
-function previewTeamPhoto(input) {
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      document.getElementById('photo-preview').innerHTML = `<img src="${e.target.result}" />`;
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-
-function handleLogin() {
-  const username = document.getElementById('login-username').value.trim();
-  const password = document.getElementById('login-password').value;
-  
-  if (!username || !password) {
-    showAuthMessage('Completa todos los campos', 'error');
-    return;
-  }
-  
-  // Check admin login
-  if (username === ADMIN_USER && password === ADMIN_PASS) {
-    currentUser = {username: ADMIN_USER, role: 'admin'};
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    document.getElementById('auth-screen').classList.add('hidden');
-    document.getElementById('main-app').classList.remove('hidden');
-    initApp();
-    return;
-  }
-  
-  const user = appState.users[username];
-  if (!user || user.password !== password) {
-    showAuthMessage('Usuario o contraseña incorrectos', 'error');
-    return;
-  }
-  
-  currentUser = {username, ...user};
-  localStorage.setItem('currentUser', JSON.stringify(currentUser));
-  document.getElementById('auth-screen').classList.add('hidden');
-  document.getElementById('main-app').classList.remove('hidden');
-  initApp();
-}
-
-function handleRegister() {
-  const username = document.getElementById('reg-username').value.trim();
-  const password = document.getElementById('reg-password').value;
-  const area = document.getElementById('reg-area').value.trim();
-  const team = document.getElementById('reg-team').value.trim();
-  const members = document.getElementById('reg-members').value.trim();
-  const description = document.getElementById('reg-description').value.trim();
-  const photoFile = document.getElementById('reg-photo').files[0];
-  
-  if (!username || !password || !area || !team) {
-    showAuthMessage('Completa todos los campos obligatorios', 'error');
-    return;
-  }
-  
-  if (password.length < 6) {
-    showAuthMessage('La contraseña debe tener mínimo 6 caracteres', 'error');
-    return;
-  }
-  
-  if (appState.users[username]) {
-    showAuthMessage('Este usuario ya existe', 'error');
-    return;
-  }
-  
-  let photoData = null;
-  if (photoFile) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      photoData = e.target.result;
-      saveNewUser(username, password, area, team, members, description, photoData);
-    };
-    reader.readAsDataURL(photoFile);
-  } else {
-    saveNewUser(username, password, area, team, members, description, photoData);
-  }
-}
-
-function saveNewUser(username, password, area, team, members, description, photo) {
-  appState.users[username] = {
-    password,
-    area,
-    team,
-    members: members ? members.split(',').map(m => m.trim()) : [],
-    description,
-    photo,
-    role: 'player',
-    createdAt: new Date().toISOString(),
+      { id: 'B1', phase: 'Grupos', group: 'B', team1: 'Canadá', team1Flag: '🇨🇦', team2: 'Bosnia y Herzegovina', team2Flag: '🇧🇦', date: '14/06/2026', venue: 'Toronto' },
+      { id: 'B2', phase: 'Grupos', group: 'B', team1: 'Catar', team1Flag: '🇶🇦', team2: 'Suiza', team2Flag: '🇨🇭', date: '14/06/2026', venue: 'San Francisco' },
+      { id: 'B3', phase: 'Grupos', group: 'B', team1: 'Canadá', team1Flag: '🇨🇦', team2: 'Catar', team2Flag: '🇶🇦', date: '21/06/2026', venue: 'Toronto' },
+      { id: 'B4', phase: 'Grupos', group: 'B', team1: 'Bosnia y Herzegovina', team1Flag: '🇧🇦', team2: 'Suiza', team2Flag: '🇨🇭', date: '21/06/2026', venue: 'Sarajevo' },
+      { id: 'B5', phase: 'Grupos', group: 'B', team1: 'Suiza', team1Flag: '🇨🇭', team2: 'Canadá', team2Flag: '🇨🇦', date: '28/06/2026', venue: 'Berna' },
+      { id: 'B6', phase: 'Grupos', group: 'B', team1: 'Bosnia y Herzegovina', team1Flag: '🇧🇦', team2: 'Catar', team2Flag: '🇶🇦', date: '28/06/2026', venue: 'Sarajevo' },
+      
+      // GRUPO C
+      { id: 'C1', phase: 'Grupos', group: 'C', team1: 'Brasil', team1Flag: '🇧🇷', team2: 'Marruecos', team2Flag: '🇲🇦', date: '13/06/2026', venue: 'Boston' },
+      { id: 'C2', phase: 'Grupos', group: 'C', team1: 'Haití', team1Flag: '🇭🇹', team2: 'Escocia', team2Flag: '🏴󐁧󐁢󐁳󐁣󐁴󐁿', date: '13/06/2026', venue: 'Nueva York' },
+      { id: 'C3', phase: 'Grupos', group: 'C', team1: 'Brasil', team1Flag: '🇧🇷', team2: 'Haití', team2Flag: '🇭🇹', date: '19/06/2026', venue: 'Boston' },
+      { id: 'C4', phase: 'Grupos', group: 'C', team1: 'Marruecos', team1Flag: '🇲🇦', team2: 'Escocia', team2Flag: '🏴󐁧󐁢󐁳󐁣󐁴󐁿', date: '19/06/2026', venue: 'Rabat' },
+      { id: 'C5', phase: 'Grupos', group: 'C', team1: 'Escocia', team1Flag: '🏴󐁧󐁢󐁳󐁣󐁴󐁿', team2: 'Brasil', team2Flag: '🇧🇷', date: '27/06/2026', venue: 'Glasgow' },
+      { id: 'C6', phase: 'Grupos', group: 'C', team1: 'Marruecos', team1Flag: '🇲🇦', team2: 'Haití', team2Flag: '🇭🇹', date: '27/06/2026', venue: 'Rabat' },
+      
+      // GRUPO D
+      { id: 'D1', phase: 'Grupos', group: 'D', team1: 'Estados Unidos', team1Flag: '🇺🇸', team2: 'Paraguay', team2Flag: '🇵🇾', date: '15/06/2026', venue: 'Los Ángeles' },
+      { id: 'D2', phase: 'Grupos', group: 'D', team1: 'Australia', team1Flag: '🇦🇺', team2: 'Turquía', team2Flag: '🇹🇷', date: '15/06/2026', venue: 'Sídney' },
+      { id: 'D3', phase: 'Grupos', group: 'D', team1: 'Estados Unidos', team1Flag: '🇺🇸', team2: 'Australia', team2Flag: '🇦🇺', date: '20/06/2026', venue: 'Los Ángeles' },
+      { id: 'D4', phase: 'Grupos', group: 'D', team1: 'Paraguay', team1Flag: '🇵🇾', team2: 'Turquía', team2Flag: '🇹🇷', date: '20/06/2026', venue: 'Asunción' },
+      { id: 'D5', phase: 'Grupos', group: 'D', team1: 'Turquía', team1Flag: '🇹🇷', team2: 'Estados Unidos', team2Flag: '🇺🇸', date: '29/06/2026', venue: 'Estambul' },
+      { id: 'D6', phase: 'Grupos', group: 'D', team1: 'Paraguay', team1Flag: '🇵🇾', team2: 'Australia', team2Flag: '🇦🇺', date: '29/06/2026', venue: 'Asunción' },
+      
+      // GRUPO E
+      { id: 'E1', phase: 'Grupos', group: 'E', team1: 'Alemania', team1Flag: '🇩🇪', team2: 'Curazao', team2Flag: '🇨🇼', date: '11/06/2026', venue: 'Berlín' },
+      { id: 'E2', phase: 'Grupos', group: 'E', team1: 'Costa de Marfil', team1Flag: '🇨🇮', team2: 'Ecuador', team2Flag: '🇪🇨', date: '11/06/2026', venue: 'Yamoussoukro' },
+      { id: 'E3', phase: 'Grupos', group: 'E', team1: 'Alemania', team1Flag: '🇩🇪', team2: 'Costa de Marfil', team2Flag: '🇨🇮', date: '17/06/2026', venue: 'Berlín' },
+      { id: 'E4', phase: 'Grupos', group: 'E', team1: 'Curazao', team1Flag: '🇨🇼', team2: 'Ecuador', team2Flag: '🇪🇨', date: '17/06/2026', venue: 'Willemstad' },
+      { id: 'E5', phase: 'Grupos', group: 'E', team1: 'Ecuador', team1Flag: '🇪🇨', team2: 'Alemania', team2Flag: '🇩🇪', date: '25/06/2026', venue: 'Quito' },
+      { id: 'E6', phase: 'Grupos', group: 'E', team1: 'Costa de Marfil', team1Flag: '🇨🇮', team2: 'Curazao', team2Flag: '🇨🇼', date: '25/06/2026', venue: 'Yamoussoukro' },
+      
+      // GRUPO F
+      { id: 'F1', phase: 'Grupos', group: 'F', team1: 'Países Bajos', team1Flag: '🇳🇱', team2: 'Japón', team2Flag: '🇯🇵', date: '12/06/2026', venue: 'Róterdam' },
+      { id: 'F2', phase: 'Grupos', group: 'F', team1: 'Suecia', team1Flag: '🇸🇪', team2: 'Túnez', team2Flag: '🇹🇳', date: '12/06/2026', venue: 'Estocolmo' },
+      { id: 'F3', phase: 'Grupos', group: 'F', team1: 'Países Bajos', team1Flag: '🇳🇱', team2: 'Suecia', team2Flag: '🇸🇪', date: '17/06/2026', venue: 'Róterdam' },
+      { id: 'F4', phase: 'Grupos', group: 'F', team1: 'Japón', team1Flag: '🇯🇵', team2: 'Túnez', team2Flag: '🇹🇳', date: '17/06/2026', venue: 'Tokio' },
+      { id: 'F5', phase: 'Grupos', group: 'F', team1: 'Túnez', team1Flag: '🇹🇳', team2: 'Países Bajos', team2Flag: '🇳🇱', date: '25/06/2026', venue: 'Túnez' },
+      { id: 'F6', phase: 'Grupos', group: 'F', team1: 'Japón', team1Flag: '🇯🇵', team2: 'Suecia', team2Flag: '🇸🇪', date: '25/06/2026', venue: 'Tokio' },
+      
+      // GRUPO G
+      { id: 'G1', phase: 'Grupos', group: 'G', team1: 'Bélgica', team1Flag: '🇧🇪', team2: 'Egipto', team2Flag: '🇪🇬', date: '13/06/2026', venue: 'Bruselas' },
+      { id: 'G2', phase: 'Grupos', group: 'G', team1: 'Irán', team1Flag: '🇮🇷', team2: 'Nueva Zelanda', team2Flag: '🇳🇿', date: '13/06/2026', venue: 'Teherán' },
+      { id: 'G3', phase: 'Grupos', group: 'G', team1: 'Bélgica', team1Flag: '🇧🇪', team2: 'Irán', team2Flag: '🇮🇷', date: '19/06/2026', venue: 'Bruselas' },
+      { id: 'G4', phase: 'Grupos', group: 'G', team1: 'Egipto', team2Flag: '🇪🇬', team2: 'Nueva Zelanda', team2Flag: '🇳🇿', date: '19/06/2026', venue: 'Cairo' },
+      { id: 'G5', phase: 'Grupos', group: 'G', team1: 'Nueva Zelanda', team1Flag: '🇳🇿', team2: 'Bélgica', team2Flag: '🇧🇪', date: '27/06/2026', venue: 'Auckland' },
+      { id: 'G6', phase: 'Grupos', group: 'G', team1: 'Egipto', team1Flag: '🇪🇬', team2: 'Irán', team2Flag: '🇮🇷', date: '27/06/2026', venue: 'Cairo' },
+      
+      // GRUPO H
+      { id: 'H1', phase: 'Grupos', group: 'H', team1: 'España', team1Flag: '🇪🇸', team2: 'Uruguay', team2Flag: '🇺🇾', date: '15/06/2026', venue: 'Madrid' },
+      { id: 'H2', phase: 'Grupos', group: 'H', team1: 'Arabia Saudita', team1Flag: '🇸🇦', team2: 'Cabo Verde', team2Flag: '🇨🇻', date: '15/06/2026', venue: 'Riad' },
+      { id: 'H3', phase: 'Grupos', group: 'H', team1: 'España', team1Flag: '🇪🇸', team2: 'Arabia Saudita', team2Flag: '🇸🇦', date: '20/06/2026', venue: 'Madrid' },
+      { id: 'H4', phase: 'Grupos', group: 'H', team1: 'Uruguay', team1Flag: '🇺🇾', team2: 'Cabo Verde', team2Flag: '🇨🇻', date: '20/06/2026', venue: 'Montevideo' },
+      { id: 'H5', phase: 'Grupos', group: 'H', team1: 'Cabo Verde', team1Flag: '🇨🇻', team2: 'España', team2Flag: '🇪🇸', date: '28/06/2026', venue: 'Praia' },
+      { id: 'H6', phase: 'Grupos', group: 'H', team1: 'Arabia Saudita', team1Flag: '🇸🇦', team2: 'Uruguay', team2Flag: '🇺🇾', date: '28/06/2026', venue: 'Riad' },
+      
+      // GRUPO I
+      { id: 'I1', phase: 'Grupos', group: 'I', team1: 'Francia', team1Flag: '🇫🇷', team2: 'Noruega', team2Flag: '🇳🇴', date: '16/06/2026', venue: 'París' },
+      { id: 'I2', phase: 'Grupos', group: 'I', team1: 'Senegal', team1Flag: '🇸🇳', team2: 'Irak', team2Flag: '🇮🇶', date: '16/06/2026', venue: 'Dakar' },
+      { id: 'I3', phase: 'Grupos', group: 'I', team1: 'Francia', team1Flag: '🇫🇷', team2: 'Senegal', team2Flag: '🇸🇳', date: '21/06/2026', venue: 'París' },
+      { id: 'I4', phase: 'Grupos', group: 'I', team1: 'Noruega', team1Flag: '🇳🇴', team2: 'Irak', team2Flag: '🇮🇶', date: '21/06/2026', venue: 'Oslo' },
+      { id: 'I5', phase: 'Grupos', group: 'I', team1: 'Irak', team1Flag: '🇮🇶', team2: 'Francia', team2Flag: '🇫🇷', date: '29/06/2026', venue: 'Bagdad' },
+      { id: 'I6', phase: 'Grupos', group: 'I', team1: 'Noruega', team1Flag: '🇳🇴', team2: 'Senegal', team2Flag: '🇸🇳', date: '29/06/2026', venue: 'Oslo' },
+      
+      // GRUPO J
+      { id: 'J1', phase: 'Grupos', group: 'J', team1: 'Argentina', team1Flag: '🇦🇷', team2: 'Austria', team2Flag: '🇦🇹', date: '12/06/2026', venue: 'Buenos Aires' },
+      { id: 'J2', phase: 'Grupos', group: 'J', team1: 'Argelia', team1Flag: '🇩🇿', team2: 'Jordania', team2Flag: '🇯🇴', date: '12/06/2026', venue: 'Argel' },
+      { id: 'J3', phase: 'Grupos', group: 'J', team1: 'Argentina', team1Flag: '🇦🇷', team2: 'Argelia', team2Flag: '🇩🇿', date: '18/06/2026', venue: 'Buenos Aires' },
+      { id: 'J4', phase: 'Grupos', group: 'J', team1: 'Austria', team1Flag: '🇦🇹', team2: 'Jordania', team2Flag: '🇯🇴', date: '18/06/2026', venue: 'Viena' },
+      { id: 'J5', phase: 'Grupos', group: 'J', team1: 'Jordania', team1Flag: '🇯🇴', team2: 'Argentina', team2Flag: '🇦🇷', date: '26/06/2026', venue: 'Amán' },
+      { id: 'J6', phase: 'Grupos', group: 'J', team1: 'Argelia', team1Flag: '🇩🇿', team2: 'Austria', team2Flag: '🇦🇹', date: '26/06/2026', venue: 'Argel' },
+      
+      // GRUPO K
+      { id: 'K1', phase: 'Grupos', group: 'K', team1: 'Portugal', team1Flag: '🇵🇹', team2: 'Colombia', team2Flag: '🇨🇴', date: '14/06/2026', venue: 'Lisboa' },
+      { id: 'K2', phase: 'Grupos', group: 'K', team1: 'Uzbekistán', team1Flag: '🇺🇿', team2: 'RD Congo', team2Flag: '🇨🇩', date: '14/06/2026', venue: 'Taskent' },
+      { id: 'K3', phase: 'Grupos', group: 'K', team1: 'Portugal', team1Flag: '🇵🇹', team2: 'Uzbekistán', team2Flag: '🇺🇿', date: '19/06/2026', venue: 'Lisboa' },
+      { id: 'K4', phase: 'Grupos', group: 'K', team1: 'Colombia', team1Flag: '🇨🇴', team2: 'RD Congo', team2Flag: '🇨🇩', date: '19/06/2026', venue: 'Bogotá' },
+      { id: 'K5', phase: 'Grupos', group: 'K', team1: 'RD Congo', team1Flag: '🇨🇩', team2: 'Portugal', team2Flag: '🇵🇹', date: '27/06/2026', venue: 'Kinshasa' },
+      { id: 'K6', phase: 'Grupos', group: 'K', team1: 'Uzbekistán', team1Flag: '🇺🇿', team2: 'Colombia', team2Flag: '🇨🇴', date: '27/06/2026', venue: 'Taskent' },
+      
+      // GRUPO L
+      { id: 'L1', phase: 'Grupos', group: 'L', team1: 'Inglaterra', team1Flag: '🏴󐁧󐁢󐁥󐁮󐁧󐁿', team2: 'Croacia', team2Flag: '🇭🇷', date: '16/06/2026', venue: 'Londres' },
+      { id: 'L2', phase: 'Grupos', group: 'L', team1: 'Ghana', team1Flag: '🇬🇭', team2: 'Panamá', team2Flag: '🇵🇦', date: '16/06/2026', venue: 'Accra' },
+      { id: 'L3', phase: 'Grupos', group: 'L', team1: 'Inglaterra', team1Flag: '🏴󐁧󐁢󐁥󐁮󐁧󐁿', team2: 'Ghana', team2Flag: '🇬🇭', date: '22/06/2026', venue: 'Londres' },
+      { id: 'L4', phase: 'Grupos', group: 'L', team1: 'Croacia', team1Flag: '🇭🇷', team2: 'Panamá', team2Flag: '🇵🇦', date: '22/06/2026', venue: 'Zagreb' },
+      { id: 'L5', phase: 'Grupos', group: 'L', team1: 'Panamá', team1Flag: '🇵🇦', team2: 'Inglaterra', team2Flag: '🏴󐁧󐁢󐁥󐁮󐁧󐁿', date: '30/06/2026', venue: 'Panamá' },
+      { id: 'L6', phase: 'Grupos', group: 'L', team1: 'Croacia', team1Flag: '🇭🇷', team2: 'Ghana', team2Flag: '🇬🇭', date: '30/06/2026', venue: 'Zagreb' },
+    ],
+    'round16': [],
+    'quarterfinals': [],
+    'semifinals': [],
+    'final': []
   };
   
-  appState.predictions[username] = {};
-  appState.cards[username] = {red: 1, yellow: 2, green: 1};
+  // ===== APP STATE =====
+  let currentUser = null;
+  let isAdmin = false;
+  let predictions = {};
+  let matches = [];
+  let pronósticossBloqueados = false;
   
-  saveAppState();
+  // ===== LOCAL STORAGE KEYS =====
+  const USERS_KEY = 'prode_users';
+  const PREDICTIONS_KEY = 'prode_predictions';
+  const LOCK_STATUS_KEY = 'prode_lock_status';
+  const ADMIN_EMAIL = 'admin@prode.com';
   
-  showAuthMessage('¡Registro exitoso! Inicia sesión para comenzar', 'success');
-  setTimeout(() => {
-    document.getElementById('reg-username').value = '';
-    document.getElementById('reg-password').value = '';
-    document.getElementById('reg-area').value = '';
-    document.getElementById('reg-team').value = '';
-    document.getElementById('reg-members').value = '';
-    document.getElementById('reg-description').value = '';
-    document.getElementById('reg-photo').value = '';
-    document.getElementById('photo-preview').innerHTML = '📷';
-    switchAuthMode('login');
-  }, 2000);
-}
-
-function handleLogout() {
-  if (confirm('¿Confirmas que quieres cerrar sesión?')) {
-    currentUser = null;
-    localStorage.removeItem('currentUser');
-    document.getElementById('main-app').classList.add('hidden');
-    document.getElementById('auth-screen').classList.remove('hidden');
-    
-    document.getElementById('login-username').value = '';
-    document.getElementById('login-password').value = '';
-    document.getElementById('auth-message').innerHTML = '';
+  // ===== INITIALIZATION =====
+  function init() {
+    matches = matchesByPhase.groups;
+    loadUserSession();
+    loadLockStatus();
+    checkIfAdmin();
   }
-}
-
-// ===== APP INIT =====
-function initApp() {
-  if (currentUser.role === 'admin') {
-    document.getElementById('header-icon-main').classList.add('admin');
-    document.getElementById('header-team-name').textContent = 'Panel de Control';
-    document.getElementById('header-role').textContent = 'Administrador';
-    document.getElementById('header-avatar').textContent = '👨‍💼';
-    document.getElementById('admin-badge-container').innerHTML = '<div class="admin-badge">ADMINISTRADOR</div>';
-  } else {
-    const user = appState.users[currentUser.username];
-    document.getElementById('header-team-name').textContent = user.team;
-    document.getElementById('header-role').textContent = user.area;
-    
-    if (user.photo) {
-      document.getElementById('header-avatar').innerHTML = `<img src="${user.photo}" />`;
+  
+  function loadUserSession() {
+    const user = localStorage.getItem('current_user');
+    if (user) {
+      currentUser = JSON.parse(user);
+      showApp();
+      loadPredictions();
+      updateUI();
     } else {
-      document.getElementById('header-avatar').textContent = '⚽';
+      showAuthScreen();
     }
   }
   
-  renderTabs();
-  showTab(currentUser.role === 'admin' ? 'dashboard' : 'tabla');
-}
-
-function renderTabs() {
-  let tabs = [];
-  
-  if (currentUser.role === 'admin') {
-    tabs = [
-      {id: 'dashboard', icon: 'layout-grid', label: 'Dashboard', admin: true},
-      {id: 'resultados', icon: 'ball-football', label: 'Cargar Resultados', admin: true},
-      {id: 'tabla', icon: 'trophy', label: 'Tabla General', admin: true},
-      {id: 'gestionar', icon: 'settings', label: 'Gestionar', admin: true},
-    ];
-  } else {
-    tabs = [
-      {id: 'tabla', icon: 'trophy', label: 'Tabla de Posiciones'},
-      {id: 'mispronosticos', icon: 'edit', label: 'Mis Pronósticos'},
-      {id: 'perfil', icon: 'user', label: 'Mi Perfil'},
-    ];
+  function loadLockStatus() {
+    pronósticossBloqueados = localStorage.getItem(LOCK_STATUS_KEY) === 'true';
+    updateLockDisplay();
   }
   
-  document.getElementById('main-tabs').innerHTML = tabs.map(t =>
-    `<div class="tab ${t.admin ? 'admin' : ''}" id="tab-${t.id}" onclick="showTab('${t.id}')">
-      <i class="ti ti-${t.icon}"></i> ${t.label}
-    </div>`
-  ).join('');
-}
-
-function showTab(tabId) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(`tab-${tabId}`).classList.add('active');
-  
-  const renders = {
-    'tabla': renderTabla,
-    'mispronosticos': renderMisPronosticos,
-    'perfil': renderPerfil,
-    'dashboard': renderAdminDashboard,
-    'resultados': renderAdminResultados,
-    'gestionar': renderAdminGestionar,
-  };
-  
-  if (renders[tabId]) renders[tabId]();
-}
-
-// ===== CALCULATIONS =====
-function calculatePoints(username) {
-  let correctPredictions = 0;
-  
-  getAllMatches().forEach(match => {
-    const result = appState.results[match.id];
-    const prediction = (appState.predictions[username] || {})[match.id];
-    
-    if (!result || !prediction || result.local === undefined) return;
-    
-    const resultWinner = result.local > result.visitante ? 'local' : 
-                        result.local < result.visitante ? 'visitante' : 'empate';
-    const predictionWinner = prediction.local > prediction.visitante ? 'local' :
-                             prediction.local < prediction.visitante ? 'visitante' : 'empate';
-    
-    if (resultWinner === predictionWinner) {
-      correctPredictions++;
+  function checkIfAdmin() {
+    isAdmin = currentUser && currentUser.email === ADMIN_EMAIL;
+    if (isAdmin) {
+      document.getElementById('header-icon').classList.add('admin');
+      document.getElementById('admin-badge-container').innerHTML = '<span class="admin-badge">⚡ ADMIN</span>';
+      document.getElementById('tab-admin').classList.remove('hidden');
     }
-  });
-  
-  return correctPredictions * POINTS_CORRECT;
-}
-
-function getSortedTeams() {
-  const teams = Object.entries(appState.users)
-    .filter(([_, user]) => user.role === 'player')
-    .map(([username, user]) => ({
-      username,
-      team: user.team,
-      area: user.area,
-      photo: user.photo,
-      points: calculatePoints(username),
-    }))
-    .sort((a, b) => b.points - a.points);
-  
-  return teams;
-}
-
-// ===== RENDER: TABLA =====
-function renderTabla() {
-  const sorted = getSortedTeams();
-  const playedMatches = getAllMatches().filter(m => appState.results[m.id] && appState.results[m.id].local !== undefined).length;
-  
-  document.getElementById('main-content').innerHTML = `
-    <div class="alert alert-info">
-      <i class="ti ti-info-circle"></i>
-      <strong>${playedMatches} de ${getAllMatches().length}</strong> partidos con resultado cargado
-    </div>
-    
-    <div class="card">
-      <div class="card-title">
-        <i class="ti ti-trophy"></i>
-        Tabla de Posiciones General
-      </div>
-      
-      <div class="scroll-y">
-        <table class="table">
-          <thead>
-            <tr>
-              <th style="width: 50px">#</th>
-              <th>Equipo</th>
-              <th>Área</th>
-              <th style="text-align: right">Aciertos</th>
-              <th style="text-align: right">Puntos</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${sorted.map((team, i) => {
-              const aciertos = Math.round(team.points / POINTS_CORRECT);
-              const badgeClass = i === 0 ? 'badge-1' : i === 1 ? 'badge-2' : i === 2 ? 'badge-3' : 'badge-other';
-              
-              return `<tr>
-                <td><div class="standing-badge ${badgeClass}">${i + 1}</div></td>
-                <td>
-                  <div class="team-cell">
-                    <div class="team-avatar" ${team.photo ? `style="background-image:url('${team.photo}');background-size:cover"` : ''}>
-                      ${!team.photo ? '⚽' : ''}
-                    </div>
-                    <div class="team-name">${team.team}</div>
-                  </div>
-                </td>
-                <td style="color: var(--text2); font-size: 13px">${team.area}</td>
-                <td style="text-align: right; color: var(--text2)">${aciertos}</td>
-                <td style="text-align: right"><span class="points-chip">${team.points}</span></td>
-              </tr>`;
-            }).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  `;
-}
-
-// ===== RENDER: MIS PRONOSTICOS =====
-function renderMisPronosticos() {
-  const user = appState.users[currentUser.username];
-  
-  let html = `
-    <div class="alert alert-warning">
-      <i class="ti ti-alert-triangle"></i>
-      <strong>Solo se suman puntos (10 pts) si aciertas el ganador o si es empate.</strong> El marcador exacto no suma puntos adicionales.
-    </div>
-  `;
-  
-  // Group matches by phase
-  const phases = [
-    {key: 'groups', label: WORLD_CUPS.groups.label},
-    {key: 'round16', label: WORLD_CUPS.round16.label},
-    {key: 'quarters', label: WORLD_CUPS.quarters.label},
-    {key: 'semis', label: WORLD_CUPS.semis.label},
-    {key: 'final', label: WORLD_CUPS.final.label},
-  ];
-  
-  phases.forEach(phase => {
-    const matches = WORLD_CUPS[phase.key].matches;
-    if (matches.length === 0) return;
-    
-    html += `<h3 style="margin-top:2rem;margin-bottom:1rem;font-size:18px;color:var(--accent)">${phase.label}</h3>`;
-    html += '<div class="match-container">';
-    
-    matches.forEach(match => {
-      const result = appState.results[match.id];
-      const prediction = (appState.predictions[currentUser.username] || {})[match.id] || {};
-      const hasResult = result && result.local !== undefined;
-      
-      let statusClass = 'status-pending';
-      let statusText = 'Pendiente';
-      let statusIcon = '⏳';
-      
-      if (hasResult) {
-        if (prediction.local !== undefined) {
-          const resultWinner = result.local > result.visitante ? 'local' : 
-                              result.local < result.visitante ? 'visitante' : 'empate';
-          const predictionWinner = prediction.local > prediction.visitante ? 'local' :
-                                   prediction.local < prediction.visitante ? 'visitante' : 'empate';
-          
-          if (resultWinner === predictionWinner) {
-            statusClass = 'status-correct';
-            statusText = '✓ ¡Correcto! +10 pts';
-            statusIcon = '✓';
-          } else {
-            statusClass = 'status-incorrect';
-            statusText = '✗ Fallaste';
-            statusIcon = '✗';
-          }
-        } else {
-          statusClass = 'status-incorrect';
-          statusText = '✗ No predijiste';
-          statusIcon = '✗';
-        }
-      } else if (prediction.local !== undefined) {
-        statusClass = 'status-predicted';
-        statusText = 'Pronóstico guardado';
-        statusIcon = '💾';
-      }
-      
-      const localFlag = FLAGS[match.local] || '🏴';
-      const visitanteFlag = FLAGS[match.visitante] || '🏴';
-      
-      html += `
-        <div class="match-card">
-          <div class="match-header">
-            <span class="match-phase">${match.phase}</span>
-            <span class="match-status ${statusClass}">${statusIcon} ${statusText}</span>
-          </div>
-          
-          <div class="match-venue">
-            <i class="ti ti-map-pin"></i>
-            ${match.stadium}
-          </div>
-          
-          <div class="match-teams">
-            <div class="match-team">
-              <div class="team-flag-name">
-                <span class="flag">${localFlag}</span>
-                <span>${match.local}</span>
-              </div>
-            </div>
-            <span class="vs-badge">VS</span>
-            <div class="match-team">
-              <div class="team-flag-name">
-                <span>${match.visitante}</span>
-                <span class="flag">${visitanteFlag}</span>
-              </div>
-            </div>
-          </div>
-          
-          ${hasResult ? `
-            <div class="match-result">
-              Resultado: <strong>${result.local} - ${result.visitante}</strong>
-            </div>
-          ` : ''}
-          
-          <div class="score-inputs">
-            <input type="number" class="score-input" min="0" max="30"
-              value="${prediction.local !== undefined ? prediction.local : ''}"
-              onchange="savePrediction('${match.id}', 'local', this.value)"
-              ${hasResult ? 'disabled' : ''}
-              placeholder="0">
-            <span class="score-separator">-</span>
-            <input type="number" class="score-input" min="0" max="30"
-              value="${prediction.visitante !== undefined ? prediction.visitante : ''}"
-              onchange="savePrediction('${match.id}', 'visitante', this.value)"
-              ${hasResult ? 'disabled' : ''}
-              placeholder="0">
-          </div>
-        </div>
-      `;
-    });
-    
-    html += '</div>';
-  });
-  
-  document.getElementById('main-content').innerHTML = html;
-}
-
-function savePrediction(matchId, side, value) {
-  if (!appState.predictions[currentUser.username]) {
-    appState.predictions[currentUser.username] = {};
-  }
-  if (!appState.predictions[currentUser.username][matchId]) {
-    appState.predictions[currentUser.username][matchId] = {};
   }
   
-  appState.predictions[currentUser.username][matchId][side] = parseInt(value) || 0;
-  saveAppState();
-  renderMisPronosticos();
-}
-
-// ===== RENDER: PERFIL =====
-function renderPerfil() {
-  const user = appState.users[currentUser.username];
-  const userPoints = calculatePoints(currentUser.username);
-  const sorted = getSortedTeams();
-  const position = sorted.findIndex(t => t.username === currentUser.username) + 1;
-  
-  const nextMatches = getAllMatches()
-    .filter(m => !appState.results[m.id] || appState.results[m.id].local === undefined)
-    .slice(0, 5);
-  
-  document.getElementById('main-content').innerHTML = `
-    <div class="card">
-      <div class="card-title">
-        <i class="ti ti-user"></i>
-        Mi Perfil
-      </div>
-      
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
-        <div>
-          <div style="background: var(--bg3); border-radius: 12px; padding: 1.5rem; text-align: center;">
-            <div style="width: 100px; height: 100px; background: var(--bg4); border-radius: 12px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 48px; overflow: hidden;">
-              ${user.photo ? `<img src="${user.photo}" style="width:100%;height:100%;object-fit:cover" />` : '⚽'}
-            </div>
-            <h3 style="font-size: 24px; margin-bottom: 0.5rem;">${user.team}</h3>
-            <p style="color: var(--text2); margin-bottom: 1rem;">${user.area}</p>
-            <p style="font-size: 12px; color: var(--text3); line-height: 1.6;">${user.description || 'Sin descripción'}</p>
-          </div>
-        </div>
-        
-        <div>
-          <div style="background: var(--bg3); border-radius: 12px; padding: 1.5rem;">
-            <h4 style="font-size: 14px; color: var(--text2); text-transform: uppercase; margin-bottom: 1rem;">Estadísticas</h4>
-            
-            <div style="margin-bottom: 1.5rem;">
-              <div style="font-size: 12px; color: var(--text3); margin-bottom: 4px;">Posición en Tabla</div>
-              <div style="font-size: 32px; font-family: 'Bebas Neue'; font-weight: 700; color: var(--accent);">#${position}</div>
-            </div>
-            
-            <div style="margin-bottom: 1.5rem;">
-              <div style="font-size: 12px; color: var(--text3); margin-bottom: 4px;">Puntos Totales</div>
-              <div style="font-size: 28px; font-family: 'Bebas Neue'; font-weight: 700; color: var(--green);">${userPoints} pts</div>
-            </div>
-            
-            <div style="margin-bottom: 1.5rem;">
-              <div style="font-size: 12px; color: var(--text3); margin-bottom: 4px;">Aciertos</div>
-              <div style="font-size: 24px; font-family: 'Bebas Neue'; font-weight: 700; color: var(--blue);">${Math.round(userPoints / POINTS_CORRECT)}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  function updateLockDisplay() {
+    const lockAlert = document.getElementById('lock-alert');
+    const matchCards = document.querySelectorAll('.match-card');
+    const lockToggle = document.getElementById('lock-toggle');
     
-    <div class="card">
-      <div class="card-title">
-        <i class="ti ti-users"></i>
-        Integrantes del Equipo (${user.members.length})
-      </div>
-      
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem;">
-        ${user.members.length > 0 ? user.members.map(member => `
-          <div style="background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; text-align: center;">
-            <div style="font-size: 32px; margin-bottom: 8px;">👤</div>
-            <div style="font-size: 13px; font-weight: 600; word-break: break-word;">${member}</div>
-          </div>
-        `).join('') : '<p style="color: var(--text3)">No hay integrantes registrados</p>'}
-      </div>
-    </div>
-    
-    <div class="card">
-      <div class="card-title">
-        <i class="ti ti-calendar"></i>
-        Próximos Partidos
-      </div>
-      
-      ${nextMatches.length > 0 ? `
-        <div class="match-container">
-          ${nextMatches.map(match => {
-            const localFlag = FLAGS[match.local] || '🏴';
-            const visitanteFlag = FLAGS[match.visitante] || '🏴';
-            
-            return `
-              <div class="match-card">
-                <div class="match-phase">${match.phase}</div>
-                <div class="match-venue">
-                  <i class="ti ti-map-pin"></i>
-                  ${match.stadium}
-                </div>
-                <div class="match-teams" style="margin-top: 1rem;">
-                  <div class="match-team">
-                    <div class="team-flag-name">
-                      <span class="flag">${localFlag}</span>
-                      <span>${match.local}</span>
-                    </div>
-                  </div>
-                  <span class="vs-badge">VS</span>
-                  <div class="match-team">
-                    <div class="team-flag-name">
-                      <span>${match.visitante}</span>
-                      <span class="flag">${visitanteFlag}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      ` : '<p style="color: var(--text3)">¡No hay más partidos!</p>'}
-    </div>
-  `;
-}
-
-// ===== ADMIN: DASHBOARD =====
-function renderAdminDashboard() {
-  const allUsers = Object.keys(appState.users).length;
-  const playedMatches = getAllMatches().filter(m => appState.results[m.id] && appState.results[m.id].local !== undefined).length;
-  const totalMatches = getAllMatches().length;
-  const sorted = getSortedTeams();
-  
-  document.getElementById('main-content').innerHTML = `
-    <div class="alert alert-info">
-      <i class="ti ti-info-circle"></i>
-      Bienvenido al panel de administración del PRODE Mundial 2026
-    </div>
-    
-    <div class="admin-grid">
-      <div class="admin-stat">
-        <i class="ti ti-users" style="font-size:28px;color:#ef4444"></i>
-        <div class="admin-stat-label">Equipos Registrados</div>
-        <div class="admin-stat-value">${allUsers}</div>
-      </div>
-      
-      <div class="admin-stat">
-        <i class="ti ti-ball-football" style="font-size:28px;color:#ef4444"></i>
-        <div class="admin-stat-label">Partidos Cargados</div>
-        <div class="admin-stat-value">${playedMatches}/${totalMatches}</div>
-      </div>
-      
-      <div class="admin-stat">
-        <i class="ti ti-trophy" style="font-size:28px;color:#ef4444"></i>
-        <div class="admin-stat-label">Equipo Líder</div>
-        <div class="admin-stat-value" style="font-size:18px;margin-top:1rem">${sorted.length > 0 ? sorted[0].team : 'N/A'}</div>
-      </div>
-    </div>
-    
-    <div class="actions-grid">
-      <div class="action-btn" onclick="showTab('resultados')">
-        <i class="ti ti-ball-football"></i>
-        Cargar Resultados
-      </div>
-      <div class="action-btn" onclick="showTab('gestionar')">
-        <i class="ti ti-settings"></i>
-        Gestionar
-      </div>
-      <div class="action-btn" onclick="showTab('tabla')">
-        <i class="ti ti-trophy"></i>
-        Ver Tabla
-      </div>
-    </div>
-    
-    <div class="card">
-      <div class="card-title admin">
-        <i class="ti ti-trophy"></i>
-        Top 5 Equipos
-      </div>
-      
-      <table class="table">
-        <thead>
-          <tr>
-            <th style="width: 50px">#</th>
-            <th>Equipo</th>
-            <th style="text-align: right">Aciertos</th>
-            <th style="text-align: right">Puntos</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${sorted.slice(0, 5).map((team, i) => {
-            const aciertos = Math.round(team.points / POINTS_CORRECT);
-            
-            return `<tr>
-              <td><div class="standing-badge ${i === 0 ? 'badge-1' : i === 1 ? 'badge-2' : i === 2 ? 'badge-3' : 'badge-other'}">${i + 1}</div></td>
-              <td>
-                <div class="team-cell">
-                  <div class="team-avatar" ${team.photo ? `style="background-image:url('${team.photo}');background-size:cover"` : ''}>
-                    ${!team.photo ? '⚽' : ''}
-                  </div>
-                  <div class="team-name">${team.team}</div>
-                </div>
-              </td>
-              <td style="text-align: right; color: var(--text2)">${aciertos}</td>
-              <td style="text-align: right"><span class="points-chip">${team.points}</span></td>
-            </tr>`;
-          }).join('')}
-        </tbody>
-      </table>
-    </div>
-  `;
-}
-
-// ===== ADMIN: CARGAR RESULTADOS =====
-function renderAdminResultados() {
-  let html = `
-    <div class="alert alert-warning">
-      <i class="ti ti-alert-triangle"></i>
-      Cargá los resultados reales de los partidos. Una vez cargados, los equipos no podrán modificar sus pronósticos.
-    </div>
-  `;
-  
-  const phases = [
-    {key: 'groups', label: WORLD_CUPS.groups.label},
-    {key: 'round16', label: WORLD_CUPS.round16.label},
-    {key: 'quarters', label: WORLD_CUPS.quarters.label},
-    {key: 'semis', label: WORLD_CUPS.semis.label},
-    {key: 'final', label: WORLD_CUPS.final.label},
-  ];
-  
-  phases.forEach(phase => {
-    const matches = WORLD_CUPS[phase.key].matches;
-    if (matches.length === 0) return;
-    
-    html += `<h3 style="margin-top:2rem;margin-bottom:1rem;font-size:18px;color:#ef4444">${phase.label}</h3>`;
-    html += '<div class="match-container">';
-    
-    matches.forEach(match => {
-      const result = appState.results[match.id] || {};
-      const hasResult = result.local !== undefined;
-      
-      const localFlag = FLAGS[match.local] || '🏴';
-      const visitanteFlag = FLAGS[match.visitante] || '🏴';
-      
-      html += `
-        <div class="match-card">
-          <div class="match-header">
-            <span class="match-phase">${match.phase}</span>
-            ${hasResult ? '<span class="match-status status-played">✓ Cargado</span>' :
-              '<span class="match-status status-pending">Pendiente</span>'}
-          </div>
-          
-          <div class="match-venue">
-            <i class="ti ti-map-pin"></i>
-            ${match.stadium}
-          </div>
-          
-          <div class="match-teams">
-            <div class="match-team">
-              <div class="team-flag-name">
-                <span class="flag">${localFlag}</span>
-                <span>${match.local}</span>
-              </div>
-            </div>
-            <span class="vs-badge">VS</span>
-            <div class="match-team">
-              <div class="team-flag-name">
-                <span>${match.visitante}</span>
-                <span class="flag">${visitanteFlag}</span>
-              </div>
-            </div>
-          </div>
-          
-          <div class="score-inputs">
-            <input type="number" class="score-input" min="0" max="30"
-              value="${result.local !== undefined ? result.local : ''}"
-              onchange="setAdminResult('${match.id}', 'local', this.value)"
-              placeholder="0">
-            <span class="score-separator">-</span>
-            <input type="number" class="score-input" min="0" max="30"
-              value="${result.visitante !== undefined ? result.visitante : ''}"
-              onchange="setAdminResult('${match.id}', 'visitante', this.value)"
-              placeholder="0">
-          </div>
-          
-          ${hasResult ? `
-            <button class="btn btn-danger btn-sm" onclick="deleteResult('${match.id}')" style="margin-top:8px">
-              <i class="ti ti-trash"></i> Eliminar
-            </button>
-          ` : ''}
-        </div>
-      `;
-    });
-    
-    html += '</div>';
-  });
-  
-  html += `
-    <div style="margin-top:2rem">
-      <button class="btn btn-danger" onclick="clearAllResults()">
-        <i class="ti ti-trash"></i> Limpiar Todos los Resultados
-      </button>
-    </div>
-  `;
-  
-  document.getElementById('main-content').innerHTML = html;
-}
-
-function setAdminResult(matchId, side, value) {
-  if (!appState.results[matchId]) {
-    appState.results[matchId] = {};
+    if (pronósticossBloqueados) {
+      lockAlert.style.display = 'flex';
+      matchCards.forEach(card => card.classList.add('locked'));
+      document.querySelectorAll('.score-input').forEach(input => input.disabled = true);
+      if (lockToggle) lockToggle.checked = true;
+      document.getElementById('lock-status-text').textContent = 'Pronósticos Bloqueados';
+      document.getElementById('admin-lock-status').textContent = 'BLOQUEADO';
+      document.getElementById('admin-lock-status').style.color = '#ef4444';
+    } else {
+      lockAlert.style.display = 'none';
+      matchCards.forEach(card => card.classList.remove('locked'));
+      document.querySelectorAll('.score-input').forEach(input => input.disabled = false);
+      if (lockToggle) lockToggle.checked = false;
+      document.getElementById('lock-status-text').textContent = 'Pronósticos Abiertos';
+      document.getElementById('admin-lock-status').textContent = 'ABIERTO';
+      document.getElementById('admin-lock-status').style.color = '#22c55e';
+    }
   }
-  appState.results[matchId][side] = parseInt(value) || 0;
-  saveAppState();
-}
-
-function deleteResult(matchId) {
-  if (confirm('¿Eliminar este resultado?')) {
-    delete appState.results[matchId];
-    saveAppState();
-    renderAdminResultados();
+  
+  // ===== AUTH FUNCTIONS =====
+  function handleLogin(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    const user = users.find(u => u.email === email && u.password === password);
+    
+    if (user) {
+      localStorage.setItem('current_user', JSON.stringify(user));
+      currentUser = user;
+      checkIfAdmin();
+      showApp();
+      loadPredictions();
+      updateUI();
+    } else {
+      alert('Email o contraseña incorrecta');
+    }
   }
-}
-
-function clearAllResults() {
-  if (confirm('⚠️ ¿Realmente quieres eliminar TODOS los resultados? Esta acción es irreversible.')) {
-    appState.results = {};
-    saveAppState();
-    renderAdminResultados();
+  
+  function handleRegister(e) {
+    e.preventDefault();
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    const confirm = document.getElementById('register-confirm').value;
+    
+    if (password !== confirm) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+    
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    if (users.find(u => u.email === email)) {
+      alert('Email ya registrado');
+      return;
+    }
+    
+    const newUser = { id: Date.now(), name, email, password, role: 'player' };
+    users.push(newUser);
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    
+    localStorage.setItem('current_user', JSON.stringify(newUser));
+    currentUser = newUser;
+    checkIfAdmin();
+    showApp();
+    updateUI();
+    document.getElementById('register-form').reset();
   }
-}
-
-// ===== ADMIN: GESTIONAR =====
-function renderAdminGestionar() {
-  const users = Object.entries(appState.users)
-    .filter(([_, user]) => user.role === 'player')
-    .map(([username, user]) => ({username, ...user}));
   
-  document.getElementById('main-content').innerHTML = `
-    <div class="alert alert-info">
-      <i class="ti ti-info-circle"></i>
-      Gestiona los equipos participantes
-    </div>
-    
-    <div class="card">
-      <div class="card-title admin">
-        <i class="ti ti-users"></i>
-        Equipos Registrados (${users.length})
-      </div>
-      
-      <div class="scroll-y">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Equipo</th>
-              <th>Área</th>
-              <th>Usuario</th>
-              <th>Integrantes</th>
-              <th style="text-align: center">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${users.map(user => `
-              <tr>
-                <td>
-                  <div class="team-cell">
-                    <div class="team-avatar" ${user.photo ? `style="background-image:url('${user.photo}');background-size:cover"` : ''}>
-                      ${!user.photo ? '⚽' : ''}
-                    </div>
-                    <div class="team-name">${user.team}</div>
-                  </div>
-                </td>
-                <td style="color: var(--text2)">${user.area}</td>
-                <td style="color: var(--text2); font-size: 12px">${user.username}</td>
-                <td style="color: var(--text2); font-size: 12px">${user.members.length} personas</td>
-                <td style="text-align: center">
-                  <button class="btn btn-secondary btn-sm" onclick="viewTeamDetails('${user.username}')">
-                    <i class="ti ti-eye"></i> Ver
-                  </button>
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  `;
-}
-
-function viewTeamDetails(username) {
-  const user = appState.users[username];
-  const points = calculatePoints(username);
-  const aciertos = Math.round(points / POINTS_CORRECT);
-  const sorted = getSortedTeams();
-  const position = sorted.findIndex(t => t.username === username) + 1;
+  function handleLogout() {
+    localStorage.removeItem('current_user');
+    currentUser = null;
+    isAdmin = false;
+    showAuthScreen();
+  }
   
-  document.getElementById('modal-title').textContent = user.team;
-  document.getElementById('modal-body').innerHTML = `
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-      <div>
-        <div style="width: 100%; background: var(--bg3); border-radius: 12px; padding: 1rem; text-align: center;">
-          <div style="width: 100%; height: 120px; background: var(--bg4); border-radius: 8px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-size: 48px; overflow: hidden;">
-            ${user.photo ? `<img src="${user.photo}" style="width:100%;height:100%;object-fit:cover" />` : '⚽'}
-          </div>
-          <div style="font-size: 13px; color: var(--text2);">${user.area}</div>
-        </div>
-      </div>
-      
-      <div>
-        <div style="background: var(--bg3); border-radius: 12px; padding: 1rem;">
-          <div style="margin-bottom: 1rem;">
-            <div style="font-size: 11px; color: var(--text3); text-transform: uppercase;">Posición</div>
-            <div style="font-size: 28px; font-family: 'Bebas Neue'; color: #ef4444;">#${position}</div>
-          </div>
-          <div style="margin-bottom: 1rem;">
-            <div style="font-size: 11px; color: var(--text3); text-transform: uppercase;">Puntos</div>
-            <div style="font-size: 24px; font-family: 'Bebas Neue'; color: var(--green);">${points}</div>
-          </div>
-          <div>
-            <div style="font-size: 11px; color: var(--text3); text-transform: uppercase;">Aciertos</div>
-            <div style="font-size: 24px; font-family: 'Bebas Neue'; color: var(--blue);">${aciertos}</div>
-          </div>
-        </div>
-      </div>
-    </div>
+  function switchAuthMode(mode) {
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const loginTab = document.getElementById('btn-login-tab');
+    const registerTab = document.getElementById('btn-register-tab');
     
-    <div style="background: var(--bg3); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
-      <div style="font-size: 13px; font-weight: 600; margin-bottom: 0.5rem;">Descripción</div>
-      <div style="font-size: 12px; color: var(--text2);">${user.description || 'Sin descripción'}</div>
-    </div>
-    
-    <div>
-      <div style="font-size: 13px; font-weight: 600; margin-bottom: 1rem;">Integrantes (${user.members.length})</div>
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0.5rem;">
-        ${user.members.map(member => `
-          <div style="background: var(--bg3); border-radius: 6px; padding: 0.75rem; text-align: center; font-size: 12px;">
-            ${member}
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `;
+    if (mode === 'login') {
+      loginForm.classList.remove('hidden');
+      registerForm.classList.add('hidden');
+      loginTab.classList.add('active');
+      registerTab.classList.remove('active');
+    } else {
+      loginForm.classList.add('hidden');
+      registerForm.classList.remove('hidden');
+      loginTab.classList.remove('active');
+      registerTab.classList.add('active');
+    }
+  }
   
-  document.getElementById('main-modal').classList.add('show');
-}
-
-// ===== UTILITIES =====
-function closeModal() {
-  document.getElementById('main-modal').classList.remove('show');
-}
-
-document.getElementById('main-modal').addEventListener('click', e => {
-  if (e.target.id === 'main-modal') closeModal();
-});
-
-// Check if user is already logged in
-window.addEventListener('load', () => {
-  const saved = localStorage.getItem('currentUser');
-  if (saved) {
-    currentUser = JSON.parse(saved);
+  // ===== UI FUNCTIONS =====
+  function showAuthScreen() {
+    document.getElementById('auth-screen').classList.remove('hidden');
+    document.getElementById('app-screen').classList.add('hidden');
+  }
+  
+  function showApp() {
     document.getElementById('auth-screen').classList.add('hidden');
-    document.getElementById('main-app').classList.remove('hidden');
-    initApp();
+    document.getElementById('app-screen').classList.remove('hidden');
   }
-});
-
-// Enter key for login
-document.addEventListener('keypress', e => {
-  if (e.key === 'Enter' && !document.getElementById('auth-screen').classList.contains('hidden')) {
-    if (!document.getElementById('login-form').classList.contains('hidden')) {
-      handleLogin();
+  
+  function updateUI() {
+    if (currentUser) {
+      document.getElementById('user-name').textContent = currentUser.name;
+      document.getElementById('user-role').textContent = isAdmin ? 'Administrador' : 'Jugador';
+      renderMatches();
+      if (isAdmin) updateAdminPanel();
     }
   }
-});
+  
+  function switchTab(tabName) {
+    // Hide all tabs
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    
+    // Show selected tab
+    const tabElement = document.getElementById(`tab-${tabName}`);
+    if (tabElement) {
+      tabElement.classList.remove('hidden');
+    }
+    
+    // Highlight active tab
+    event.target.closest('.tab').classList.add('active');
+  }
+  
+  // ===== MATCH FUNCTIONS =====
+  function renderMatches() {
+    const container = document.getElementById('matches-container');
+    container.innerHTML = '';
+    
+    const groupedMatches = {};
+    matches.forEach(match => {
+      if (!groupedMatches[match.group]) {
+        groupedMatches[match.group] = [];
+      }
+      groupedMatches[match.group].push(match);
+    });
+    
+    Object.keys(groupedMatches).sort().forEach(group => {
+      const groupTitle = document.createElement('h3');
+      groupTitle.style.cssText = 'font-size: 16px; margin: 1.5rem 0 1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em;';
+      groupTitle.textContent = `GRUPO ${group}`;
+      container.appendChild(groupTitle);
+      
+      const groupContainer = document.createElement('div');
+      groupContainer.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1rem;';
+      
+      groupedMatches[group].forEach(match => {
+        const card = createMatchCard(match);
+        groupContainer.appendChild(card);
+      });
+      
+      container.appendChild(groupContainer);
+    });
+  }
+  
+  function createMatchCard(match) {
+    const card = document.createElement('div');
+    card.className = 'match-card';
+    if (pronósticossBloqueados) card.classList.add('locked');
+    
+    const prediction = predictions[match.id] || { team1: '', team2: '' };
+    const status = pronósticossBloqueados ? 'Bloqueado' : (prediction.team1 || prediction.team2 ? 'Predicción realizada' : 'Pendiente');
+    const statusClass = pronósticossBloqueados ? 'status-locked' : (prediction.team1 || prediction.team2 ? 'status-predicted' : 'status-pending');
+    
+    card.innerHTML = `
+      <div class="match-header">
+        <span class="match-phase">GRUPO ${match.group}</span>
+        <span class="match-status ${statusClass}">
+          ${pronósticossBloqueados ? '🔒 ' : ''}${status}
+        </span>
+      </div>
+      
+      <div class="match-teams">
+        <div class="match-team">
+          <div class="team-flag-name">
+            <span class="flag">${match.team1Flag}</span>
+            <span>${match.team1}</span>
+          </div>
+          <input type="number" class="score-input" placeholder="0" value="${prediction.team1 || ''}" 
+            onchange="savePrediction('${match.id}', this.value, '${match.id}-team2')"
+            ${pronósticossBloqueados ? 'disabled' : ''}>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text3); font-weight: 700; font-size: 20px;">VS</div>
+        <div class="match-team">
+          <div class="team-flag-name">
+            <span class="flag">${match.team2Flag}</span>
+            <span>${match.team2}</span>
+          </div>
+          <input type="number" class="score-input" id="${match.id}-team2" placeholder="0" value="${prediction.team2 || ''}"
+            onchange="savePrediction('${match.id}', '${match.id}-team1', this.value)"
+            ${pronósticossBloqueados ? 'disabled' : ''}>
+        </div>
+      </div>
+      
+      <div class="match-info">
+        <i class="ti ti-calendar"></i> ${match.date}
+      </div>
+      <div class="match-venue">
+        <i class="ti ti-map-pin"></i> ${match.venue}
+      </div>
+    `;
+    
+    return card;
+  }
+  
+  function savePrediction(matchId, team1Value, team2InputId) {
+    if (pronósticossBloqueados) return;
+    
+    const team2Value = document.getElementById(team2InputId).value;
+    predictions[matchId] = {
+      team1: team1Value || '',
+      team2: team2Value || ''
+    };
+    
+    localStorage.setItem(PREDICTIONS_KEY + '_' + currentUser.id, JSON.stringify(predictions));
+  }
+  
+  function loadPredictions() {
+    const stored = localStorage.getItem(PREDICTIONS_KEY + '_' + currentUser.id);
+    predictions = stored ? JSON.parse(stored) : {};
+  }
+  
+  // ===== ADMIN FUNCTIONS =====
+  function updateAdminPanel() {
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    let totalPredictions = 0;
+    
+    users.forEach(user => {
+      const userPreds = localStorage.getItem(PREDICTIONS_KEY + '_' + user.id);
+      if (userPreds) {
+        totalPredictions += Object.keys(JSON.parse(userPreds)).length;
+      }
+    });
+    
+    document.getElementById('admin-users').textContent = users.length;
+    document.getElementById('admin-predictions').textContent = totalPredictions;
+  }
+  
+  function toggleLock() {
+    if (!isAdmin) return;
+    pronósticossBloqueados = !pronósticossBloqueados;
+    localStorage.setItem(LOCK_STATUS_KEY, pronósticossBloqueados.toString());
+    updateLockDisplay();
+    renderMatches();
+    updateAdminPanel();
+  }
+  
+  function resetAllPredictions() {
+    if (!isAdmin || !confirm('¿Estás seguro de que quieres eliminar todos los pronósticos?')) return;
+    
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    users.forEach(user => {
+      localStorage.removeItem(PREDICTIONS_KEY + '_' + user.id);
+    });
+    
+    predictions = {};
+    renderMatches();
+    updateAdminPanel();
+    alert('Todos los pronósticos han sido eliminados');
+  }
+  
+  function exportData() {
+    if (!isAdmin) return;
+    
+    const data = {
+      timestamp: new Date().toISOString(),
+      users: JSON.parse(localStorage.getItem(USERS_KEY) || '[]'),
+      predictions: {}
+    };
+    
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    users.forEach(user => {
+      const userPreds = localStorage.getItem(PREDICTIONS_KEY + '_' + user.id);
+      if (userPreds) {
+        data.predictions[user.email] = JSON.parse(userPreds);
+      }
+    });
+    
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `prode_datos_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+  }
+  
+  function resetSystem() {
+    if (!isAdmin || !confirm('¿Reiniciar el sistema? Esto eliminará TODOS los datos.')) return;
+    
+    localStorage.clear();
+    location.reload();
+  }
+  
+  // Initialize on load
+  window.onload = init;
 </script>
+
 </body>
 </html>
