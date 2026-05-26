@@ -443,22 +443,166 @@
     color: #fca5a5;
   }
   
-  /* ===== MATCH CARD ===== */
-  .match-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
+  /* ===== FILTER SECTION ===== */
+  .filter-section {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 1.5rem;
     margin-bottom: 2rem;
   }
   
+  .filter-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .filter-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .filter-btn {
+    padding: 10px;
+    background: linear-gradient(135deg, rgba(51, 65, 85, 0.5), rgba(30, 41, 59, 0.5));
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+  }
+  
+  .filter-btn:hover {
+    border-color: var(--primary);
+  }
+  
+  .filter-btn.active {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border-color: var(--primary);
+  }
+  
+  /* ===== PHASE ACCORDION ===== */
+  .phase-section {
+    background: linear-gradient(135deg, rgba(51, 65, 85, 0.3), rgba(30, 41, 59, 0.3));
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  
+  .phase-header {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
+  }
+  
+  .phase-header:hover {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.1));
+  }
+  
+  .phase-header-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .phase-header-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .phase-match-count {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .phase-toggle-icon {
+    font-size: 20px;
+    color: var(--primary);
+    transition: transform 0.3s;
+  }
+  
+  .phase-toggle-icon.open {
+    transform: rotate(180deg);
+  }
+  
+  .phase-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .phase-content.open {
+    max-height: 5000px;
+  }
+  
+  .phase-content-inner {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-light);
+  }
+  
+  /* ===== GROUP SECTION ===== */
+  .group-container {
+    margin-bottom: 2rem;
+  }
+  
+  .group-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .group-badge {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  
+  /* ===== MATCH CARD COMPACT ===== */
   .match-card {
     background: linear-gradient(135deg, rgba(51, 65, 85, 0.5), rgba(30, 41, 59, 0.5));
     border: 1px solid var(--border-light);
-    border-radius: 14px;
-    padding: 1.5rem;
+    border-radius: 12px;
+    padding: 1.25rem;
     transition: all 0.3s;
     position: relative;
     overflow: hidden;
+    margin-bottom: 1rem;
   }
   
   .match-card::before {
@@ -467,7 +611,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
+    height: 3px;
     background: linear-gradient(90deg, var(--primary), var(--secondary));
     opacity: 0;
     transition: opacity 0.3s;
@@ -488,19 +632,73 @@
     pointer-events: none;
   }
   
-  .match-header {
+  .match-date-venue {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
   
-  .match-phase {
-    font-size: 11px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+  .match-date-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .match-teams-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .match-team-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .team-flag {
+    font-size: 32px;
+    line-height: 1;
+  }
+  
+  .team-info-text {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .team-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+  }
+  
+  .team-score-input {
+    width: 60px;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.1));
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 18px;
     font-weight: 700;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .team-score-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+  
+  .team-score-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
   
   .match-status {
@@ -511,6 +709,7 @@
     align-items: center;
     gap: 4px;
     font-weight: 600;
+    margin-top: 0.75rem;
   }
   
   .status-pending {
@@ -526,79 +725,6 @@
   .status-locked {
     background: rgba(239, 68, 68, 0.2);
     color: #fca5a5;
-  }
-  
-  .match-teams {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  
-  .match-team {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  
-  .team-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex: 1;
-  }
-  
-  .team-flag {
-    font-size: 28px;
-    flex-shrink: 0;
-  }
-  
-  .team-name {
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--text-primary);
-  }
-  
-  .score-input {
-    width: 50px;
-    text-align: center;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.1));
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
-  }
-  
-  .score-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-  }
-  
-  .score-input:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .match-info {
-    font-size: 12px;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 10px;
-  }
-  
-  .match-venue {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--text-muted);
   }
   
   /* ===== BRACKET STYLES ===== */
@@ -860,10 +986,6 @@
       padding: 1.5rem;
     }
     
-    .match-container {
-      grid-template-columns: 1fr;
-    }
-    
     .tabs {
       padding: 0 1rem;
     }
@@ -871,6 +993,15 @@
     .tab {
       padding: 12px 16px;
       font-size: 12px;
+    }
+    
+    .match-teams-row {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    
+    .filter-groups {
+      grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
     }
   }
   
@@ -1002,7 +1133,16 @@
           <i class="ti ti-ballpen"></i> Mis Pronósticos - Fase de Grupos
         </div>
         
-        <div id="matches-container" class="match-container"></div>
+        <!-- FILTRO DE GRUPOS -->
+        <div class="filter-section">
+          <div class="filter-title">
+            <i class="ti ti-filter"></i> Filtrar Grupos
+          </div>
+          <div class="filter-groups" id="filter-groups-container"></div>
+        </div>
+        
+        <!-- CONTENEDOR DE FASES -->
+        <div id="phases-container"></div>
       </div>
       
       <!-- FUTURE PHASES PLACEHOLDER -->
@@ -1272,6 +1412,7 @@
   let predictions = {};
   let matches = [];
   let pronósticossBloqueados = false;
+  let selectedGroups = new Set(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']);
   
   // ===== LOCAL STORAGE KEYS =====
   const USERS_KEY = 'prode_users';
@@ -1320,14 +1461,14 @@
     if (pronósticossBloqueados) {
       lockAlert.style.display = 'flex';
       matchCards.forEach(card => card.classList.add('locked'));
-      document.querySelectorAll('.score-input').forEach(input => input.disabled = true);
+      document.querySelectorAll('.team-score-input').forEach(input => input.disabled = true);
       if (lockToggle) lockToggle.checked = true;
       document.getElementById('lock-status-text').textContent = 'Pronósticos Bloqueados';
       document.getElementById('admin-lock-status').textContent = 'BLOQUEADO';
     } else {
       lockAlert.style.display = 'none';
       matchCards.forEach(card => card.classList.remove('locked'));
-      document.querySelectorAll('.score-input').forEach(input => input.disabled = false);
+      document.querySelectorAll('.team-score-input').forEach(input => input.disabled = false);
       if (lockToggle) lockToggle.checked = false;
       document.getElementById('lock-status-text').textContent = 'Pronósticos Abiertos';
       document.getElementById('admin-lock-status').textContent = 'ABIERTO';
@@ -1426,7 +1567,8 @@
     if (currentUser) {
       document.getElementById('user-name').textContent = currentUser.name;
       document.getElementById('user-role').textContent = isAdmin ? 'Administrador' : 'Jugador';
-      renderMatches();
+      renderFilterButtons();
+      renderPhases();
       renderBracket();
       if (isAdmin) updateAdminPanel();
     }
@@ -1440,82 +1582,173 @@
     event.target.closest('.tab').classList.add('active');
   }
   
-  // ===== MATCH FUNCTIONS =====
-  function renderMatches() {
-    const container = document.getElementById('matches-container');
+  // ===== FILTER FUNCTIONS =====
+  function renderFilterButtons() {
+    const container = document.getElementById('filter-groups-container');
     container.innerHTML = '';
     
+    const groups = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+    
+    groups.forEach(group => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn';
+      if (selectedGroups.has(group)) btn.classList.add('active');
+      btn.textContent = group;
+      btn.onclick = () => toggleGroup(group);
+      container.appendChild(btn);
+    });
+  }
+  
+  function toggleGroup(group) {
+    if (selectedGroups.has(group)) {
+      selectedGroups.delete(group);
+    } else {
+      selectedGroups.add(group);
+    }
+    renderFilterButtons();
+    renderPhases();
+  }
+  
+  // ===== PHASE RENDERING =====
+  function renderPhases() {
+    const container = document.getElementById('phases-container');
+    container.innerHTML = '';
+    
+    // Agrupa partidos por fase y grupo
     const groupedMatches = {};
     matches.forEach(match => {
+      if (!selectedGroups.has(match.group)) return;
+      
       if (!groupedMatches[match.group]) {
         groupedMatches[match.group] = [];
       }
       groupedMatches[match.group].push(match);
     });
     
+    // Renderiza cada grupo
     Object.keys(groupedMatches).sort().forEach(group => {
-      const groupTitle = document.createElement('h3');
-      groupTitle.style.cssText = 'font-size: 16px; margin: 1.5rem 0 1rem; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;';
-      groupTitle.textContent = `GRUPO ${group}`;
-      container.appendChild(groupTitle);
-      
-      const groupContainer = document.createElement('div');
-      groupContainer.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem;';
-      
-      groupedMatches[group].forEach(match => {
-        const card = createMatchCard(match);
-        groupContainer.appendChild(card);
-      });
-      
-      container.appendChild(groupContainer);
+      const phaseSection = createPhaseSection(group, groupedMatches[group]);
+      container.appendChild(phaseSection);
     });
   }
   
+  function createPhaseSection(group, matchesInGroup) {
+    const section = document.createElement('div');
+    section.className = 'phase-section';
+    
+    // Header
+    const header = document.createElement('div');
+    header.className = 'phase-header';
+    header.onclick = () => togglePhase(section);
+    
+    const headerContent = document.createElement('div');
+    headerContent.className = 'phase-header-content';
+    
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'phase-header-title';
+    
+    const badge = document.createElement('div');
+    badge.className = 'group-badge';
+    badge.textContent = group;
+    
+    const title = document.createElement('span');
+    title.textContent = `Grupo ${group}`;
+    
+    titleDiv.appendChild(badge);
+    titleDiv.appendChild(title);
+    
+    const countBadge = document.createElement('div');
+    countBadge.className = 'phase-match-count';
+    countBadge.textContent = `${matchesInGroup.length} partidos`;
+    
+    headerContent.appendChild(titleDiv);
+    headerContent.appendChild(countBadge);
+    
+    const toggleIcon = document.createElement('i');
+    toggleIcon.className = 'ti ti-chevron-down phase-toggle-icon open';
+    
+    header.appendChild(headerContent);
+    header.appendChild(toggleIcon);
+    
+    // Content
+    const content = document.createElement('div');
+    content.className = 'phase-content open';
+    
+    const innerContent = document.createElement('div');
+    innerContent.className = 'phase-content-inner';
+    
+    // Renderiza partidos del grupo
+    matchesInGroup.forEach(match => {
+      const matchCard = createMatchCard(match);
+      innerContent.appendChild(matchCard);
+    });
+    
+    content.appendChild(innerContent);
+    
+    section.appendChild(header);
+    section.appendChild(content);
+    
+    return section;
+  }
+  
+  function togglePhase(section) {
+    const content = section.querySelector('.phase-content');
+    const icon = section.querySelector('.phase-toggle-icon');
+    
+    content.classList.toggle('open');
+    icon.classList.toggle('open');
+  }
+  
+  // ===== MATCH CARD =====
   function createMatchCard(match) {
     const card = document.createElement('div');
     card.className = 'match-card';
     if (pronósticossBloqueados) card.classList.add('locked');
     
     const prediction = predictions[match.id] || { team1: '', team2: '' };
-    const status = pronósticossBloqueados ? 'Bloqueado' : (prediction.team1 || prediction.team2 ? 'Predicción realizada' : 'Pendiente');
+    const status = pronósticossBloqueados ? 'Bloqueado' : (prediction.team1 || prediction.team2 ? 'Realizado' : 'Pendiente');
     const statusClass = pronósticossBloqueados ? 'status-locked' : (prediction.team1 || prediction.team2 ? 'status-predicted' : 'status-pending');
     
     card.innerHTML = `
-      <div class="match-header">
-        <span class="match-phase">GRUPO ${match.group}</span>
-        <span class="match-status ${statusClass}">
-          ${status}
-        </span>
+      <div class="match-date-venue">
+        <div class="match-date-item">
+          <i class="ti ti-calendar"></i>
+          <span>${match.date}</span>
+        </div>
+        <div class="match-date-item">
+          <i class="ti ti-map-pin"></i>
+          <span>${match.venue}</span>
+        </div>
       </div>
       
-      <div class="match-teams">
-        <div class="match-team">
-          <div class="team-info">
-            <span class="team-flag">${match.team1Flag}</span>
+      <div class="match-teams-row">
+        <div class="match-team-info">
+          <span class="team-flag">${match.team1Flag}</span>
+          <div class="team-info-text">
             <span class="team-name">${match.team1}</span>
           </div>
-          <input type="number" class="score-input" placeholder="0" value="${prediction.team1 || ''}" 
-            onchange="savePrediction('${match.id}', this.value, '${match.id}-team2')"
-            ${pronósticossBloqueados ? 'disabled' : ''}>
         </div>
         
-        <div class="match-team">
-          <div class="team-info">
-            <span class="team-flag">${match.team2Flag}</span>
+        <input type="number" class="team-score-input" placeholder="0" value="${prediction.team1 || ''}" 
+          onchange="savePrediction('${match.id}', this.value, '${match.id}-team2')"
+          ${pronósticossBloqueados ? 'disabled' : ''}>
+        
+        <div class="match-team-info">
+          <span class="team-flag">${match.team2Flag}</span>
+          <div class="team-info-text">
             <span class="team-name">${match.team2}</span>
           </div>
-          <input type="number" class="score-input" id="${match.id}-team2" placeholder="0" value="${prediction.team2 || ''}"
-            onchange="savePrediction('${match.id}', '${match.id}-team1', this.value)"
-            ${pronósticossBloqueados ? 'disabled' : ''}>
         </div>
       </div>
       
-      <div class="match-info">
-        <i class="ti ti-calendar"></i> ${match.date}
-      </div>
-      <div class="match-venue">
-        <i class="ti ti-map-pin"></i> ${match.venue}
-      </div>
+      <input type="number" class="team-score-input" id="${match.id}-team2" placeholder="0" value="${prediction.team2 || ''}"
+        onchange="savePrediction('${match.id}', '${match.id}-team1', this.value)"
+        style="display: none;"
+        ${pronósticossBloqueados ? 'disabled' : ''}>
+      
+      <span class="match-status ${statusClass}">
+        ${status}
+      </span>
     `;
     
     return card;
@@ -1546,11 +1779,11 @@
     renderBracketRound('final', bracketData.final);
   }
   
-  function renderBracketRound(roundId, matches) {
+  function renderBracketRound(roundId, matchesData) {
     const container = document.getElementById(`bracket-${roundId}`);
     container.innerHTML = '';
     
-    matches.forEach(match => {
+    matchesData.forEach(match => {
       const matchDiv = document.createElement('div');
       matchDiv.className = 'bracket-match';
       matchDiv.innerHTML = `
@@ -1592,7 +1825,7 @@
     pronósticossBloqueados = !pronósticossBloqueados;
     localStorage.setItem(LOCK_STATUS_KEY, pronósticossBloqueados.toString());
     updateLockDisplay();
-    renderMatches();
+    renderPhases();
     updateAdminPanel();
   }
   
@@ -1605,7 +1838,7 @@
     });
     
     predictions = {};
-    renderMatches();
+    renderPhases();
     updateAdminPanel();
     alert('Todos los pronósticos han sido eliminados');
   }
