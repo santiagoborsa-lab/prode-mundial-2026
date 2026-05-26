@@ -77,7 +77,7 @@
       font-weight: 500;
     }
     
-    /* ===== LOGIN / REGISTRO ===== */
+    /* ===== AUTH ===== */
     .auth-container {
       min-height: 100vh;
       display: flex;
@@ -410,6 +410,11 @@
     
     .tab-content {
       animation: fadeIn 0.3s ease-in;
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
     }
     
     @keyframes fadeIn {
@@ -459,6 +464,11 @@
       background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(249, 115, 22, 0.1));
       border: 1px solid rgba(239, 68, 68, 0.3);
       color: #fca5a5;
+      display: none;
+    }
+    
+    .alert-locked.show {
+      display: flex;
     }
     
     /* ===== PHASE ACCORDION ===== */
@@ -599,10 +609,9 @@
     .pronostico-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 1rem;
       margin-bottom: 0.75rem;
-      flex-wrap: wrap;
+      justify-content: space-between;
     }
     
     .pronostico-row:last-child {
@@ -614,7 +623,6 @@
       align-items: center;
       gap: 0.75rem;
       flex: 1;
-      min-width: 120px;
     }
     
     .team-flag {
@@ -631,6 +639,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      min-width: 80px;
     }
     
     .team-input {
@@ -674,14 +683,6 @@
       -moz-appearance: textfield;
     }
     
-    .vs-separator {
-      font-weight: 700;
-      color: var(--text-muted);
-      font-size: 14px;
-      min-width: 20px;
-      text-align: center;
-    }
-    
     .match-status {
       font-size: 11px;
       padding: 6px 12px;
@@ -703,77 +704,9 @@
       color: #6ee7b7;
     }
     
-    /* ===== BRACKET ===== */
-    .bracket-container {
-      overflow-x: auto;
-      padding: 2rem 0;
-    }
-    
-    .bracket {
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-start;
-      gap: 2rem;
-      min-width: 1400px;
-      padding: 2rem;
-      background: linear-gradient(135deg, rgba(51, 65, 85, 0.3), rgba(30, 41, 59, 0.3));
-      border-radius: 16px;
-      border: 1px solid var(--border-light);
-    }
-    
-    .bracket-round {
-      flex: 0 0 auto;
-      min-width: 300px;
-    }
-    
-    .bracket-round-title {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      letter-spacing: 0.1em;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    
-    .bracket-match {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
-      border: 1px solid var(--border-light);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 2rem;
-      min-width: 280px;
-      transition: all 0.3s;
-    }
-    
-    .bracket-match:hover {
-      border-color: var(--primary);
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
-    }
-    
-    .bracket-team {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid var(--border-light);
-    }
-    
-    .bracket-team:last-child {
-      border-bottom: none;
-    }
-    
-    .bracket-team-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex: 1;
-    }
-    
-    .bracket-team-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
+    .status-locked {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
     }
     
     /* ===== ADMIN ===== */
@@ -875,22 +808,6 @@
       font-size: 14px;
     }
     
-    .danger-zone {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(249, 115, 22, 0.05));
-      border: 1px solid var(--border-light);
-      border-radius: 14px;
-      padding: 1.5rem;
-    }
-    
-    .btn-danger {
-      background: linear-gradient(135deg, var(--danger), #dc2626);
-    }
-    
-    .btn-danger:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
-    }
-    
     /* ===== SCROLL ===== */
     ::-webkit-scrollbar {
       height: 8px;
@@ -905,65 +822,84 @@
       background: var(--border);
       border-radius: 4px;
     }
+
+    @media (max-width: 768px) {
+      .content {
+        padding: 1rem;
+      }
+      
+      .card {
+        padding: 1.5rem;
+      }
+      
+      .tabs {
+        padding: 0 1rem;
+      }
+      
+      .tab {
+        padding: 12px 16px;
+        font-size: 12px;
+      }
+      
+      .pronostico-row {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .team-input-group {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
-  <div id="app">
-    <div class="loading-container">
-      <div class="loading-spinner"></div>
-      <div class="loading-text">Cargando PRODE...</div>
-    </div>
-  </div>
+  <div id="app"></div>
 
   <script>
-    // ===== DATOS DEL MUNDIAL 2026 =====
+    // ===== DATOS DE PARTIDOS =====
     const MATCHES_DATA = {
-      "group-phase": {
-        title: "Fase de Grupos",
-        groups: [
-          {
-            name: "Grupo A",
-            matches: [
-              { id: 1, date: "2026-06-10", time: "20:00", venue: "Los Angeles", team1: "Argentina", team2: "Canadá", flag1: "🇦🇷", flag2: "🇨🇦", status: "pending" },
-              { id: 2, date: "2026-06-10", time: "20:00", venue: "Los Angeles", team1: "Perú", team2: "Panamá", flag1: "🇵🇪", flag2: "🇵🇦", status: "pending" },
-              { id: 3, date: "2026-06-15", time: "20:00", venue: "Los Angeles", team1: "Argentina", team2: "Panamá", flag1: "🇦🇷", flag2: "🇵🇦", status: "pending" },
-              { id: 4, date: "2026-06-15", time: "20:00", venue: "Los Angeles", team1: "Canadá", team2: "Perú", flag1: "🇨🇦", flag2: "🇵🇪", status: "pending" },
-              { id: 5, date: "2026-06-20", time: "20:00", venue: "Los Angeles", team1: "Argentina", team2: "Perú", flag1: "🇦🇷", flag2: "🇵🇪", status: "pending" },
-              { id: 6, date: "2026-06-20", time: "20:00", venue: "Los Angeles", team1: "Canadá", team2: "Panamá", flag1: "🇨🇦", flag2: "🇵🇦", status: "pending" }
-            ]
-          },
-          {
-            name: "Grupo B",
-            matches: [
-              { id: 7, date: "2026-06-11", time: "20:00", venue: "Dallas", team1: "España", team2: "Marruecos", flag1: "🇪🇸", flag2: "🇲🇦", status: "pending" },
-              { id: 8, date: "2026-06-11", time: "20:00", venue: "Dallas", team1: "Alemania", team2: "México", flag1: "🇩🇪", flag2: "🇲🇽", status: "pending" },
-              { id: 9, date: "2026-06-16", time: "20:00", venue: "Dallas", team1: "España", team2: "Alemania", flag1: "🇪🇸", flag2: "🇩🇪", status: "pending" },
-              { id: 10, date: "2026-06-16", time: "20:00", venue: "Dallas", team1: "México", team2: "Marruecos", flag1: "🇲🇽", flag2: "🇲🇦", status: "pending" },
-              { id: 11, date: "2026-06-21", time: "20:00", venue: "Dallas", team1: "España", team2: "México", flag1: "🇪🇸", flag2: "🇲🇽", status: "pending" },
-              { id: 12, date: "2026-06-21", time: "20:00", venue: "Dallas", team1: "Alemania", team2: "Marruecos", flag1: "🇩🇪", flag2: "🇲🇦", status: "pending" }
-            ]
-          }
-        ]
-      },
-      "knockout": {
-        title: "Fase Final",
-        rounds: [
-          {
-            title: "Octavos de Final",
-            matches: [
-              { id: 25, date: "2026-07-01", time: "20:00", venue: "New York", team1: "Ganador A1", team2: "Ganador B2", flag1: "🏆", flag2: "🏆", status: "pending" }
-            ]
-          }
-        ]
-      }
+      groups: [
+        {
+          name: "Grupo A",
+          matches: [
+            { id: 1, date: "20 Jun", venue: "Los Angeles", team1: "Argentina", team2: "Canadá", flag1: "🇦🇷", flag2: "🇨🇦" },
+            { id: 2, date: "20 Jun", venue: "Los Angeles", team1: "Perú", team2: "Panamá", flag1: "🇵🇪", flag2: "🇵🇦" },
+            { id: 3, date: "25 Jun", venue: "Los Angeles", team1: "Argentina", team2: "Panamá", flag1: "🇦🇷", flag2: "🇵🇦" },
+            { id: 4, date: "25 Jun", venue: "Los Angeles", team1: "Canadá", team2: "Perú", flag1: "🇨🇦", flag2: "🇵🇪" },
+            { id: 5, date: "30 Jun", venue: "Los Angeles", team1: "Argentina", team2: "Perú", flag1: "🇦🇷", flag2: "🇵🇪" },
+            { id: 6, date: "30 Jun", venue: "Los Angeles", team1: "Canadá", team2: "Panamá", flag1: "🇨🇦", flag2: "🇵🇦" }
+          ]
+        },
+        {
+          name: "Grupo B",
+          matches: [
+            { id: 7, date: "21 Jun", venue: "Dallas", team1: "España", team2: "Marruecos", flag1: "🇪🇸", flag2: "🇲🇦" },
+            { id: 8, date: "21 Jun", venue: "Dallas", team1: "Alemania", team2: "México", flag1: "🇩🇪", flag2: "🇲🇽" },
+            { id: 9, date: "26 Jun", venue: "Dallas", team1: "España", team2: "Alemania", flag1: "🇪🇸", flag2: "🇩🇪" },
+            { id: 10, date: "26 Jun", venue: "Dallas", team1: "México", team2: "Marruecos", flag1: "🇲🇽", flag2: "🇲🇦" },
+            { id: 11, date: "01 Jul", venue: "Dallas", team1: "España", team2: "México", flag1: "🇪🇸", flag2: "🇲🇽" },
+            { id: 12, date: "01 Jul", venue: "Dallas", team1: "Alemania", team2: "Marruecos", flag1: "🇩🇪", flag2: "🇲🇦" }
+          ]
+        }
+      ]
     };
 
-    // ===== ESTADO GLOBAL =====
     let currentUser = null;
     let predictions = JSON.parse(localStorage.getItem('predictions')) || {};
     let isLocked = JSON.parse(localStorage.getItem('isLocked')) || false;
 
-    // ===== AUTENTICACIÓN =====
+    // ===== INIT =====
+    function init() {
+      const user = localStorage.getItem('currentUser');
+      if (user) {
+        currentUser = JSON.parse(user);
+        showApp();
+      } else {
+        showAuth();
+      }
+    }
+
+    // ===== AUTH =====
     function showAuth() {
       const app = document.getElementById('app');
       app.innerHTML = `
@@ -974,59 +910,74 @@
             <p class="auth-subtitle">Sistema de Pronósticos Mundial</p>
             
             <div class="auth-toggle">
-              <button class="toggle-btn active" data-mode="login">INICIAR SESIÓN</button>
-              <button class="toggle-btn" data-mode="register">REGISTRARSE</button>
+              <button class="active" onclick="switchAuthMode('login')">INICIAR SESIÓN</button>
+              <button onclick="switchAuthMode('register')">REGISTRARSE</button>
             </div>
 
-            <form id="authForm">
+            <form id="authForm" onsubmit="handleAuth(event)">
               <div class="form-group">
                 <label class="form-label">Email</label>
-                <input type="email" class="form-input" id="email" placeholder="tu@email.com" required>
+                <input type="email" class="form-input" id="authEmail" placeholder="tu@email.com" required>
               </div>
               <div class="form-group">
                 <label class="form-label">Contraseña</label>
-                <input type="password" class="form-input" id="password" placeholder="••••••••" required>
+                <input type="password" class="form-input" id="authPassword" placeholder="••••••••" required>
               </div>
               <div class="form-group" id="nameGroup" style="display: none;">
                 <label class="form-label">Nombre</label>
-                <input type="text" class="form-input" id="name" placeholder="Tu nombre completo">
+                <input type="text" class="form-input" id="authName" placeholder="Tu nombre completo">
               </div>
               <button type="submit" class="btn btn-primary">
-                <i class="ti ti-login"></i>
-                INGRESAR
+                <i class="ti ti-login"></i> INGRESAR
               </button>
             </form>
           </div>
         </div>
       `;
-
-      let mode = 'login';
-      document.querySelectorAll('.toggle-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          mode = e.target.dataset.mode;
-          document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-          e.target.classList.add('active');
-          document.getElementById('nameGroup').style.display = mode === 'register' ? 'block' : 'none';
-          document.querySelector('.btn-primary').innerHTML = mode === 'login' ? 
-            '<i class="ti ti-login"></i> INGRESAR' : 
-            '<i class="ti ti-user-plus"></i> REGISTRARSE';
-        });
-      });
-
-      document.getElementById('authForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const name = document.getElementById('name').value || email.split('@')[0];
-        currentUser = { email, name, role: email.includes('admin') ? 'admin' : 'user' };
-        localStorage.setItem('user', JSON.stringify(currentUser));
-        showApp();
-      });
     }
 
-    // ===== INTERFAZ PRINCIPAL =====
+    function switchAuthMode(mode) {
+      const form = document.getElementById('authForm');
+      const nameGroup = document.getElementById('nameGroup');
+      const buttons = document.querySelectorAll('.auth-toggle button');
+      
+      buttons.forEach((btn, i) => {
+        btn.classList.toggle('active', (i === 0 && mode === 'login') || (i === 1 && mode === 'register'));
+      });
+      
+      nameGroup.style.display = mode === 'register' ? 'block' : 'none';
+      form.dataset.mode = mode;
+    }
+
+    function handleAuth(e) {
+      e.preventDefault();
+      const mode = document.getElementById('authForm').dataset.mode || 'login';
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+      const name = mode === 'register' ? document.getElementById('authName').value : email.split('@')[0];
+
+      currentUser = {
+        id: Date.now(),
+        email: email,
+        name: name,
+        avatar: name.charAt(0).toUpperCase(),
+        role: 'player'
+      };
+
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      showApp();
+    }
+
+    function logout() {
+      localStorage.removeItem('currentUser');
+      currentUser = null;
+      showAuth();
+    }
+
+    // ===== APP =====
     function showApp() {
-      const html = `
+      const app = document.getElementById('app');
+      app.innerHTML = `
         <div class="header">
           <div class="header-left">
             <div class="header-icon">⚽</div>
@@ -1037,316 +988,256 @@
           </div>
           <div class="header-right">
             <div class="user-info">
-              <div class="user-avatar">${currentUser.name[0].toUpperCase()}</div>
+              <div class="user-avatar">${currentUser.avatar}</div>
               <div>
                 <div class="user-name">${currentUser.name}</div>
-                <div class="user-role">${currentUser.role}</div>
+                <div class="user-role">Jugador</div>
               </div>
             </div>
             <button class="btn-logout" onclick="logout()">
-              <i class="ti ti-logout"></i>
-              SALIR
+              <i class="ti ti-logout"></i> Salir
             </button>
           </div>
         </div>
 
         <div class="tabs">
-          <div class="tab active" data-tab="groups">
-            <i class="ti ti-layout-list"></i>
-            FASE DE GRUPOS
+          <div class="tab active" onclick="switchTab('pronosticos', this)">
+            <i class="ti ti-ball-football"></i> Mis Pronósticos
           </div>
-          <div class="tab" data-tab="knockout">
-            <i class="ti ti-trophy"></i>
-            FASE FINAL
+          <div class="tab" onclick="switchTab('tabla', this)">
+            <i class="ti ti-trophy"></i> Tabla de Posiciones
           </div>
-          ${currentUser.role === 'admin' ? `
-            <div class="tab" data-tab="admin">
-              <i class="ti ti-settings"></i>
-              ADMINISTRACIÓN
-            </div>
-          ` : ''}
         </div>
 
         <div class="content">
-          <div id="groups-content" class="tab-content"></div>
-          <div id="knockout-content" class="tab-content" style="display: none;"></div>
-          ${currentUser.role === 'admin' ? `<div id="admin-content" class="tab-content" style="display: none;"></div>` : ''}
+          <div id="tab-pronosticos" class="tab-content active">
+            <div class="card">
+              <h2 class="card-title">
+                <i class="ti ti-ball-football"></i> Completa tus Pronósticos
+              </h2>
+              
+              <div class="alert alert-locked" id="alertLocked">
+                <i class="ti ti-lock"></i> El período de pronósticos ha cerrado. No puedes realizar cambios.
+              </div>
+
+              <div id="phasesContainer"></div>
+            </div>
+          </div>
+
+          <div id="tab-tabla" class="tab-content">
+            <div class="card">
+              <h2 class="card-title">
+                <i class="ti ti-trophy"></i> Tabla de Posiciones
+              </h2>
+              <div id="leaderboardContainer"></div>
+            </div>
+          </div>
         </div>
       `;
 
-      document.getElementById('app').innerHTML = html;
-      setupTabs();
-      renderGroupPhase();
+      renderPhases();
+      updateLockStatus();
     }
 
-    // ===== SETUP TABS =====
-    function setupTabs() {
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-          const tabName = this.dataset.tab;
-          document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-          
-          this.classList.add('active');
-          
-          if (tabName === 'groups') {
-            document.getElementById('groups-content').style.display = 'block';
-            renderGroupPhase();
-          } else if (tabName === 'knockout') {
-            document.getElementById('knockout-content').style.display = 'block';
-            renderKnockout();
-          } else if (tabName === 'admin') {
-            document.getElementById('admin-content').style.display = 'block';
-            renderAdmin();
-          }
-        });
-      });
-    }
-
-    // ===== RENDERIZAR FASE DE GRUPOS =====
-    function renderGroupPhase() {
-      const container = document.getElementById('groups-content');
-      let html = `
-        <div class="card">
-          <div class="card-title">
-            <i class="ti ti-layout-list"></i>
-            ${MATCHES_DATA['group-phase'].title}
-          </div>
-          ${isLocked ? '<div class="alert alert-locked"><i class="ti ti-lock"></i> Los pronósticos están bloqueados</div>' : ''}
-      `;
-
-      MATCHES_DATA['group-phase'].groups.forEach(group => {
-        html += `
-          <div class="phase-section">
-            <div class="phase-header" onclick="togglePhase(this)">
-              <div class="phase-header-content">
-                <div class="phase-header-title">
-                  <span>${group.name}</span>
-                  <span class="phase-match-count">${group.matches.length} partidos</span>
-                </div>
-              </div>
-              <i class="ti ti-chevron-down phase-toggle-icon open"></i>
-            </div>
-            <div class="phase-content open">
-              <div class="phase-content-inner">
-                ${group.matches.map(match => renderMatchCard(match)).join('')}
-              </div>
-            </div>
-          </div>
-        `;
-      });
-
-      html += `</div>`;
-      container.innerHTML = html;
-      setupMatchInputs();
-    }
-
-    // ===== RENDERIZAR TARJETA DE PARTIDO =====
-    function renderMatchCard(match) {
-      const pred = predictions[match.id] || {};
-      const isMatchLocked = isLocked;
+    function switchTab(tab, element) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
       
-      return `
-        <div class="match-card ${isMatchLocked ? 'locked' : ''}">
-          <div class="match-date-venue">
-            <div class="match-date-item">
-              <i class="ti ti-calendar"></i>
-              <span>${match.date} ${match.time}</span>
-            </div>
-            <div class="match-date-item">
-              <i class="ti ti-map-pin"></i>
-              <span>${match.venue}</span>
-            </div>
-          </div>
-          
-          <div class="pronostico-box">
-            <div class="pronostico-row">
-              <div class="team-input-group">
-                <span class="team-flag">${match.flag1}</span>
-                <span class="team-name-text">${match.team1}</span>
-              </div>
-              <input type="number" class="team-input" data-match="${match.id}" data-team="1" 
-                min="0" max="9" value="${pred.team1 || ''}" ${isMatchLocked ? 'disabled' : ''} 
-                placeholder="0">
-              <span class="vs-separator">VS</span>
-              <input type="number" class="team-input" data-match="${match.id}" data-team="2" 
-                min="0" max="9" value="${pred.team2 || ''}" ${isMatchLocked ? 'disabled' : ''} 
-                placeholder="0">
-              <div class="team-input-group">
-                <span class="team-flag">${match.flag2}</span>
-                <span class="team-name-text">${match.team2}</span>
-              </div>
-            </div>
-          </div>
-          
-          <div class="match-status ${pred.team1 !== undefined ? 'status-predicted' : 'status-pending'}">
-            <i class="ti ti-circle-check"></i>
-            ${pred.team1 !== undefined ? 'PRONÓSTICO GUARDADO' : 'PENDIENTE'}
-          </div>
-        </div>
-      `;
-    }
-
-    // ===== SETUP INPUTS =====
-    function setupMatchInputs() {
-      document.querySelectorAll('.team-input').forEach(input => {
-        input.addEventListener('change', (e) => {
-          const matchId = parseInt(e.target.dataset.match);
-          const team = e.target.dataset.team;
-          
-          if (!predictions[matchId]) {
-            predictions[matchId] = {};
-          }
-          
-          predictions[matchId][`team${team}`] = e.target.value ? parseInt(e.target.value) : undefined;
-          localStorage.setItem('predictions', JSON.stringify(predictions));
-          
-          const card = e.target.closest('.match-card');
-          const status = card.querySelector('.match-status');
-          const hasPrediction = predictions[matchId].team1 !== undefined && predictions[matchId].team2 !== undefined;
-          
-          status.className = `match-status ${hasPrediction ? 'status-predicted' : 'status-pending'}`;
-          status.innerHTML = hasPrediction ? 
-            '<i class="ti ti-circle-check"></i> PRONÓSTICO GUARDADO' : 
-            '<i class="ti ti-circle-check"></i> PENDIENTE';
-        });
-      });
-    }
-
-    // ===== TOGGLE FASE =====
-    function togglePhase(header) {
-      const icon = header.querySelector('.phase-toggle-icon');
-      const content = header.nextElementSibling;
-      icon.classList.toggle('open');
-      content.classList.toggle('open');
-    }
-
-    // ===== FASE KNOCKOUT =====
-    function renderKnockout() {
-      const container = document.getElementById('knockout-content');
-      const html = `
-        <div class="card">
-          <div class="card-title">
-            <i class="ti ti-trophy"></i>
-            ${MATCHES_DATA['knockout'].title}
-          </div>
-          <div class="bracket-container">
-            <div class="bracket">
-              <div class="bracket-round">
-                <div class="bracket-round-title">Octavos de Final</div>
-                <div class="bracket-match">
-                  <div class="bracket-team">
-                    <div class="bracket-team-info">
-                      <span>🏆</span>
-                      <span class="bracket-team-name">Ganador A1 vs B2</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      container.innerHTML = html;
-    }
-
-    // ===== PANEL ADMIN =====
-    function renderAdmin() {
-      const container = document.getElementById('admin-content');
-      const totalPredictions = Object.keys(predictions).length;
+      document.getElementById(`tab-${tab}`).classList.add('active');
+      element.classList.add('active');
       
-      const html = `
-        <div class="card">
-          <div class="card-title">
-            <i class="ti ti-settings"></i>
-            Panel de Administración
-          </div>
-          
-          <div class="admin-grid">
-            <div class="admin-stat">
-              <i class="ti ti-users" style="font-size: 28px; color: var(--primary)"></i>
-              <div class="admin-stat-value">1</div>
-              <div class="admin-stat-label">Usuarios Activos</div>
-            </div>
-            <div class="admin-stat">
-              <i class="ti ti-checks" style="font-size: 28px; color: var(--success)"></i>
-              <div class="admin-stat-value">${totalPredictions}</div>
-              <div class="admin-stat-label">Pronósticos Guardados</div>
-            </div>
-            <div class="admin-stat">
-              <i class="ti ti-calendar" style="font-size: 28px; color: var(--accent)"></i>
-              <div class="admin-stat-value">48</div>
-              <div class="admin-stat-label">Partidos Totales</div>
-            </div>
-          </div>
-
-          <div class="control-panel">
-            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">
-              <i class="ti ti-lock"></i>
-              Control de Pronósticos
-            </h3>
-            <div class="toggle-switch">
-              <label class="switch">
-                <input type="checkbox" ${isLocked ? 'checked' : ''} onchange="toggleLock(this)">
-                <span class="slider"></span>
-              </label>
-              <span class="lock-status-text">${isLocked ? '🔒 Pronósticos Bloqueados' : '🔓 Pronósticos Abiertos'}</span>
-            </div>
-          </div>
-
-          <div class="danger-zone">
-            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">
-              <i class="ti ti-trash"></i>
-              Peligro
-            </h3>
-            <button class="btn btn-primary btn-danger" onclick="if(confirm('¿Limpiar todos los pronósticos?')) { predictions = {}; localStorage.removeItem('predictions'); renderAdmin(); }">
-              Limpiar Todos los Pronósticos
-            </button>
-          </div>
-        </div>
-      `;
-      
-      container.innerHTML = html;
-    }
-
-    // ===== BLOQUEAR/DESBLOQUEAR =====
-    function toggleLock(checkbox) {
-      isLocked = checkbox.checked;
-      localStorage.setItem('isLocked', JSON.stringify(isLocked));
-      renderGroupPhase();
-      renderAdmin();
-    }
-
-    // ===== LOGOUT =====
-    function logout() {
-      if (confirm('¿Estás seguro de que quieres salir?')) {
-        currentUser = null;
-        localStorage.removeItem('user');
-        init();
+      if (tab === 'tabla') {
+        renderLeaderboard();
       }
     }
 
-    // ===== INICIALIZACIÓN =====
-    function init() {
-      // Simular carga de 1 segundo para mejor UX
-      setTimeout(() => {
-        const savedUser = localStorage.getItem('user');
-        
-        if (savedUser) {
-          currentUser = JSON.parse(savedUser);
-          showApp();
-        } else {
-          showAuth();
-        }
-      }, 1000);
+    // ===== PRONÓSTICOS =====
+    function renderPhases() {
+      const container = document.getElementById('phasesContainer');
+      container.innerHTML = '';
+
+      MATCHES_DATA.groups.forEach((group, groupIndex) => {
+        const phase = document.createElement('div');
+        phase.className = 'phase-section';
+
+        const header = document.createElement('div');
+        header.className = 'phase-header';
+        header.onclick = () => togglePhase(header);
+        header.innerHTML = `
+          <div class="phase-header-content">
+            <div class="phase-header-title">
+              <span>${group.name}</span>
+            </div>
+            <div class="phase-match-count">${group.matches.length} partidos</div>
+          </div>
+          <div class="phase-toggle-icon open">🔽</div>
+        `;
+
+        const content = document.createElement('div');
+        content.className = 'phase-content open';
+        content.innerHTML = `
+          <div class="phase-content-inner">
+            ${group.matches.map(match => renderMatch(match)).join('')}
+          </div>
+        `;
+
+        phase.appendChild(header);
+        phase.appendChild(content);
+        container.appendChild(phase);
+      });
     }
 
-    // Iniciar app cuando el DOM esté listo
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
+    function renderMatch(match) {
+      const matchId = `match-${match.id}`;
+      const team1Value = predictions[matchId]?.team1 || '';
+      const team2Value = predictions[matchId]?.team2 || '';
+
+      return `
+        <div class="match-card ${isLocked ? 'locked' : ''}" data-match="${matchId}">
+          <div class="match-date-venue">
+            <div class="match-date-item">
+              <i class="ti ti-calendar"></i> ${match.date}
+            </div>
+            <div class="match-date-item">
+              <i class="ti ti-map-pin"></i> ${match.venue}
+            </div>
+          </div>
+
+          <div class="pronostico-box">
+            <div class="pronostico-row">
+              <div class="team-input-group">
+                <div class="team-flag">${match.flag1}</div>
+                <div class="team-name-text">${match.team1}</div>
+                <input 
+                  type="number" 
+                  min="1" 
+                  max="50" 
+                  class="team-input" 
+                  data-match="${matchId}" 
+                  data-team="team1"
+                  placeholder="1-50"
+                  ${isLocked ? 'disabled' : ''}
+                  value="${team1Value}"
+                  onchange="savePrediction('${matchId}', 'team1', this.value)"
+                >
+              </div>
+            </div>
+
+            <div class="pronostico-row">
+              <div class="team-input-group">
+                <div class="team-flag">${match.flag2}</div>
+                <div class="team-name-text">${match.team2}</div>
+                <input 
+                  type="number" 
+                  min="1" 
+                  max="50" 
+                  class="team-input" 
+                  data-match="${matchId}" 
+                  data-team="team2"
+                  placeholder="1-50"
+                  ${isLocked ? 'disabled' : ''}
+                  value="${team2Value}"
+                  onchange="savePrediction('${matchId}', 'team2', this.value)"
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="match-status ${getMatchStatus(matchId)}">
+            <i class="ti ti-${getMatchStatusIcon(matchId)}"></i>
+            ${getMatchStatusText(matchId)}
+          </div>
+        </div>
+      `;
     }
+
+    function savePrediction(matchId, team, value) {
+      if (!predictions[matchId]) {
+        predictions[matchId] = {};
+      }
+      predictions[matchId][team] = value;
+      localStorage.setItem('predictions', JSON.stringify(predictions));
+      updateMatchStatus(matchId);
+    }
+
+    function getMatchStatus(matchId) {
+      if (isLocked) return 'status-locked';
+      const p = predictions[matchId];
+      if (p && p.team1 && p.team2) return 'status-predicted';
+      return 'status-pending';
+    }
+
+    function getMatchStatusText(matchId) {
+      if (isLocked) return 'Cerrado';
+      const p = predictions[matchId];
+      if (p && p.team1 && p.team2) return 'Completado';
+      return 'Pendiente';
+    }
+
+    function getMatchStatusIcon(matchId) {
+      if (isLocked) return 'lock';
+      const p = predictions[matchId];
+      if (p && p.team1 && p.team2) return 'check';
+      return 'clock';
+    }
+
+    function updateMatchStatus(matchId) {
+      const card = document.querySelector(`[data-match="${matchId}"]`);
+      if (!card) return;
+      
+      const status = card.querySelector('.match-status');
+      status.className = `match-status ${getMatchStatus(matchId)}`;
+      status.innerHTML = `
+        <i class="ti ti-${getMatchStatusIcon(matchId)}"></i>
+        ${getMatchStatusText(matchId)}
+      `;
+    }
+
+    function togglePhase(header) {
+      const content = header.nextElementSibling;
+      const icon = header.querySelector('.phase-toggle-icon');
+      content.classList.toggle('open');
+      icon.classList.toggle('open');
+    }
+
+    // ===== LOCK STATUS =====
+    function updateLockStatus() {
+      const alert = document.getElementById('alertLocked');
+      if (alert) {
+        alert.classList.toggle('show', isLocked);
+      }
+    }
+
+    // ===== LEADERBOARD =====
+    function renderLeaderboard() {
+      const container = document.getElementById('leaderboardContainer');
+      container.innerHTML = `
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-light);">
+              <th style="text-align: left; padding: 12px; color: var(--text-muted); font-size: 12px; font-weight: 700;">POSICIÓN</th>
+              <th style="text-align: left; padding: 12px; color: var(--text-muted); font-size: 12px; font-weight: 700;">JUGADOR</th>
+              <th style="text-align: left; padding: 12px; color: var(--text-muted); font-size: 12px; font-weight: 700;">PUNTOS</th>
+              <th style="text-align: left; padding: 12px; color: var(--text-muted); font-size: 12px; font-weight: 700;">COMPLETADOS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-light);">
+              <td style="padding: 12px; font-weight: 700; font-size: 16px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent); width: 50px; text-align: center;">1</td>
+              <td style="padding: 12px;">
+                <div style="font-weight: 600; color: var(--text-primary);">Carlos</div>
+                <div style="font-size: 12px; color: var(--text-muted);">carlos@prode.com</div>
+              </td>
+              <td style="padding: 12px; font-size: 18px; font-weight: 700; color: var(--primary);">45</td>
+              <td style="padding: 12px; color: var(--text-secondary);">12/12 partidos</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+    }
+
+    // ===== START =====
+    window.addEventListener('load', init);
   </script>
 </body>
 </html>
