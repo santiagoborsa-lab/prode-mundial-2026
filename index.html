@@ -178,18 +178,30 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      width: 100%;
     }
     
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+      width: 100%;
     }
     
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+    }
+    
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 12px;
+      width: auto;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+    }
+    
+    .btn-small:hover {
+      transform: translateY(-2px);
     }
     
     .auth-toggle {
@@ -301,6 +313,16 @@
       font-size: 11px;
       color: var(--text-muted);
       text-transform: uppercase;
+    }
+    
+    .admin-badge {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(249, 115, 22, 0.2));
+      border: 1px solid var(--danger);
+      color: #fca5a5;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 700;
     }
     
     .btn-logout {
@@ -427,6 +449,17 @@
     }
     
     .alert-locked.show {
+      display: flex;
+    }
+    
+    .alert-winner {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(34, 197, 94, 0.15));
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #86efac;
+      display: none;
+    }
+    
+    .alert-winner.show {
       display: flex;
     }
     
@@ -710,6 +743,220 @@
       color: #fca5a5;
     }
     
+    /* ===== BRACKETS ===== */
+    .brackets-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .bracket-phase {
+      background: linear-gradient(135deg, rgba(51, 65, 85, 0.3), rgba(30, 41, 59, 0.3));
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    
+    .bracket-phase-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    
+    .bracket-match {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+      font-size: 12px;
+    }
+    
+    .bracket-match-team {
+      padding: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .bracket-team-name {
+      flex: 1;
+      color: var(--text-secondary);
+    }
+    
+    .bracket-team-result {
+      font-weight: 700;
+      color: var(--primary);
+      min-width: 40px;
+      text-align: right;
+    }
+    
+    /* ===== TEAMS STANDINGS ===== */
+    .standings-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .standings-table thead tr {
+      border-bottom: 2px solid var(--border-light);
+    }
+    
+    .standings-table th {
+      text-align: left;
+      padding: 12px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    
+    .standings-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    
+    .standings-table tbody tr:hover {
+      background: rgba(99, 102, 241, 0.05);
+    }
+    
+    .team-image {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    
+    .team-name-cell {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .points-badge {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.2));
+      color: var(--primary);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 14px;
+      text-align: center;
+      min-width: 60px;
+    }
+    
+    /* ===== USER STATS ===== */
+    .user-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.1));
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-value {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .stat-detail {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+    
+    /* ===== ADMIN PANEL ===== */
+    .admin-panel {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(249, 115, 22, 0.05));
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .admin-section {
+      margin-bottom: 2rem;
+    }
+    
+    .admin-section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .admin-section-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .admin-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    
+    .admin-input {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      color: var(--text-primary);
+      padding: 10px 12px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s;
+    }
+    
+    .admin-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.1);
+    }
+    
+    .admin-btn {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.6), rgba(249, 115, 22, 0.5));
+      color: white;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+    }
+    
+    .admin-btn:hover {
+      background: linear-gradient(135deg, var(--danger), rgba(249, 115, 22, 0.7));
+      transform: translateY(-2px);
+    }
+    
     /* ===== SCROLL ===== */
     ::-webkit-scrollbar {
       height: 8px;
@@ -784,12 +1031,54 @@
             { id: 12, date: "01 Jul", venue: "Dallas", team1: "Alemania", team2: "Marruecos", flag1: "🇩🇪", flag2: "🇲🇦" }
           ]
         }
+      ],
+      knockout: [
+        {
+          phase: "Octavos de Final",
+          matches: [
+            { id: 13, date: "03 Jul", venue: "Houston", team1: "1A", team2: "2B", flag1: "🏆", flag2: "🏆" },
+            { id: 14, date: "03 Jul", venue: "Phoenix", team1: "1B", team2: "2A", flag1: "🏆", flag2: "🏆" }
+          ]
+        },
+        {
+          phase: "Cuartos de Final",
+          matches: [
+            { id: 15, date: "06 Jul", venue: "Nueva York", team1: "Ganador 1", team2: "Ganador 2", flag1: "⚽", flag2: "⚽" },
+            { id: 16, date: "06 Jul", venue: "Miami", team1: "Ganador 3", team2: "Ganador 4", flag1: "⚽", flag2: "⚽" }
+          ]
+        },
+        {
+          phase: "Semifinales",
+          matches: [
+            { id: 17, date: "09 Jul", venue: "Los Angeles", team1: "Semifinalista 1", team2: "Semifinalista 2", flag1: "⭐", flag2: "⭐" }
+          ]
+        },
+        {
+          phase: "Final",
+          matches: [
+            { id: 18, date: "13 Jul", venue: "Miami", team1: "Finalista 1", team2: "Finalista 2", flag1: "👑", flag2: "👑" }
+          ]
+        }
       ]
     };
 
+    // ===== DATOS DE EQUIPOS =====
+    const TEAMS_DATA = [
+      { id: 1, name: "Argentina", flag: "🇦🇷", icon: "⚽", group: "A" },
+      { id: 2, name: "Canadá", flag: "🇨🇦", icon: "🏒", group: "A" },
+      { id: 3, name: "Perú", flag: "🇵🇪", icon: "🦅", group: "A" },
+      { id: 4, name: "Panamá", flag: "🇵🇦", icon: "🎭", group: "A" },
+      { id: 5, name: "España", flag: "🇪🇸", icon: "🐂", group: "B" },
+      { id: 6, name: "Alemania", flag: "🇩🇪", icon: "🍺", group: "B" },
+      { id: 7, name: "México", flag: "🇲🇽", icon: "🌮", group: "B" },
+      { id: 8, name: "Marruecos", flag: "🇲🇦", icon: "🕌", group: "B" }
+    ];
+
     let currentUser = null;
     let predictions = JSON.parse(localStorage.getItem('predictions')) || {};
+    let results = JSON.parse(localStorage.getItem('results')) || {};
     let isLocked = JSON.parse(localStorage.getItem('isLocked')) || false;
+    let winner = JSON.parse(localStorage.getItem('winner')) || null;
     let activeFilters = new Set(MATCHES_DATA.groups.map(g => g.id));
 
     // ===== INIT =====
@@ -831,6 +1120,12 @@
                 <label class="form-label">Nombre</label>
                 <input type="text" class="form-input" id="authName" placeholder="Tu nombre completo">
               </div>
+              <div class="form-group" id="adminGroup" style="display: none;">
+                <label class="form-label">
+                  <input type="checkbox" id="isAdmin" style="margin-right: 6px;">
+                  Soy Administrador
+                </label>
+              </div>
               <button type="submit" class="btn btn-primary">
                 <i class="ti ti-login"></i> INGRESAR
               </button>
@@ -843,6 +1138,7 @@
     function switchAuthMode(mode) {
       const form = document.getElementById('authForm');
       const nameGroup = document.getElementById('nameGroup');
+      const adminGroup = document.getElementById('adminGroup');
       const buttons = document.querySelectorAll('.auth-toggle button');
       
       buttons.forEach((btn, i) => {
@@ -850,6 +1146,7 @@
       });
       
       nameGroup.style.display = mode === 'register' ? 'block' : 'none';
+      adminGroup.style.display = mode === 'register' ? 'block' : 'none';
       form.dataset.mode = mode;
     }
 
@@ -859,13 +1156,14 @@
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
       const name = mode === 'register' ? document.getElementById('authName').value : email.split('@')[0];
+      const isAdmin = mode === 'register' && document.getElementById('isAdmin').checked;
 
       currentUser = {
         id: Date.now(),
         email: email,
         name: name,
         avatar: name.charAt(0).toUpperCase(),
-        role: 'player'
+        role: isAdmin ? 'admin' : 'player'
       };
 
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -881,6 +1179,31 @@
     // ===== APP =====
     function showApp() {
       const app = document.getElementById('app');
+      const adminTabs = currentUser.role === 'admin' ? `
+        <div class="tab" onclick="switchTab('cruces', this)">
+          <i class="ti ti-bracket"></i> Cruces
+        </div>
+        <div class="tab" onclick="switchTab('equipos', this)">
+          <i class="ti ti-shirt"></i> Equipos
+        </div>
+        <div class="tab" onclick="switchTab('stats', this)">
+          <i class="ti ti-chart-bar"></i> Mi Resumen
+        </div>
+        <div class="tab" onclick="switchTab('admin', this)">
+          <i class="ti ti-lock"></i> Panel Admin
+        </div>
+      ` : `
+        <div class="tab" onclick="switchTab('cruces', this)">
+          <i class="ti ti-bracket"></i> Cruces
+        </div>
+        <div class="tab" onclick="switchTab('equipos', this)">
+          <i class="ti ti-shirt"></i> Equipos
+        </div>
+        <div class="tab" onclick="switchTab('stats', this)">
+          <i class="ti ti-chart-bar"></i> Mi Resumen
+        </div>
+      `;
+
       app.innerHTML = `
         <div class="header">
           <div class="header-left">
@@ -895,9 +1218,10 @@
               <div class="user-avatar">${currentUser.avatar}</div>
               <div>
                 <div class="user-name">${currentUser.name}</div>
-                <div class="user-role">Jugador</div>
+                <div class="user-role">${currentUser.role === 'admin' ? '👑 Administrador' : 'Jugador'}</div>
               </div>
             </div>
+            ${currentUser.role === 'admin' ? '<span class="admin-badge">ADMIN</span>' : ''}
             <button class="btn-logout" onclick="logout()">
               <i class="ti ti-logout"></i> Salir
             </button>
@@ -911,6 +1235,7 @@
           <div class="tab" onclick="switchTab('tabla', this)">
             <i class="ti ti-trophy"></i> Tabla de Posiciones
           </div>
+          ${adminTabs}
         </div>
 
         <div class="content">
@@ -919,6 +1244,10 @@
               <h2 class="card-title">
                 <i class="ti ti-ball-football"></i> Completa tus Pronósticos
               </h2>
+              
+              <div class="alert alert-winner" id="alertWinner">
+                <i class="ti ti-crown"></i> ¡Ganador del PRODE: <span id="winnerName"></span>!
+              </div>
               
               <div class="alert alert-locked" id="alertLocked">
                 <i class="ti ti-lock"></i> El período de pronósticos ha cerrado. No puedes realizar cambios.
@@ -943,6 +1272,44 @@
               <div id="leaderboardContainer"></div>
             </div>
           </div>
+
+          <div id="tab-cruces" class="tab-content">
+            <div class="card">
+              <h2 class="card-title">
+                <i class="ti ti-bracket"></i> Cruces Oficiales
+              </h2>
+              <div id="crossesContainer"></div>
+            </div>
+          </div>
+
+          <div id="tab-equipos" class="tab-content">
+            <div class="card">
+              <h2 class="card-title">
+                <i class="ti ti-shirt"></i> Resumen de Equipos
+              </h2>
+              <div id="teamsContainer"></div>
+            </div>
+          </div>
+
+          <div id="tab-stats" class="tab-content">
+            <div class="card">
+              <h2 class="card-title">
+                <i class="ti ti-chart-bar"></i> Mi Resumen de Puntos
+              </h2>
+              <div id="statsContainer"></div>
+            </div>
+          </div>
+
+          ${currentUser.role === 'admin' ? `
+            <div id="tab-admin" class="tab-content">
+              <div class="card">
+                <h2 class="card-title">
+                  <i class="ti ti-lock"></i> Panel de Administración
+                </h2>
+                <div id="adminContainer"></div>
+              </div>
+            </div>
+          ` : ''}
         </div>
       `;
 
@@ -955,17 +1322,29 @@
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
       
-      document.getElementById(`tab-${tab}`).classList.add('active');
-      element.classList.add('active');
-      
-      if (tab === 'tabla') {
-        renderLeaderboard();
+      const tabElement = document.getElementById(`tab-${tab}`);
+      if (tabElement) {
+        tabElement.classList.add('active');
+        element.classList.add('active');
+        
+        if (tab === 'tabla') {
+          renderLeaderboard();
+        } else if (tab === 'cruces') {
+          renderCrosses();
+        } else if (tab === 'equipos') {
+          renderTeams();
+        } else if (tab === 'stats') {
+          renderUserStats();
+        } else if (tab === 'admin') {
+          renderAdminPanel();
+        }
       }
     }
 
     // ===== FILTERS =====
     function renderFilters() {
       const container = document.getElementById('filterButtons');
+      if (!container) return;
       container.innerHTML = '';
 
       MATCHES_DATA.groups.forEach(group => {
@@ -994,6 +1373,7 @@
     // ===== PRONÓSTICOS =====
     function renderPhases() {
       const container = document.getElementById('phasesContainer');
+      if (!container) return;
       container.innerHTML = '';
 
       MATCHES_DATA.groups.forEach((group) => {
@@ -1138,40 +1518,292 @@
       icon.classList.toggle('open');
     }
 
-    // ===== LOCK STATUS =====
-    function updateLockStatus() {
-      const alert = document.getElementById('alertLocked');
-      if (alert) {
-        alert.classList.toggle('show', isLocked);
-      }
-    }
-
     // ===== LEADERBOARD =====
     function renderLeaderboard() {
       const container = document.getElementById('leaderboardContainer');
+      if (!container) return;
       container.innerHTML = `
-        <table style="width: 100%; border-collapse: collapse;">
+        <table class="standings-table">
           <thead>
-            <tr style="border-bottom: 2px solid var(--border-light);">
-              <th style="text-align: left; padding: 12px; color: var(--text-muted); font-size: 12px; font-weight: 700;">POSICIÓN</th>
-              <th style="text-align: left; padding: 12px; color: var(--text-muted); font-size: 12px; font-weight: 700;">JUGADOR</th>
-              <th style="text-align: left; padding: 12px; color: var(--text-muted); font-size: 12px; font-weight: 700;">PUNTOS</th>
-              <th style="text-align: left; padding: 12px; color: var(--text-muted); font-size: 12px; font-weight: 700;">COMPLETADOS</th>
+            <tr>
+              <th>POSICIÓN</th>
+              <th>JUGADOR</th>
+              <th>PUNTOS</th>
+              <th>COMPLETADOS</th>
             </tr>
           </thead>
           <tbody>
-            <tr style="border-bottom: 1px solid var(--border-light);">
-              <td style="padding: 12px; font-weight: 700; font-size: 16px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent); width: 50px; text-align: center;">1</td>
-              <td style="padding: 12px;">
+            <tr>
+              <td style="font-weight: 700; font-size: 16px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), transparent); text-align: center;">1</td>
+              <td>
                 <div style="font-weight: 600; color: var(--text-primary);">Carlos</div>
                 <div style="font-size: 12px; color: var(--text-muted);">carlos@prode.com</div>
               </td>
-              <td style="padding: 12px; font-size: 18px; font-weight: 700; color: var(--primary);">45</td>
-              <td style="padding: 12px; color: var(--text-secondary);">12/12 partidos</td>
+              <td><div class="points-badge">45</div></td>
+              <td style="color: var(--text-secondary);">12/12 partidos</td>
             </tr>
           </tbody>
         </table>
       `;
+    }
+
+    // ===== CRUCES =====
+    function renderCrosses() {
+      const container = document.getElementById('crossesContainer');
+      if (!container) return;
+      
+      let html = '<div class="brackets-container">';
+      
+      MATCHES_DATA.knockout.forEach(phase => {
+        html += `
+          <div class="bracket-phase">
+            <div class="bracket-phase-title">${phase.phase}</div>
+            ${phase.matches.map(match => `
+              <div class="bracket-match">
+                <div class="bracket-match-team">
+                  <div class="bracket-team-name">${match.team1}</div>
+                  <div class="bracket-team-result">${results[`match-${match.id}`]?.team1 || '-'}</div>
+                </div>
+                <div class="bracket-match-team">
+                  <div class="bracket-team-name">${match.team2}</div>
+                  <div class="bracket-team-result">${results[`match-${match.id}`]?.team2 || '-'}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    // ===== TEAMS =====
+    function renderTeams() {
+      const container = document.getElementById('teamsContainer');
+      if (!container) return;
+      
+      let html = `
+        <table class="standings-table">
+          <thead>
+            <tr>
+              <th>EQUIPO</th>
+              <th>GRUPO</th>
+              <th>PUNTOS</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      
+      TEAMS_DATA.forEach(team => {
+        const points = Math.floor(Math.random() * 15); // Simulado
+        html += `
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div class="team-image">${team.flag}</div>
+                <div class="team-name-cell">${team.name}</div>
+              </div>
+            </td>
+            <td>Grupo ${team.group}</td>
+            <td><div class="points-badge">${points}</div></td>
+          </tr>
+        `;
+      });
+      
+      html += `
+          </tbody>
+        </table>
+      `;
+      
+      container.innerHTML = html;
+    }
+
+    // ===== USER STATS =====
+    function renderUserStats() {
+      const container = document.getElementById('statsContainer');
+      if (!container) return;
+      
+      const completedMatches = Object.keys(predictions).filter(k => predictions[k].team1 && predictions[k].team2).length;
+      const totalMatches = 12;
+      const groupPoints = Math.floor(Math.random() * 120);
+      const knockoutPoints = Math.floor(Math.random() * 80);
+      
+      container.innerHTML = `
+        <div class="user-stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Puntos Totales</div>
+            <div class="stat-value">${groupPoints + knockoutPoints}</div>
+            <div class="stat-detail">Acumulado en el torneo</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Fase de Grupos</div>
+            <div class="stat-value">${groupPoints}</div>
+            <div class="stat-detail">${completedMatches}/12 predicciones</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Fases Eliminatorias</div>
+            <div class="stat-value">${knockoutPoints}</div>
+            <div class="stat-detail">Puntos acumulados</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Progreso</div>
+            <div class="stat-value">${Math.round((completedMatches/totalMatches)*100)}%</div>
+            <div class="stat-detail">${completedMatches} de ${totalMatches} completados</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ===== ADMIN PANEL =====
+    function renderAdminPanel() {
+      const container = document.getElementById('adminContainer');
+      if (!container) return;
+      
+      container.innerHTML = `
+        <div class="admin-panel">
+          <!-- Cerrar Fase -->
+          <div class="admin-section">
+            <div class="admin-section-title">
+              <i class="ti ti-lock"></i> Cerrar Pronósticos
+            </div>
+            <div class="admin-controls">
+              <button class="admin-btn" onclick="toggleLock()">
+                ${isLocked ? '🔓 Abrir Pronósticos' : '🔒 Cerrar Pronósticos'}
+              </button>
+            </div>
+          </div>
+
+          <!-- Cargar Resultados -->
+          <div class="admin-section">
+            <div class="admin-section-title">
+              <i class="ti ti-edit"></i> Cargar Resultados
+            </div>
+            <div class="admin-controls" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+              <select class="admin-input" id="matchSelect">
+                <option value="">Seleccionar Partido</option>
+                ${[...MATCHES_DATA.groups.flatMap(g => g.matches), ...MATCHES_DATA.knockout.flatMap(p => p.matches)]
+                  .map(m => `<option value="${m.id}">${m.team1} vs ${m.team2}</option>`).join('')}
+              </select>
+              <input type="number" class="admin-input" id="result1" placeholder="Resultado Equipo 1" min="0" max="50">
+              <input type="number" class="admin-input" id="result2" placeholder="Resultado Equipo 2" min="0" max="50">
+              <button class="admin-btn" onclick="saveResult()">Guardar Resultado</button>
+            </div>
+          </div>
+
+          <!-- Anunciar Ganador -->
+          <div class="admin-section">
+            <div class="admin-section-title">
+              <i class="ti ti-crown"></i> Anunciar Ganador
+            </div>
+            <div class="admin-controls" style="gap: 1rem;">
+              <input type="text" class="admin-input" id="winnerInput" placeholder="Nombre del Ganador" style="flex: 1;">
+              <button class="admin-btn" onclick="declareWinner()">Anunciar Ganador</button>
+            </div>
+          </div>
+
+          <!-- Resumen en Tiempo Real -->
+          <div class="admin-section">
+            <div class="admin-section-title">
+              <i class="ti ti-chart-bar"></i> Resumen en Tiempo Real
+            </div>
+            <div id="realtimeStats"></div>
+          </div>
+        </div>
+      `;
+
+      updateRealtimeStats();
+    }
+
+    function updateRealtimeStats() {
+      const container = document.getElementById('realtimeStats');
+      if (!container) return;
+      
+      container.innerHTML = `
+        <table class="standings-table">
+          <thead>
+            <tr>
+              <th>Usuario</th>
+              <th>Completados</th>
+              <th>Puntos Estimados</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Santiago</td>
+              <td>8/12</td>
+              <td><div class="points-badge">32</div></td>
+            </tr>
+            <tr>
+              <td>Carlos</td>
+              <td>12/12</td>
+              <td><div class="points-badge">45</div></td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+    }
+
+    function toggleLock() {
+      isLocked = !isLocked;
+      localStorage.setItem('isLocked', JSON.stringify(isLocked));
+      updateLockStatus();
+      renderPhases();
+      renderAdminPanel();
+    }
+
+    function saveResult() {
+      const matchId = document.getElementById('matchSelect').value;
+      const result1 = document.getElementById('result1').value;
+      const result2 = document.getElementById('result2').value;
+
+      if (!matchId || !result1 || !result2) {
+        alert('Por favor completa todos los campos');
+        return;
+      }
+
+      if (!results[`match-${matchId}`]) {
+        results[`match-${matchId}`] = {};
+      }
+      results[`match-${matchId}`].team1 = result1;
+      results[`match-${matchId}`].team2 = result2;
+      localStorage.setItem('results', JSON.stringify(results));
+      
+      document.getElementById('result1').value = '';
+      document.getElementById('result2').value = '';
+      document.getElementById('matchSelect').value = '';
+      
+      alert('Resultado guardado correctamente');
+      updateRealtimeStats();
+    }
+
+    function declareWinner() {
+      const winnerName = document.getElementById('winnerInput').value;
+      if (!winnerName) {
+        alert('Ingresa el nombre del ganador');
+        return;
+      }
+      
+      winner = winnerName;
+      localStorage.setItem('winner', JSON.stringify(winner));
+      document.getElementById('winnerInput').value = '';
+      updateLockStatus();
+      alert(`¡${winnerName} es el ganador del PRODE 2026!`);
+    }
+
+    // ===== LOCK STATUS =====
+    function updateLockStatus() {
+      const alertLocked = document.getElementById('alertLocked');
+      const alertWinner = document.getElementById('alertWinner');
+      
+      if (alertLocked) {
+        alertLocked.classList.toggle('show', isLocked);
+      }
+      
+      if (alertWinner && winner) {
+        document.getElementById('winnerName').textContent = winner;
+        alertWinner.classList.add('show');
+      }
     }
 
     // ===== START =====
