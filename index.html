@@ -48,35 +48,6 @@
       font-weight: 700;
     }
     
-    /* ===== LOADING SCREEN ===== */
-    .loading-container {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-    }
-    
-    .loading-spinner {
-      width: 80px;
-      height: 80px;
-      border: 4px solid rgba(99, 102, 241, 0.2);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    .loading-text {
-      font-size: 18px;
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-    
     /* ===== AUTH ===== */
     .auth-container {
       min-height: 100vh;
@@ -124,18 +95,6 @@
       box-shadow: var(--shadow-lg);
       position: relative;
       z-index: 1;
-      animation: slideUp 0.5s ease;
-    }
-    
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
     
     .auth-logo {
@@ -471,6 +430,55 @@
       display: flex;
     }
     
+    /* ===== FILTER SECTION ===== */
+    .filter-section {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .filter-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .filter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    
+    .filter-btn {
+      padding: 10px 16px;
+      background: linear-gradient(135deg, rgba(51, 65, 85, 0.5), rgba(30, 41, 59, 0.5));
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    
+    .filter-btn:hover {
+      border-color: var(--primary);
+    }
+    
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-color: var(--primary);
+    }
+    
     /* ===== PHASE ACCORDION ===== */
     .phase-section {
       background: linear-gradient(135deg, rgba(51, 65, 85, 0.3), rgba(30, 41, 59, 0.3));
@@ -504,9 +512,6 @@
       font-size: 18px;
       font-weight: 700;
       color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
     
     .phase-match-count {
@@ -597,28 +602,20 @@
       gap: 4px;
     }
     
-    /* ===== PRONÓSTICO BOX ===== */
-    .pronostico-box {
+    /* ===== MATCH TEAMS ===== */
+    .match-teams {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
       background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.1));
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 1.25rem;
-      margin-bottom: 0.75rem;
+      padding: 1rem;
     }
     
-    .pronostico-row {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.75rem;
-      justify-content: space-between;
-    }
-    
-    .pronostico-row:last-child {
-      margin-bottom: 0;
-    }
-    
-    .team-input-group {
+    .team-section {
       display: flex;
       align-items: center;
       gap: 0.75rem;
@@ -626,20 +623,17 @@
     }
     
     .team-flag {
-      font-size: 28px;
+      font-size: 32px;
       line-height: 1;
-      min-width: 36px;
+      min-width: 40px;
       text-align: center;
     }
     
-    .team-name-text {
+    .team-name {
       font-weight: 600;
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-primary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      min-width: 80px;
+      flex: 1;
     }
     
     .team-input {
@@ -683,6 +677,13 @@
       -moz-appearance: textfield;
     }
     
+    .vs-text {
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 12px;
+      padding: 0 0.5rem;
+    }
+    
     .match-status {
       font-size: 11px;
       padding: 6px 12px;
@@ -707,105 +708,6 @@
     .status-locked {
       background: rgba(239, 68, 68, 0.2);
       color: #fca5a5;
-    }
-    
-    /* ===== ADMIN ===== */
-    .admin-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    
-    .admin-stat {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.1));
-      border: 1px solid var(--border-light);
-      border-radius: 14px;
-      padding: 1.5rem;
-      text-align: center;
-    }
-    
-    .admin-stat-value {
-      font-size: 32px;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin: 0.5rem 0;
-    }
-    
-    .admin-stat-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-    
-    .control-panel {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
-      border: 1px solid var(--border-light);
-      border-radius: 14px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    
-    .toggle-switch {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 1rem;
-    }
-    
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 28px;
-    }
-    
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: var(--border);
-      transition: .4s;
-      border-radius: 28px;
-    }
-    
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 22px;
-      width: 22px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-    
-    input:checked + .slider {
-      background: linear-gradient(135deg, var(--success), var(--success));
-    }
-    
-    input:checked + .slider:before {
-      transform: translateX(22px);
-    }
-    
-    .lock-status-text {
-      color: var(--text-primary);
-      font-weight: 600;
-      font-size: 14px;
     }
     
     /* ===== SCROLL ===== */
@@ -841,12 +743,11 @@
         font-size: 12px;
       }
       
-      .pronostico-row {
-        flex-direction: column;
-        gap: 0.5rem;
+      .match-teams {
+        flex-wrap: wrap;
       }
       
-      .team-input-group {
+      .team-section {
         width: 100%;
       }
     }
@@ -860,6 +761,7 @@
     const MATCHES_DATA = {
       groups: [
         {
+          id: 'A',
           name: "Grupo A",
           matches: [
             { id: 1, date: "20 Jun", venue: "Los Angeles", team1: "Argentina", team2: "Canadá", flag1: "🇦🇷", flag2: "🇨🇦" },
@@ -871,6 +773,7 @@
           ]
         },
         {
+          id: 'B',
           name: "Grupo B",
           matches: [
             { id: 7, date: "21 Jun", venue: "Dallas", team1: "España", team2: "Marruecos", flag1: "🇪🇸", flag2: "🇲🇦" },
@@ -887,6 +790,7 @@
     let currentUser = null;
     let predictions = JSON.parse(localStorage.getItem('predictions')) || {};
     let isLocked = JSON.parse(localStorage.getItem('isLocked')) || false;
+    let activeFilters = new Set(MATCHES_DATA.groups.map(g => g.id));
 
     // ===== INIT =====
     function init() {
@@ -1020,6 +924,13 @@
                 <i class="ti ti-lock"></i> El período de pronósticos ha cerrado. No puedes realizar cambios.
               </div>
 
+              <div class="filter-section">
+                <div class="filter-title">
+                  <i class="ti ti-filter"></i> Filtrar por Grupo
+                </div>
+                <div class="filter-buttons" id="filterButtons"></div>
+              </div>
+
               <div id="phasesContainer"></div>
             </div>
           </div>
@@ -1035,6 +946,7 @@
         </div>
       `;
 
+      renderFilters();
       renderPhases();
       updateLockStatus();
     }
@@ -1051,12 +963,42 @@
       }
     }
 
+    // ===== FILTERS =====
+    function renderFilters() {
+      const container = document.getElementById('filterButtons');
+      container.innerHTML = '';
+
+      MATCHES_DATA.groups.forEach(group => {
+        const btn = document.createElement('button');
+        btn.className = `filter-btn active`;
+        btn.textContent = `Grupo ${group.id}`;
+        btn.onclick = (e) => {
+          e.preventDefault();
+          toggleFilter(group.id, btn);
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function toggleFilter(groupId, btn) {
+      if (activeFilters.has(groupId)) {
+        activeFilters.delete(groupId);
+        btn.classList.remove('active');
+      } else {
+        activeFilters.add(groupId);
+        btn.classList.add('active');
+      }
+      renderPhases();
+    }
+
     // ===== PRONÓSTICOS =====
     function renderPhases() {
       const container = document.getElementById('phasesContainer');
       container.innerHTML = '';
 
-      MATCHES_DATA.groups.forEach((group, groupIndex) => {
+      MATCHES_DATA.groups.forEach((group) => {
+        if (!activeFilters.has(group.id)) return;
+
         const phase = document.createElement('div');
         phase.className = 'phase-section';
 
@@ -1066,7 +1008,7 @@
         header.innerHTML = `
           <div class="phase-header-content">
             <div class="phase-header-title">
-              <span>${group.name}</span>
+              ${group.name}
             </div>
             <div class="phase-match-count">${group.matches.length} partidos</div>
           </div>
@@ -1103,43 +1045,39 @@
             </div>
           </div>
 
-          <div class="pronostico-box">
-            <div class="pronostico-row">
-              <div class="team-input-group">
-                <div class="team-flag">${match.flag1}</div>
-                <div class="team-name-text">${match.team1}</div>
-                <input 
-                  type="number" 
-                  min="1" 
-                  max="50" 
-                  class="team-input" 
-                  data-match="${matchId}" 
-                  data-team="team1"
-                  placeholder="1-50"
-                  ${isLocked ? 'disabled' : ''}
-                  value="${team1Value}"
-                  onchange="savePrediction('${matchId}', 'team1', this.value)"
-                >
-              </div>
+          <div class="match-teams">
+            <div class="team-section">
+              <div class="team-flag">${match.flag1}</div>
+              <div class="team-name">${match.team1}</div>
             </div>
-
-            <div class="pronostico-row">
-              <div class="team-input-group">
-                <div class="team-flag">${match.flag2}</div>
-                <div class="team-name-text">${match.team2}</div>
-                <input 
-                  type="number" 
-                  min="1" 
-                  max="50" 
-                  class="team-input" 
-                  data-match="${matchId}" 
-                  data-team="team2"
-                  placeholder="1-50"
-                  ${isLocked ? 'disabled' : ''}
-                  value="${team2Value}"
-                  onchange="savePrediction('${matchId}', 'team2', this.value)"
-                >
-              </div>
+            <input 
+              type="number" 
+              min="1" 
+              max="50" 
+              class="team-input" 
+              data-match="${matchId}" 
+              data-team="team1"
+              placeholder="1-50"
+              ${isLocked ? 'disabled' : ''}
+              value="${team1Value}"
+              onchange="savePrediction('${matchId}', 'team1', this.value)"
+            >
+            <div class="vs-text">VS</div>
+            <input 
+              type="number" 
+              min="1" 
+              max="50" 
+              class="team-input" 
+              data-match="${matchId}" 
+              data-team="team2"
+              placeholder="1-50"
+              ${isLocked ? 'disabled' : ''}
+              value="${team2Value}"
+              onchange="savePrediction('${matchId}', 'team2', this.value)"
+            >
+            <div class="team-section">
+              <div class="team-name">${match.team2}</div>
+              <div class="team-flag">${match.flag2}</div>
             </div>
           </div>
 
